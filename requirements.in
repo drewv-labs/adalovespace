@@ -1,0 +1,6 @@
+pyindi-client
+adafruit-circuitpython-hid
+Adafruit-Blinka
+gpiozero
+hidapi
+pyusb
