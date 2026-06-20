@@ -1,9 +1,9 @@
 #!/bin/bash
 
-export BASEDIR=~/adalovespace/ada/builds
+export BASEDIR=~/adalovespace/buildscripts
 
-${BASEDIR}/lib/base_debian_tune.sh
-${BASEDIR}/lib/base_debian_install.sh
+${BASEDIR}/lib/debian/base_tune.sh
+${BASEDIR}/lib/debian/base_install.sh
 
 ${BASEDIR}/lib/connect_jake_debian.sh
 

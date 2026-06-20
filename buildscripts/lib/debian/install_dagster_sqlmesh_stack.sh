@@ -14,7 +14,7 @@ Instead of cluttering Coffeecan's base OS or spinning up a heavy VM, we use an L
 export BASEDIR=${HOME}/adalovespace/buildscripts
 
 # Install uv
-${BASEDIR}/install_uv_root.sh
+${BASEDIR}/lib/debian/install_uv_root.sh
 
 # Create a directory for your pipeline
 mkdir -p /opt/ada_pipeline && cd /opt/ada_pipeline
