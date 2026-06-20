@@ -4,10 +4,10 @@
 ![Type](https://img.shields.io/badge/Type-DIY_Hardware-orange)
 ![License](https://img.shields.io/badge/License-TBD-lightgrey)
 
-> **A fully integrated, automated, DIY Newtonian Astrograph.**
+> **A fully integrated, automated, DIY Newtonian Astrograph & Datacenter.**
 
 ## 🔭 Project Overview
-The **Ada Scope** is an open-hardware initiative to design a high-performance Newtonian astrograph from the ground up. Unlike traditional DIY builds that require bolting disparate accessories onto a commercial tube, Ada is designed as a unified system.
+The **Ada Lovespace Scope** is an open-hardware initiative to design a high-performance Newtonian astrograph from the ground up. Unlike traditional DIY builds that require bolting disparate accessories onto a commercial tube, Ada is designed as a unified system.
 
 **The Goal:** To create a fast, stable, and "smart" imaging platform where the mechanics, electronics, and optics are tightly integrated.
 
@@ -31,8 +31,8 @@ ada-scope/
 │   ├── 📂 eagle         # Board files
 │   └── 📂 wiring        # Cable management & pinouts
 ├── 📂 software/         # Firmware and Control software
-│   ├── 📂 firmware      # Microcontroller code (Arduino/ESP32/Teensy)
-│   └── 📂 drivers       # ASCOM/INDI drivers or Python control scripts
+│   ├── 📂 firmware      # Microcontroller code (Arduino/ESP32/Pi Pico)
+│   └── 📂 drivers       # INDI drivers or Python control scripts
 ├── 📂 docs/             # Formal specifications and assembly guides
 │   ├── 📂 specs         # Optical & Mechanical requirements
 │   └── 📂 assembly      # Build instructions
