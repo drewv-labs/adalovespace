@@ -1,0 +1,77 @@
+<mxfile host="Electron" agent="Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) draw.io/29.3.6 Chrome/140.0.7339.249 Electron/38.8.0 Safari/537.36" version="29.3.6">
+  <diagram name="Page-1" id="hGN3yalnAvKdptLsrhtq">
+    <mxGraphModel dx="1654" dy="937" grid="1" gridSize="10" guides="1" tooltips="1" connect="1" arrows="1" fold="1" page="1" pageScale="1" pageWidth="1400" pageHeight="850" math="0" shadow="0">
+      <root>
+        <mxCell id="0" />
+        <mxCell id="1" parent="0" />
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-9" edge="1" parent="1" source="eNRj0Fii-3ORhmF3OA98-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0.5;entryY=0;entryDx=0;entryDy=0;" target="eNRj0Fii-3ORhmF3OA98-4">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-10" edge="1" parent="1" source="eNRj0Fii-3ORhmF3OA98-1" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="eNRj0Fii-3ORhmF3OA98-5">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-18" connectable="0" parent="eNRj0Fii-3ORhmF3OA98-10" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Supplied&lt;div&gt;Splitter&lt;/div&gt;&lt;div&gt;Cable&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.5259" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-1" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Apertura&lt;div&gt;12v 10a&lt;/div&gt;&lt;div&gt;Power Adapter&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="150" x="390" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-3" edge="1" parent="1" source="eNRj0Fii-3ORhmF3OA98-2" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="eNRj0Fii-3ORhmF3OA98-1">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-2" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="1200Wh&lt;div&gt;Battery Power Source&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="150" x="150" y="250" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-8" edge="1" parent="1" source="eNRj0Fii-3ORhmF3OA98-4" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="eNRj0Fii-3ORhmF3OA98-7">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-19" connectable="0" parent="eNRj0Fii-3ORhmF3OA98-8" style="edgeLabel;html=1;align=center;verticalAlign=middle;resizable=0;points=[];" value="Mount 12v3a&amp;nbsp;&lt;div&gt;Passthrough&lt;/div&gt;" vertex="1">
+          <mxGeometry relative="1" x="-0.4083" y="4" as="geometry">
+            <mxPoint as="offset" />
+          </mxGeometry>
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-4" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="AM5 Mount" vertex="1">
+          <mxGeometry height="110" width="150" x="570" y="490" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-15" edge="1" parent="1" source="eNRj0Fii-3ORhmF3OA98-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="eNRj0Fii-3ORhmF3OA98-11">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-16" edge="1" parent="1" source="eNRj0Fii-3ORhmF3OA98-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="eNRj0Fii-3ORhmF3OA98-12">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-17" edge="1" parent="1" source="eNRj0Fii-3ORhmF3OA98-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="eNRj0Fii-3ORhmF3OA98-13">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-21" edge="1" parent="1" source="eNRj0Fii-3ORhmF3OA98-5" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;" target="eNRj0Fii-3ORhmF3OA98-20">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-5" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="ASI Air&lt;div&gt;Power Distribution&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="150" x="760" y="200" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-6" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="RPi5 INDI Server/ Data Hub Relay" vertex="1">
+          <mxGeometry height="110" width="150" x="1210" y="100" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-7" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="WanderAstro Flat Panel" vertex="1">
+          <mxGeometry height="110" width="150" x="790" y="640" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-11" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Primary Mirror Fan" vertex="1">
+          <mxGeometry height="110" width="150" x="1000" y="220" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-12" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="Secondary Mirror Heater" vertex="1">
+          <mxGeometry height="110" width="150" x="1000" y="340" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-13" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="ASI2600MC" vertex="1">
+          <mxGeometry height="110" width="150" x="1000" y="460" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-22" edge="1" parent="1" source="eNRj0Fii-3ORhmF3OA98-20" style="edgeStyle=orthogonalEdgeStyle;rounded=0;orthogonalLoop=1;jettySize=auto;html=1;exitX=1;exitY=0.5;exitDx=0;exitDy=0;entryX=0;entryY=0.5;entryDx=0;entryDy=0;" target="eNRj0Fii-3ORhmF3OA98-6">
+          <mxGeometry relative="1" as="geometry" />
+        </mxCell>
+        <mxCell id="eNRj0Fii-3ORhmF3OA98-20" parent="1" style="rounded=1;whiteSpace=wrap;html=1;" value="DROK Buck Converter&amp;nbsp;&lt;div&gt;12v to 5v&lt;/div&gt;" vertex="1">
+          <mxGeometry height="110" width="150" x="1000" y="100" as="geometry" />
+        </mxCell>
+      </root>
+    </mxGraphModel>
+  </diagram>
+</mxfile>
