@@ -3,7 +3,7 @@
 export BASEDIR=~/adalovespace/buildscripts
 
 ${BASEDIR}/lib/debian/base_tune.sh
-${BASEDIR}/lib/debian/base_install.sh
+${BASEDIR}/lib/debian/base_installs.sh
 
 ${BASEDIR}/lib/debian/install_postgresql.sh
 ${BASEDIR}/lib/debian/install_nfs_host.sh
