@@ -11,7 +11,7 @@ Instead of cluttering Coffeecan's base OS or spinning up a heavy VM, we use an L
 
     Start the LXC and SSH in.
 """
-export BASEDIR=${HOME}/adalovespace/buildscripts
+BASEDIR=${HOME}/adalovespace/buildscripts
 
 # Install uv
 ${BASEDIR}/lib/debian/install_uv_root.sh
@@ -20,8 +20,7 @@ ${BASEDIR}/lib/debian/install_uv_root.sh
 mkdir -p /opt/ada_pipeline && cd /opt/ada_pipeline
 
 # Initialize a uv project and virtual environment
-uv venv
-source .venv/bin/activate
+uv venv && source .venv/bin/activate
 
 # Install Dagster, SQLMesh, and the official bridge between them
 uv pip install dagster dagster-webserver sqlmesh dagster-sqlmesh psycopg2-binary

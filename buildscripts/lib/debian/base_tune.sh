@@ -1,6 +1,6 @@
 #!/bin/bash
 
-export BASEDIR=${HOME}/adalovespace/buildscripts
+BASEDIR=${HOME}/adalovespace/buildscripts
 
 ${BASEDIR}/lib/debian/disable_unattended_upgrades.sh
 

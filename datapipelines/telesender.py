@@ -8,6 +8,7 @@
 # ///
 
 import json
+import os
 import socket
 import time
 
@@ -15,7 +16,7 @@ import paho.mqtt.client as mqtt
 import psutil
 
 # Configuration
-BROKER_IP = "10.42.0.99"  # Replace with JakeBase's IP
+BROKER_IP = os.environ["JAKE_IP"]
 BROKER_PORT = 1883
 PUBLISH_INTERVAL = 60  # Seconds between updates
 NODE_NAME = socket.gethostname()
