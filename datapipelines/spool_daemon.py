@@ -13,9 +13,9 @@ from pathlib import Path
 
 import paho.mqtt.client as mqtt
 
-SPOOL_DIR = Path("/opt/mqtt_stream/knob")
+SPOOL_DIR = Path("/opt/mqtt_stream/ctrl-knob")
 MQTT_BROKER = os.environ["JAKE_IP"]
-MQTT_TOPIC = "ada/audit/knob"
+MQTT_TOPIC = "ada/audit/ctrl-knob"
 
 
 def flush_spool():

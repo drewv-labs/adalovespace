@@ -1,11 +1,9 @@
 #!/bin/bash
 
-BASEDIR=${HOME}/adalovespace/buildscripts
+DEB=${HOME}/adalovespace/buildscripts/lib/debian
 
-${BASEDIR}/lib/debian/disable_unattended_upgrades.sh
-
-${BASEDIR}/lib/debian/nuke_modemmanager.sh
-${BASEDIR}/lib/debian/nuke_radios.sh
-${BASEDIR}/lib/debian/nuke_storage_spammer.sh
-
-${BASEDIR}/lib/debian/tune_power_mode.sh
+${DEB}/disable_unattended_upgrades.sh
+${DEB}/nuke_modemmanager.sh
+${DEB}/nuke_radios.sh
+${DEB}/nuke_storage_spammer.sh
+${DEB}/tune_power_mode.sh

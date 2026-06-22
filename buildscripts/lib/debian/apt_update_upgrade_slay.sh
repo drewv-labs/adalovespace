@@ -1,7 +1,6 @@
 #!/bin/bash
 #
-echo "=== Updating, Upgrading, & Purging Packages"
-
+echo "=== Updating, Upgrading, & Cleaning Up APT Packages"
 sudo apt update -y
 sudo apt full-upgrade -y
 sudo apt autoremove --purge -y

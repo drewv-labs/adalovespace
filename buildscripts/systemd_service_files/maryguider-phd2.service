@@ -1,5 +1,5 @@
 [Unit]
-Description=PHD2 Headless Guiding Server
+Description=MaryGuider PHD2 Headless Guiding Server for Ada Lovespace Project
 After=network.target
 
 [Service]

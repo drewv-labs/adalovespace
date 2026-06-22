@@ -1,6 +1,4 @@
 #!/bin/bash
-#
-${HOME}/adalovespace/buildscripts/lib/debian/install_nfs_common.sh
 
 echo "=== Connecting Jake's NFS as Client"
 
