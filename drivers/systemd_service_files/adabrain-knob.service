@@ -1,0 +1,14 @@
+[Unit]
+Description=AdaBrain USB Knob Proxy & INDI Dispatcher
+After=network.target local-fs.target
+
+[Service]
+Type=simple
+User=ada
+ExecStart=/usr/bin/python3 /home/ada/daemons/knob_proxy.py
+Restart=always
+RestartSec=2
+KillMode=process
+
+[Install]
+WantedBy=multi-user.target
