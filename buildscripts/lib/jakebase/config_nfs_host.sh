@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "=== Configuring Jake's NFS Host"
+echo "=== Configuring JakeBase NFS Host"
 
 SHAREDIR=/mnt/share
 sudo mkdir -p ${SHAREDIR}

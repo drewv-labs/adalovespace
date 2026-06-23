@@ -1,6 +1,6 @@
 #!/bin/bash
 
-echo "=== Connecting Jake's NFS as Client"
+echo "=== Connecting JakeBase NFS as Client"
 
 SHAREDIR=/mnt/share
 WHEELHOUSE=/mnt/wheelhouse
