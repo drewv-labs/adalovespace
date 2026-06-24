@@ -1,0 +1,9 @@
+ADABRAIN_IP=""
+CAROLINE_IP=""
+JAKEBASE_IP=""
+MARGARET_IP=""
+MARYGUID_IP=""
+RADIAWRT_IP=""
+
+NFS_SHARE="/mnt/share"
+NFS_WHEELHOUSE="/mnt/wheelhouse"

@@ -1,6 +1,6 @@
 #!/bin/bash
 
-BASEDIR=${HOME}/adalovespace/buildscripts
+UBU=${HOME}/adalovespace/buildscripts/lib/ubuntu
 
-${BASEDIR}/lib/ubuntu/nuke_cloud_bloat.sh
-${BASEDIR}/lib/ubuntu/nuke_snap.sh
+${UBU}/nuke_cloud_bloat.sh
+${UBU}/nuke_snap.sh

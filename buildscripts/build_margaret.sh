@@ -1,6 +1,6 @@
 #!/bin/bash
 
-LIB=~/adalovespace/buildscripts/lib
+LIB=${HOME}/adalovespace/buildscripts/lib
 
 ${LIB}/debian/base_tune.sh
 ${LIB}/ubuntu/base_tune.sh

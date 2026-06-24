@@ -1,7 +1,6 @@
 #!/bin/bash
 
-export BASEDIR=${HOME}/adalovespace/buildscripts
+DEB=${HOME}/adalovespace/buildscripts/lib/debian
 
-${BASEDIR}/lib/debian/base_tune.sh
-
-${BASEDIR}/lib/debian/apt_update_upgrade_slay.sh
+${DEB}/base_tune.sh
+${DEB}/apt_update_upgrade_slay.sh

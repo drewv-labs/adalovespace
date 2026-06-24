@@ -25,7 +25,7 @@ CREATE INDEX IF NOT EXISTS idx_raw_telemetry_time ON staging.raw_telemetry(time_
 
 
 -- =====================================================================
--- 2. CREATE COFFEE_COURIER (The Coffeecan Pull & Wipe Role)
+-- 2. CREATE COFFEE_COURIER (The Homelab Pull & Wipe Role)
 -- =====================================================================
 CREATE USER coffee_courier WITH PASSWORD 'coffeecourier';
 

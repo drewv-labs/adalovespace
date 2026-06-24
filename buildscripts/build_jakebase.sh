@@ -1,14 +1,14 @@
 #!/bin/bash
 
-export BASEDIR=~/adalovespace/buildscripts
+LIB=${HOME}/adalovespace/buildscripts/lib
 
-${BASEDIR}/lib/debian/base_tune.sh
-${BASEDIR}/lib/debian/base_installs.sh
+${LIB}/debian/base_tune.sh
+${LIB}/debian/base_installs.sh
 
-${BASEDIR}/lib/jakebase/build_nfs_host.sh
-${BASEDIR}/lib/jakebase/build_postgresql_host.sh
-${BASEDIR}/lib/jakebase/build_mosquitto_broker.sh
+${LIB}/jakebase/build_nfs_host.sh
+${LIB}/jakebase/build_postgresql_host.sh
+${LIB}/jakebase/build_mosquitto_broker.sh
 
-${BASEDIR}/lib/debian/apt_update_upgrade_slay.sh
+${LIB}/debian/apt_update_upgrade_slay.sh
 
 sudo reboot

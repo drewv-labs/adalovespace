@@ -1,18 +1,18 @@
 #!/bin/bash
 
+source $HOME/adalovespace/cluster.conf
+
 echo "=== Configuring JakeBase NFS Host"
 
-SHAREDIR=/mnt/share
-sudo mkdir -p ${SHAREDIR}
-sudo chown -R nobody:nogroup ${SHAREDIR}
-sudo chmod 777 ${SHAREDIR}
-echo "${SHAREDIR} *(rw,sync,no_subtree_check,all_squash,insecure)" | sudo tee -a /etc/exports
+sudo mkdir -p ${NFS_SHARE}
+sudo chown -R nobody:nogroup ${NFS_SHARE}
+sudo chmod 777 ${NFS_SHARE}
+echo "${NFS_SHARE} *(rw,sync,no_subtree_check,all_squash,insecure)" | sudo tee -a /etc/exports
 
-WHEELHOUSE=/mnt/wheelhouse
-sudo mkdir -p ${WHEELHOUSE}
-sudo chown -R nobody:nogroup ${WHEELHOUSE}
-sudo chmod 777 ${WHEELHOUSE}
-echo "${WHEELHOUSE} *(rw,sync,no_subtree_check,all_squash,insecure)" | sudo tee -a /etc/exports
+sudo mkdir -p ${NFS_WHEELHOUSE}
+sudo chown -R nobody:nogroup ${NFS_WHEELHOUSE}
+sudo chmod 777 ${NFS_WHEELHOUSE}
+echo "${NFS_WHEELHOUSE} *(rw,sync,no_subtree_check,all_squash,insecure)" | sudo tee -a /etc/exports
 
 sudo exportfs -a
 sudo systemctl restart nfs-kernel-server
