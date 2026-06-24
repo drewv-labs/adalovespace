@@ -7,3 +7,5 @@ RADIAWRT_IP=""
 
 NFS_SHARE="/mnt/share"
 NFS_WHEELHOUSE="/mnt/wheelhouse"
+
+NOMACHINE_VERSION="9.7.3_1"
