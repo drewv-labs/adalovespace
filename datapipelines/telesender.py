@@ -1,6 +1,6 @@
 #!/usr/bin/env -S uv run --script
 # /// script
-# requires-python = ">=3.10"
+# requires-python = ">=3.13"
 # dependencies = [
 #     "psutil",
 #     "paho-mqtt",
@@ -65,7 +65,7 @@ def main():
 
             while True:
                 payload = collect_telemetry()
-                client.publish(TOPIC, json.dumps(payload), qos=1)
+                client.publish(TOPIC, json.dumps(payload), qos=0)
                 time.sleep(PUBLISH_INTERVAL)
 
         except Exception as e:

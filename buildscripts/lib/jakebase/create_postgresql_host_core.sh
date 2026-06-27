@@ -5,23 +5,24 @@ echo "=== Creating JakeBase PostgreSQL Host Core"
 sudo -u postgres psql << 'EOF'
 
 -- 1. Create the database and bind to it
-CREATE DATABASE IF NOT EXISTS jake_telemetry;
-\c jake_telemetry;
+CREATE DATABASE IF NOT EXISTS adaspace;
+\c adaspace;
 
 -- Scaffold the staging schema
-CREATE SCHEMA IF NOT EXISTS staging;
+CREATE SCHEMA IF NOT EXISTS telemetry;
 
 -- Scaffold the core telemetry buffer table
-CREATE TABLE IF NOT EXISTS staging.raw_telemetry (
+CREATE TABLE IF NOT EXISTS telemetry.staging (
     id BIGSERIAL PRIMARY KEY,
     topic TEXT NOT NULL,
     payload JSONB NOT NULL,
     qos SMALLINT,
-    time_stamp TIMESTAMPTZ DEFAULT NOW()
+    msg_time TIMESTAMPTZ NOT NULL,
+    insert_time TIMESTAMPTZ DEFAULT NOW()
 );
 
 -- Create an index on the timestamp for blistering fast time-delta FDW queries
-CREATE INDEX IF NOT EXISTS idx_raw_telemetry_time ON staging.raw_telemetry(time_stamp);
+CREATE INDEX IF NOT EXISTS idx_raw_telemetry_time ON telemetry.staging(msg_time);
 
 
 -- =====================================================================

@@ -9,3 +9,10 @@ NFS_SHARE="/mnt/share"
 NFS_WHEELHOUSE="/mnt/wheelhouse"
 
 NOMACHINE_VERSION="9.7.3_1"
+
+TELEMETRY_DB_HOST="localhost"
+TELEMETRY_DB_PORT="5432"
+TELEMETRY_DB_NAME="adaspace"
+TELEMETRY_DB_TABLE="telemetry.staging"
+TELEMETRY_DB_USER="field_agent"
+TELEMETRY_DB_PASSWORD="fieldagent"

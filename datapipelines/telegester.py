@@ -1,6 +1,6 @@
 #!/usr/bin/env -S uv run --script
 # /// script
-# requires-python = ">=3.10"
+# requires-python = ">=3.13"
 # dependencies = [
 #     "paho-mqtt",
 #     "psycopg2-binary",
@@ -12,16 +12,26 @@ import json
 import paho.mqtt.client as mqtt
 import psycopg2
 
-# Configuration
-BROKER_IP = "localhost"  # Since Mosquitto is on the same machine
-BROKER_PORT = 1883
-SUBSCRIBE_TOPIC = "ada/telemetry/#"  # The '#' catches all sub-topics (all nodes)
+with open("cluster.conf") as f:
+    config = {}
+    for line in f:
+        if len(line := line.strip()) == 0:
+            continue
+        key, value = line.split("=")
+        config[key] = value
+
+# MQTT Configuration
+MQTT_BROKER_IP = "localhost"  # Since Mosquitto is on the same machine
+MQTT_BROKER_PORT = 1883
+MQTT_TOPIC = "ada/telemetry/#"  # The '#' catches all sub-topics (all nodes)
 
 # Database Config
 DB_HOST = "localhost"
-DB_NAME = "ada_db"
-DB_USER = "ada_admin"
-DB_PASS = "your_secure_password"
+DB_PORT = config["TELEMETRY_DB_PORT"]
+DB_NAME = config["TELEMETRY_DB_NAME"]
+DB_TABLE = config["TELEMETRY_DB_TABLE"]
+DB_USER = config["TELEMETRY_DB_USER"]
+DB_PASS = config["TELEMETRY_DB_PASSWORD"]
 
 # Global DB Connection
 db_conn = None
@@ -32,7 +42,11 @@ def connect_db():
     global db_conn
     try:
         db_conn = psycopg2.connect(
-            host=DB_HOST, database=DB_NAME, user=DB_USER, password=DB_PASS
+            host=DB_HOST,
+            port=DB_PORT,
+            database=DB_NAME,
+            user=DB_USER,
+            password=DB_PASS,
         )
         db_conn.autocommit = True
         print("Connected to PostgreSQL successfully.")
@@ -43,31 +57,26 @@ def connect_db():
 
 def on_connect(client, userdata, flags, rc):
     print(f"[Ingest Daemon] Connected to Mosquitto with result code {rc}")
-    client.subscribe(SUBSCRIBE_TOPIC, qos=1)
+    client.subscribe(MQTT_TOPIC, qos=1)
 
 
 def on_message(client, userdata, msg):
     """Fires every time a node publishes to the topic."""
+    if db_conn is None:
+        raise RuntimeError("Database connection is not established.")
     try:
         payload = json.loads(msg.payload.decode("utf-8"))
 
-        # Parse the JSON
-        node = payload.get("node", "Unknown")
-        cpu = payload.get("cpu_pct", 0.0)
-        mem = payload.get("mem_pct", 0.0)
-        disk = payload.get("disk_pct", 0.0)
-        temp = payload.get("temp_c", 0.0)
-
         # Insert into Postgres
         cursor = db_conn.cursor()
-        query = """
-            INSERT INTO system_logs (node, cpu_pct, mem_pct, disk_pct, temp_c)
-            VALUES (%s, %s, %s, %s, %s)
+        query = f"""
+            INSERT INTO {DB_TABLE} (topic, payload, qos)
+            VALUES (%s, %s, %s)
         """
-        cursor.execute(query, (node, cpu, mem, disk, temp))
+        cursor.execute(query, (msg.topic, payload, msg.qos))
         cursor.close()
 
-        print(f"Logged data for {node}: {temp}°C, CPU {cpu}%")
+        print(f"Logged data for {msg.topic}: {payload}")
 
     except json.JSONDecodeError:
         print("Received malformed JSON.")
@@ -81,14 +90,14 @@ def on_message(client, userdata, msg):
 def main():
     connect_db()
 
-    client = mqtt.Client(client_id="JakeBase_Ingester")
+    client = mqtt.Client(client_id="JakebaseTelegester")
     client.on_connect = on_connect
     client.on_message = on_message
 
     # Optional: client.username_pw_set("your_user", "your_password")
 
     try:
-        client.connect(BROKER_IP, BROKER_PORT, 60)
+        client.connect(MQTT_BROKER_IP, MQTT_BROKER_PORT, 60)
         # Blocking loop to keep the script running forever
         client.loop_forever()
     except KeyboardInterrupt:

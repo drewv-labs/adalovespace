@@ -1,0 +1,46 @@
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[project]
+name = "adalovespace"
+version = "0.1.0"
+description = "Distributed astrophotography data pipeline, storage orchestration, and scope control."
+readme = "README.md"
+requires-python = ">=3.11"
+license = { text = "MIT" }
+authors = [
+    { name = "Drew" }
+]
+
+dependencies = [
+    "typer>=0.12.0",
+    "rich>=13.7.0",
+    "sqlmodel>=0.0.16",
+    "psycopg2-binary>=2.9.0",
+    "watchdog>=4.0.0",
+    "astropy>=6.0.0",
+    "paho-mqtt>=2.0.0",
+    "evdev>=1.7.0",
+    "gpiozero>=2.0",
+]
+
+[project.optional-dependencies]
+scope = [
+    "indipyclient>=0.1.0",
+]
+dev = [
+    "pytest>=8.0.0",
+    "ruff>=0.3.0",
+]
+
+[project.scripts]
+astro-uplink = "adalovespace.cli.uplink:app"
+astro-librarian = "adalovespace.daemons.librarian:main"
+ada-knob = "adalovespace.daemons.knob:main"
+
+[tool.uv]
+dev-dependencies = [
+    "pytest>=8.0.0",
+    "ruff>=0.3.0",
+]
