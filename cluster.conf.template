@@ -5,7 +5,7 @@ MARGARET_IP=""
 MARYGUID_IP=""
 RADIAWRT_IP=""
 
-NFS_SHARE="/mnt/share"
+NFS_ADASPACE="/mnt/adaspace"
 NFS_WHEELHOUSE="/mnt/wheelhouse"
 
 NOMACHINE_VERSION="9.7.3_1"
