@@ -22,7 +22,7 @@ CREATE TABLE IF NOT EXISTS telemetry.staging (
 );
 
 -- Create an index on the timestamp for blistering fast time-delta FDW queries
-CREATE INDEX IF NOT EXISTS idx_raw_telemetry_time ON telemetry.staging(msg_time);
+CREATE INDEX IF NOT EXISTS idx_telemetry_staging_time ON telemetry.staging(msg_time);
 
 
 -- =====================================================================
