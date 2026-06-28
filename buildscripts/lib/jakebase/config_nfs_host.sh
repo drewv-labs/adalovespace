@@ -15,17 +15,17 @@ add_nfs_config() {
   local dir="$1"
   local policy="$2"
   if ! grep -qF -- "$dir" /etc/exports; then
-    echo "$dir $policy" >> /etc/exports
+    sudo echo "$dir $policy" >> /etc/exports
   fi
 }
 
 default_policy="*(rw,sync,no_subtree_check,all_squash,insecure)"
 
-sudo mk_dir ${NFS_ADASPACE}
-sudo add_nfs_config "${NFS_ADASPACE}" "$default_policy"
+mk_dir ${NFS_ADASPACE}
+add_nfs_config "${NFS_ADASPACE}" "$default_policy"
 
-sudo mk_dir ${NFS_WHEELHOUSE}
-sudo add_nfs_config "${NFS_WHEELHOUSE}" "$default_policy"
+mk_dir ${NFS_WHEELHOUSE}
+add_nfs_config "${NFS_WHEELHOUSE}" "$default_policy"
 
 sudo exportfs -a
 sudo systemctl restart nfs-kernel-server
