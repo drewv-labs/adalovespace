@@ -5,7 +5,7 @@ echo "=== Creating JakeBase PostgreSQL Host Core"
 sudo -u postgres psql << 'EOF'
 
 -- 1. Create the database and bind to it
-CREATE DATABASE IF NOT EXISTS adaspace;
+CREATE DATABASE adaspace;
 \c adaspace;
 
 -- Scaffold the staging schema

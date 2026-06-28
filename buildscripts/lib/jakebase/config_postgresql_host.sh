@@ -2,7 +2,7 @@
 
 add_pg_hba_entry() {
     if ! grep -qF -- "$1" /etc/postgresql/*/main/pg_hba.conf; then
-        echo "$1" >> /etc/postgresql/*/main/pg_hba.conf
+        echo "$1" | sudo tee -a /etc/postgresql/*/main/pg_hba.conf
     fi
 }
 
