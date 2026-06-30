@@ -7,6 +7,7 @@ add_pg_hba_entry() {
 }
 
 echo "=== Configuring JakeBase PostgreSQL Host"
+
 sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/*/main/postgresql.conf
 add_pg_hba_entry "host    all             all             0.0.0.0/0               md5"
 sudo systemctl restart postgresql

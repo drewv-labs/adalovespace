@@ -8,6 +8,7 @@ ${LIB}/debian/base_installs.sh
 ${LIB}/jakebase/build_nfs_host.sh
 ${LIB}/jakebase/build_postgresql_host.sh
 ${LIB}/jakebase/build_mosquitto_broker.sh
+${LIB}/jakebase/build_telegraf_daemon.sh
 
 ${LIB}/debian/apt_update_upgrade_slay.sh
 

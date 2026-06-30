@@ -1,3 +1,7 @@
+# // Global
+SPACENAME="adaspace"
+
+# // Nodes
 ADABRAIN_IP=""
 CAROLINE_IP=""
 JAKEBASE_IP=""
@@ -5,14 +9,28 @@ MARGARET_IP=""
 MARYGUID_IP=""
 RADIAWRT_IP=""
 
-NFS_ADASPACE="/mnt/adaspace"
+# // Mosquitto
+MQTT_ROOT_TOPIC="${SPACENAME}"
+MQTT_TOPICS="events telemetry"
+
+# // NFS
+NFS_ADASPACE="/mnt/${SPACENAME}"
 NFS_WHEELHOUSE="/mnt/wheelhouse"
 
-NOMACHINE_VERSION="9.7.3_1"
+# // NoMachine
+NM_VERSION_MAJOR=9
+NM_VERSION_MINOR=7.3_1
+NM_VERSION="${NOMACHINE_VERSION_MAJOR}.${NOMACHINE_VERSION_MINOR}"
 
-TELEMETRY_DB_HOST="localhost"
-TELEMETRY_DB_PORT="5432"
-TELEMETRY_DB_NAME="adaspace"
-TELEMETRY_DB_TABLE="telemetry.staging"
-TELEMETRY_DB_USER="field_agent"
-TELEMETRY_DB_PASSWORD="fieldagent"
+# // PostgreSQL
+PSQL_DB_NAME="${SPACENAME}"
+PSQL_TBL_NAME="staging"
+PSQL_MQTT_DEST_FLD="payload"
+PSQL_MQTT_TIMESTAMP_FLD="event_timestamp"
+PSQL_FIELD_USER="field_agent"
+PSQL_FIELD_PASSWORD="fieldagent"
+
+$ // Telegraf
+TG_INTERVAL="1s"
+TG_FLUSH_INTERVAL="1s"
+TG_OMIT_HOSTNAME="false"
