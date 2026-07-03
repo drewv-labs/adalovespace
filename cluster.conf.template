@@ -1,6 +1,3 @@
-# // Global
-SPACENAME="adaspace"
-
 # // Nodes
 ADABRAIN_IP=""
 CAROLINE_IP=""
@@ -9,28 +6,41 @@ MARGARET_IP=""
 MARYGUID_IP=""
 RADIAWRT_IP=""
 
-# // Mosquitto
-MQTT_ROOT_TOPIC="${SPACENAME}"
-MQTT_TOPICS="events telemetry"
+# // JakeBaseMQTT: Mosquitto
+MQTT_ROOT_TOPIC="adaspace"
+MQTT_SUB_TOPICS="issues events metadata telemetry"
 
-# // NFS
-NFS_ADASPACE="/mnt/${SPACENAME}"
-NFS_WHEELHOUSE="/mnt/wheelhouse"
+# // JakeBaseMQTT: Mosquitto Broker
+MQTT_BROKER_IP="${JAKEBASE_IP}"
+MQTT_BROKER_PORT="1883"
 
-# // NoMachine
-NM_VERSION_MAJOR=9
-NM_VERSION_MINOR=7.3_1
-NM_VERSION="${NOMACHINE_VERSION_MAJOR}.${NOMACHINE_VERSION_MINOR}"
+# // JakeBaseNFS
+NFS_ROOT="/mnt/adaspace"
+NFS_SHARE="${NFS_ROOT}/share"
+NFS_CODE="${NFS_ROOT}/code"
+NFS_WHEELHOUSE="${NFS_ROOT}/wheelhouse"
 
-# // PostgreSQL
-PSQL_DB_NAME="${SPACENAME}"
+# // Margaret's NoMachine
+NM_V_MAJOR=9
+NM_V_MINOR=7
+NM_V_PATCH=3
+NM_V_BUILD=1
+NM_V_MAJMIN="${NM_V_MAJOR}.${NM_V_MINOR}"
+NM_V_FULL="${NM_V_MAJOR}.${NM_V_MINOR}.${NM_V_PATCH}_${NM_V_BUILD}"
+
+# // JakeBaseDB: PostgreSQL
+PSQL_DB_NAME="adaspace"
 PSQL_TBL_NAME="staging"
 PSQL_MQTT_DEST_FLD="payload"
 PSQL_MQTT_TIMESTAMP_FLD="event_timestamp"
-PSQL_FIELD_USER="field_agent"
-PSQL_FIELD_PASSWORD="fieldagent"
+PSQL_FLDAGNT_USER="field_agent"
+PSQL_FLDAGNT_PASSWORD="fieldagent"
+PQSL_COURIER_USER="coffee_courier"
+PSQL_COURIER_PASSWORD="coffeecourier"
 
-$ // Telegraf
+# // JakeBase Telegraf Ingestion Engine
 TG_INTERVAL="1s"
 TG_FLUSH_INTERVAL="1s"
 TG_OMIT_HOSTNAME="false"
+TG_METRIC_BATCH_SIZE=500
+TG_METRIC_BUFFER_LIMIT=10000

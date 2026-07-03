@@ -19,8 +19,7 @@ fi
 
 node = $1
 
-jake_repos = "/mnt/jakebase/repos"
-code_space = "/opt/ada-codespace"
+jake_repos = "/mnt/ada/codespace"
 
 # 1. Mount the central file systems from JakeBase if not present
 if ! mountpoint -q $jake_repos; then

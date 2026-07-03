@@ -8,7 +8,7 @@ if [ "$(id -u)" -ne 0 ]; then
 fi
 
 # Securely source variables from the centralized cluster deployment configurations
-source "${HOME}/adalovespace/cluster.conf"
+source /opt/adalovespace/cluster.conf
 
 TARGET_CONF="/etc/telegraf/telegraf.conf"
 

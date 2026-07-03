@@ -10,4 +10,4 @@ fi
 NODES=/opt/adalovespace/nodes
 
 ${NODES}/_core/debian/install_mosquitto_broker.sh
-${LIB}/jakebase/mqtt/config_mosquitto_broker.sh
+${NODES}/jakebase/mqtt/config_mosquitto_broker.sh

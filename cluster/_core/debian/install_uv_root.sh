@@ -6,5 +6,8 @@ if [ "$(id -u)" -ne 0 ]; then
     echo "This script must be run as root" >&2
     exit 1
 fi
+#
+echo "=== Installing UV into /usr/local/bin"
 
-/opt/adalovespace/buildscripts/lib/debian/install_uv_root.sh
+curl -LsSf https://astral.sh/uv/install.sh | sudo env UV_INSTALL_DIR="/usr/local/bin" sh
+echo ""

@@ -9,16 +9,13 @@ fi
 
 # Assumes database and users already created...
 #
-source ${HOME}/adalovespace/cluster.conf
+source /opt/adalovespace/cluster.conf
 
 echo "=== Configuring JakeBase PostgreSQL Host Tables"
 
 {
 
     cat << EOF
-
--- # Generated automatically by JakeBase build script
--- # Configuration Date: $(date '+%Y-%m-%d %H:%M:%S')
 \c ${PSQL_DB_NAME};
 EOF
 
@@ -27,7 +24,7 @@ EOF
         cat << EOF
 
 CREATE SCHEMA IF NOT EXISTS ${TOPIC};
-GRANT USAGE ON SCHEMA ${TOPIC} TO field_agent, coffee_courier;
+GRANT USAGE ON SCHEMA ${TOPIC} TO ${PSQL_FIELD_USER}, ${PSQL_COURIER_USER};
 
 CREATE TABLE IF NOT EXISTS ${TBL} (
     id BIGSERIAL PRIMARY KEY,
@@ -38,12 +35,12 @@ CREATE TABLE IF NOT EXISTS ${TBL} (
 );
 CREATE INDEX IF NOT EXISTS idx_${TOPIC}_time ON ${TBL}(${PSQL_MQTT_TIMESTAMP_FLD});
 
-GRANT SELECT, INSERT, UPDATE ON ${TBL} TO field_agent;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA ${TOPIC} TO field_agent;
-GRANT SELECT, TRUNCATE ON ${TBL} TO coffee_courier;
+GRANT SELECT, INSERT, UPDATE ON ${TBL} TO ${PSQL_FIELD_USER};
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA ${TOPIC} TO ${PSQL_FIELD_USER};
+GRANT SELECT, TRUNCATE ON ${TBL} TO ${PSQL_COURIER_USER};
 
-ALTER DEFAULT PRIVILEGES FOR ROLE field_agent IN SCHEMA ${TOPIC}
-GRANT SELECT, TRUNCATE ON TABLES TO coffee_courier;
+ALTER DEFAULT PRIVILEGES FOR ROLE ${PSQL_FIELD_USER} IN SCHEMA ${TOPIC}
+GRANT SELECT, TRUNCATE ON TABLES TO ${PSQL_COURIER_USER};
 EOF
     done
 

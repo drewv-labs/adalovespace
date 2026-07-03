@@ -7,7 +7,4 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-UBU=${HOME}/adalovespace/buildscripts/lib/ubuntu
-
-${UBU}/nuke_cloud_bloat.sh
-${UBU}/nuke_snap.sh
+/opt/adalovespace/cluster/_core/debian/install_uv_root.sh

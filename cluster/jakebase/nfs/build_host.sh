@@ -7,7 +7,7 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-LIB=${HOME}/adalovespace/buildscripts/lib
+NODES=/opt/adalovespace/nodes
 
-${LIB}/debian/install_telegraf.sh
-${LIB}/jakebase/config_telegraf_daemon.sh
+${NODES}/_core/debian/install_nfs_kernel_server.sh
+${NODES}/jakebase/config_nfs_host.sh

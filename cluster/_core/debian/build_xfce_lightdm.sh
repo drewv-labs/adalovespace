@@ -16,10 +16,12 @@ sudo apt purge xfce4-power-manager -y
 sudo groupadd -r nopasswdlogin
 sudo gpasswd -a $(whoami) nopasswdlogin
 
-echo "[Seat:*]" | sudo tee -a /etc/lightdm/lightdm.conf
-echo "autologin-user=$(whoami)" | sudo tee -a /etc/lightdm/lightdm.conf
-echo "autologin-user-timeout=0" | sudo tee -a /etc/lightdm/lightdm.conf
-echo "user-session=xfce" | sudo tee -a /etc/lightdm/lightdm.conf
+sudo tee -a /etc/lightdm/lightdm.conf | cat << EOF
+[Seat:*]
+    autologin-user=$(whoami)
+    autologin-user-timeout=0
+    user-session=xfce
+EOF
 
 sudo systemctl restart lightdm
 echo ""

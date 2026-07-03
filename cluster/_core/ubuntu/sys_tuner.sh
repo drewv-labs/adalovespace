@@ -7,7 +7,10 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-LIB=${HOME}/adalovespace/buildscripts/lib
+NODES_CORE=/opt/ada-codespace/nodes/_core
+DEB=${NODES_CORE}/debian
+UBU=${NODES_CORE}/ubuntu
 
-${LIB}/debian/install_nfs_kernel_server.sh
-${LIB}/jakebase/config_nfs_host.sh
+${DEB}/sys_tuner.sh
+${UBU}/nuke_cloud_bloat.sh
+${UBU}/nuke_snap.sh

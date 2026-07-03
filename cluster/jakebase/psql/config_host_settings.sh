@@ -7,15 +7,6 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-# This script configures the PostgreSQL server to accept connections from any IP address and uses password authentication.
-# It is intended for use with JakeBase, a hypothetical application that requires a PostgreSQL database.
-
-# Install PostgreSQL if not already installed
-if ! command -v psql &> /dev/null; then
-    echo "!!! PostgreSQL is not installed. Installing now..."
-    /opt/ada-codespace/nodes/_core/debian/install_postgresql.sh
-fi
-
 echo "=== Configuring JakeBase PostgreSQL Host"
 
 sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/*/main/postgresql.conf
