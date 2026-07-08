@@ -1,18 +1,13 @@
 #!/bin/bash
 set -euxo pipefail
+source sudo-check
 
-# Ensure the script is run as root
-if [ "$(id -u)" -ne 0 ]; then
-    echo "This script must be run as root" >&2
-    exit 1
-fi
+cluster=/opt/adalovespace/cluster
+jakepsql=${cluster}/nodes/jakebase/psql
 
-A_NODES=/opt/ada-codespace/nodes
-JAKE=${A_NODES}/jakebase
+${cluster}/core/debian/mods/install_postgresql.sh
 
-${A_NODES}/_core/debian/install_postgresql.sh
-
-${JAKE}/psql/config_host_settings.sh
-${JAKE}/psql/config_database.sh
-${JAKE}/psql/config_users.sh
-${JAKE}/psql/config_tables.sh
+${jake}/config_host_settings.sh
+${jake}/config_database.sh
+${jake}/config_users.sh
+${jake}/config_tables.sh

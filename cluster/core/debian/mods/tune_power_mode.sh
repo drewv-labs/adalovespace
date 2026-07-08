@@ -1,11 +1,6 @@
 #!/bin/bash
 set -euxo pipefail
-
-# Ensure the script is run as root
-if [ "$(id -u)" -ne 0 ]; then
-    echo "This script must be run as root" >&2
-    exit 1
-fi
+source sudo-check
 
 echo "=== Tuning Power Mode"
 sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target

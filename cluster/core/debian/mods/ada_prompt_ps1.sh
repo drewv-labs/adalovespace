@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euxo pipefall
-source /usr/local/bin/ada-sudo-check
+source ada-sudo-check
 
 target="/etc/bash.bashrc"
 pattern="export PS1="

@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euxo pipefail
-source /usr/local/bin/ada-sudo-check
+source sudo-check
 
 
 # This script disables various services and

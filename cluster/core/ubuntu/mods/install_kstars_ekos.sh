@@ -1,14 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
+source sudo-check
 
-# Ensure the script is run as root
-if [ "$(id -u)" -ne 0 ]; then
-    echo "This script must be run as root" >&2
-    exit 1
-fi
-#
 echo "=== Installing Kstars and Ekos"
-
 sudo apt-add-repository ppa:mutlaqja/ppa
 sudo apt install indi-full kstars-bleeding -y
 echo ""

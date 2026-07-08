@@ -1,11 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
-
-# Ensure the script is run as root
-if [ "$(id -u)" -ne 0 ]; then
-    echo "This script must be run as root" >&2
-    exit 1
-fi
+source sudo-check
+source ada-env ${BASH_SOURCE[0]}
 
 # Check if the script received an argument
 if [ $# -eq 0 ]; then
@@ -43,8 +39,6 @@ case "$suffix_upper" in
         ;;
 esac
 
-source /opt/adalovespace/cluster.env
-
 add_nfs_config() {
   local dir="$1"
   local policy="$2"
@@ -58,9 +52,7 @@ add_nfs_config() {
 
 echo "=== Connecting JakeBase NFS as Client"
 sudo mkdir -p $nfs
-
 add_nfs_config $nfs "defaults,bg,noatime,nolock"
-
 sudo systemctl daemon-reload
 sudo mount -a
 echo ""

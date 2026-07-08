@@ -1,21 +1,9 @@
 #!/bin/bash
 set -euxo pipefail
+source sudo-check
+source ada-env ${BASH_SOURCE[0]}
 
-# Ensure the script is run as root
-if [ "$(id -u)" -ne 0 ]; then
-    echo "This script must be run as root" >&2
-    exit 1
-fi
-
-# Securely source variables from the centralized cluster deployment configurations
-source /opt/adalovespace/cluster.env
-
-if [ ! -f "/opt/adalovespace/cluster.env" ]; then
-    echo "Cluster configuration file not found: /opt/adalovespace/cluster.env" >&2
-    exit 1
-fi
-
-TARGET_CONF="/etc/telegraf/telegraf.conf"
+target_conf="/etc/telegraf/telegraf.conf"
 
 echo "=== Generating Dynamic Telegraf Schema Mappings ==="
 
@@ -83,7 +71,7 @@ EOF
 EOF
     done
 
-} | sudo tee "$TARGET_CONF" > /dev/null
+} | sudo tee "$target_conf" > /dev/null
 
 # Cycle the systemd management thread to load the fresh, unتحریم maps safely
 echo "=== Restarting Telegraf Daemon Context ==="
