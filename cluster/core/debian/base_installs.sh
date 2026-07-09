@@ -2,4 +2,4 @@
 set -euxo pipefail
 source sudo-check
 
-/opt/adalovespace/cluster/_core/debian/mods/install_uv_root.sh
+/opt/adalovespace/cluster/core/debian/mods/install_uv_root.sh

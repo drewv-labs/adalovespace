@@ -1,10 +1,16 @@
 #!/bin/bash
 set -euxo pipefall
 source ada-sudo-check
+if ! check_sudo_access; then
+    echo "Aborting deployment"
+    exit 1
+fi
+
+source ada-env "${BASH_SOURCE[0]}"
 
 target="/etc/bash.bashrc"
 pattern="export PS1="
-data="${pattern}'\[\e[38;5;27m\]\u\[\e[38;5;53m\]<3\[\e[38;5;39m\][\w] \[\e[38;5;240m\]\$ \[\e[0m\]'"
+data="${pattern}'\[${ADA_BLU2}\]\u\[${ADA_PLUM}\]<3\[${ADA_BLU1}\][\w] \[${ADA_GRAY}\]\$ \[\e[0m\]'"
 
 if grep -q $pattern $target; then
     sudo sed -i "/$pattern/c\\$data" $target

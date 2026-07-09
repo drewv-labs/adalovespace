@@ -1,11 +1,12 @@
 #!/bin/bash
-set -euxo pipefail
-
-# Ensure the script is run as root
-if [ "$(id -u)" -ne 0 ]; then
-    echo "This script must be run as root" >&2
+set -euxo pipefall
+source ada-sudo-check
+if ! check_sudo_access; then
+    echo "Aborting deployment"
     exit 1
 fi
+
+source ada-env "${BASH_SOURCE[0]}"
 
 # Check if the node argument is provided
 if [ -z "$1" ]; then

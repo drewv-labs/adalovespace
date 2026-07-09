@@ -2,6 +2,7 @@
 set -euxo pipefail
 source sudo-check
 source ada-env ${BASH_SOURCE[0]}
+source safe-tee-sed
 
 echo "=== Configuring JakeBase NFS Host"
 
@@ -11,11 +12,7 @@ add_nfs_config() {
   sudo mkdir -p "$dir"
   sudo chown nobody:nogroup "$dir"
   sudo chmod 777 "$dir"
-  if ! grep -qF -- "$dir" /etc/exports; then
-    echo "$dir $policy" | sudo tee -a /etc/exports
-  else
-      echo "!!! ${dir} already exists in exports file. Skipping... "
-  fi
+  safe_tee_sed "/etc/exports" "^${dir}" "${dir} ${policy}" "yes"
 }
 
 add_nfs_config "${NFS_ROOT}" "*(rw,sync,no_subtree_check,all_squash,insecure)"
