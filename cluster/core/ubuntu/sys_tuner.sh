@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
-source sudo-check
+source ada-preflight "${BASH_SOURCE[0]}"
 
-cluser_core=/opt/adalovespace/cluster/core
+cluser_core=${ADA_ROOT}/cluster/core
 deb=${cluser_core}/debian
 ubu=${cluser_core}/ubuntu
 

@@ -1,7 +1,6 @@
 #!/bin/bash
 set -euxo pipefail
-source sudo-check
-source ada-env ${BASH_SOURCE[0]}
+source ada-preflight ${BASH_SOURCE[0]}
 
 target_conf="/etc/telegraf/telegraf.conf"
 

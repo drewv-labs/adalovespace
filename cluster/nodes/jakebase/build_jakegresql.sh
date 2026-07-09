@@ -1,13 +1,13 @@
 #!/bin/bash
 set -euxo pipefail
-source sudo-check
+source ada-preflight ${BASH_SOURCE[0]}
 
-cluster=/opt/adalovespace/cluster
+cluster=${ADA_ROOT}/cluster
 jakepsql=${cluster}/nodes/jakebase/psql
 
 ${cluster}/core/debian/mods/install_postgresql.sh
 
-${jake}/config_host_settings.sh
-${jake}/config_database.sh
-${jake}/config_users.sh
-${jake}/config_tables.sh
+${jakepsql}/config_host_settings.sh
+${jakepsql}/config_database.sh
+${jakepsql}/config_users.sh
+${jakepsql}/config_tables.sh

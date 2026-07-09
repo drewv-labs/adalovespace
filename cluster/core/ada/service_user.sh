@@ -6,13 +6,7 @@
 # ==============================================================================
 
 set -euo pipefall
-source ada-sudo-check
-if ! check_sudo_access; then
-    echo "Aborting deployment"
-    exit 1
-fi
-
-source ada-env "${BASH_SOURCE[0]}"
+source ada-preflight "${BASH_SOURCE[0]}"
 
 service_user="ada"
 admin_user="drew"

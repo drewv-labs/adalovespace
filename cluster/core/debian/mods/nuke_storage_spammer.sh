@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euxo pipefail
-source sudo-check
+source ada-preflight "${BASH_SOURCE[0]}"
 
 echo "=== Purging Storage Spammer"
 sudo systemctl disable --now multipathd.service multipathd.socket

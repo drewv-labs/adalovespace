@@ -1,15 +1,12 @@
 #!/bin/bash
-set -euxo pipefail
-source sudo-check
-
-
 # This script disables various services and
 # tweaks settings to optimize power usage on a Debian-based system.
 
-# Get the directory of this script
-debmods="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+set -euxo pipefail
+source ada-preflight "${BASH_SOURCE[0]}"
 
-${debmods}/ada_prompt_ps1.sh
+debmods="${ADA_ROOT}/cluster/core/debian/mods"
+
 ${debmods}/disable_unattended_upgrades.sh
 ${debmods}/nuke_modemmanager.sh
 ${debmods}/nuke_radios.sh

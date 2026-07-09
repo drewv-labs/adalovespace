@@ -1,12 +1,7 @@
 #!/bin/bash
 set -euxo pipefail
+source ada-preflight "${BASH_SOURCE[0]}"
 
-# Ensure the script is run as root
-if [ "$(id -u)" -ne 0 ]; then
-    echo "This script must be run as root" >&2
-    exit 1
-fi
-#
 echo "=== Installing GUI (XFCE + LightDM; NoPasswdLogin)"
 
 sudo apt install xorg xserver-xorg dbus-x11 -y

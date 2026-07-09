@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euxo pipefail
-source sudo-check
+source ada-preflight "${BASH_SOURCE[0]}"
 
 target_user="drew"
 sudoers_file="/etc/sudoers.d/010_${target_user}_nopasswd"

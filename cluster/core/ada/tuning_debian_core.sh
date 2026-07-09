@@ -1,12 +1,6 @@
 #!/bin/bash
 set -euxo pipefall
-source ada-sudo-check
-if ! check_sudo_access; then
-    echo "Aborting deployment"
-    exit 1
-fi
-source ada-env "${BASH_SOURCE[0]}"
-source ada-root
+source ada-preflight "${BASH_SOURCE[0]}"
 
 root_dir="$(find_ada_root ${BASH_SOURCE[0]})"
 core_dir="${root_dir}/cluster/core"

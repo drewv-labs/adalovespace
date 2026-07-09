@@ -1,6 +1,6 @@
 #!/bin/bash
 set -euxo pipefail
-source sudo-check
+source ada-preflight "${BASH_SOURCE[0]}"
 
 echo "=== Purging Snap"
 sudo systemctl disable --now snapd.socket snapd.service

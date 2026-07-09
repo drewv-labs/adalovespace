@@ -1,8 +1,8 @@
 #!/bin/bash
 set -euxo pipefail
-source sudo-check
+source ada-preflight ${BASH_SOURCE[0]}
 
-cluster=/opt/adalovespace/cluster
+cluster=${ADA_ROOT}/cluster
 
 ${cluster}/core/debian/mods/install_nfs_kernel_server.sh
 ${cluster}/nodes/jakebase/nfs/config_host.sh

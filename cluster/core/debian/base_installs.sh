@@ -1,5 +1,5 @@
 #!/bin/bash
 set -euxo pipefail
-source sudo-check
+source ada-preflight "${BASH_SOURCE[0]}"
 
-/opt/adalovespace/cluster/core/debian/mods/install_uv_root.sh
+${ADA_ROOT}/cluster/core/debian/mods/install_uv_root.sh

@@ -1,7 +1,6 @@
 #!/bin/bash
 set -euxo pipefail
-source sudo-check
-source ada-env ${BASH_SOURCE[0]}
+source ada-preflight "${BASH_SOURCE[0]}"
 
 # Check if the script received an argument
 if [ $# -eq 0 ]; then
@@ -39,20 +38,11 @@ case "$suffix_upper" in
         ;;
 esac
 
-add_nfs_config() {
-  local dir="$1"
-  local policy="$2"
-  if ! grep -qF -- "$dir" /etc/fstab; then
-    echo "${NFS_HOST}:${dir} ${dir} nfs ${policy} 0 0" | sudo tee -a /etc/fstab
-    echo "Added ${NFS_HOST}:${dir} $policy to /etc/fstab"
-  else
-    echo "NFS export already exists for ${dir}; skipping"
-  fi
-}
-
 echo "=== Connecting JakeBase NFS as Client"
-sudo mkdir -p $nfs
-add_nfs_config $nfs "defaults,bg,noatime,nolock"
+
+sudo mkdir -p $nfs_dir
+safe-tee-sed "/etc/fstab" "^${nfs_dir}" "${NFS_HOST}:${nfs_dir} ${nfs_dir} nfs rw,sync,no_subtree_check,all_squash,insecure 0 0" "yes"
+
 sudo systemctl daemon-reload
 sudo mount -a
 echo ""

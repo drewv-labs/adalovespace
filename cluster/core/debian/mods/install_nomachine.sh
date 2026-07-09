@@ -1,13 +1,6 @@
 #!/bin/bash
 set -euxo pipefail
-
-# Ensure the script is run as root
-if [ "$(id -u)" -ne 0 ]; then
-    echo "This script must be run as root" >&2
-    exit 1
-fi
-
-source /opt/adalovespace/cluster.env
+source ada-preflight "${BASH_SOURCE[0]}"
 
 v_majmin="${NM_V_MAJOR}.${NM_V_MINOR}"
 v_full="${NM_V_MAJOR}.${NM_V_MINOR}.${NM_V_PATCH}_${NM_V_BUILD}"
