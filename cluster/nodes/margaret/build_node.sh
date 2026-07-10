@@ -2,20 +2,19 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-cluster="${ADA_ROOT}/cluster"
-marg="${cluster}/nodes/margaret"
+marg="${ADA_CLUSTER}/nodes/margaret"
 
-${cluster}/core/build_core.sh "ubuntu"
+${ADA_CLUSTER}/core/build_core.sh "ubuntu"
 
 echo "${ADA_PLUM}=== Building Margaret Node"
 
 ${marg}/xfce/build_gui.sh
 ${marg}/kstars/build_app.sh
-${marg}/nomachine/build_app.sh
+${marg}/nomachine/build_service.sh
 
-${cluster}/core/apt_update_upgrade_slay.sh
+${ADA_CLUSTER}/core/apt_update_upgrade_slay.sh
 
-echo "${YAY_GRN}=== Build complete"
+echo "${YAY_GRN}=== Margaret build complete and ready to reboot"
 
 if [[ "$(read -rp 'Reboot? [y/n] ' yn; echo "$yn")" =~ ^[Yy]$ ]]; then
     echo "${ADA_PLUM}=== Rebooting"

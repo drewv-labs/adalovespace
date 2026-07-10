@@ -2,9 +2,7 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-cluster="${ADA_ROOT}/cluster"
-
 echo "${ADA_PLUM}=== Building Mosquitto Broker ==="
 
-${cluster}/core/debian/mods/install_mosquitto_broker.sh
-${cluster}/nodes/jakebase/mqtt/config_broker.sh
+${ADA_CLUSTER}/core/debian/mods/install_mosquitto_broker.sh
+${ADA_CLUSTER}/nodes/jakebase/mqtt/config_broker.sh
