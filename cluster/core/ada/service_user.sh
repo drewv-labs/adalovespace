@@ -5,11 +5,12 @@
 # Target: AdaLovespace Edge Nodes (Debian/Ubuntu)
 # ==============================================================================
 
-set -euo pipefall
+set -euo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
 home_dir="/home/${ADA_USER}"
-log_dir="/var/log/ada"
+log_dir="${ADA_LOCAL_LOGS}"
+
 echo "${ADA_BLU1}=== Setting up ${ADA_USER} service user"
 
 echo "${ADA_GRAY}--> 1. Creating ${ADA_USER} user and group..."
@@ -48,14 +49,14 @@ fi
 
 echo "${ADA_GRAY}--> 4. Provisioning directory structure and applying SetGID magic..."
 # Create application and log directories
-mkdir -p "${ADA_ROOT}" "${log_dir}"
+mkdir -p "${log_dir}"
 
 # Set ownership: root owner, 'ada' group
 chown -R root:"${ADA_USER}" "${ADA_ROOT}" "${log_dir}"
 
 # Set permissions: 2775 (rwxrwsr-x)
 # The '2' is the SetGID bit: any new file created in these folders automatically
-# inherits the 'ada' group, preventing permission lockouts between drew and ada!
+# inherits the 'ada' group, preventing permission lockouts between admn and ada!
 chmod -R 2775 "${ADA_ROOT}" "${log_dir}"
 
 # Ensure standard secure permissions on the service user's home directory

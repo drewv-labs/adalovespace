@@ -72,8 +72,6 @@ EOF
 
 } | sudo tee "$target_conf" > /dev/null
 
-# Cycle the systemd management thread to load the fresh, unتحریم maps safely
-echo "${ADA_BLU1}=== Restarting Telegraf Daemon Context ==="
 sudo systemctl restart telegraf
 
 echo "${YAY_GRN}=== Ingestion Engine Successfully Provisioned ==="

@@ -2,7 +2,7 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-cluster=${ADA_ROOT}/cluster
+cluster="${ADA_ROOT}/cluster"
 
 echo "${ADA_PLUM}=== Building Ntfy Server ==="
 

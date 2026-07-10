@@ -19,4 +19,4 @@ if ! sudo visudo -cf "${sudoers_file}"; then
     exit 1
 fi
 
-echo "=== Passwordless sudo successfully configured and verified ==="
+echo "${YAY_GRN}=== Passwordless sudo successfully configured and verified ==="

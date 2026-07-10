@@ -1,5 +1,5 @@
 #!/bin/bash
-set -euxo pipefall
+set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
 echo "${ADA_BLU1}=== Setting up Ada's Custom Prompt"

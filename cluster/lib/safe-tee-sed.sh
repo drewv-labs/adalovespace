@@ -24,7 +24,8 @@ fi
 
 [ "$use_sudo" == "yes" ] && sudo_cmd="sudo" || sudo_cmd=""
 
-if grep -q -- "$pattern" "$target"; then
+if grep -qF -- "$pattern" "$target"; then
+    # TODO: Better delimiter
     if ! $sudo_cmd sed -i "/${pattern}/c\\${data}" "$target"; then
         echo "${ADA_RED}FATAL: [safe-tee-sed] sed failed for pattern '$pattern' in $target" >&2
         exit 1

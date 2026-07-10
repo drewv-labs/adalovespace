@@ -3,15 +3,21 @@ set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
 cluster="${ADA_ROOT}/cluster"
-core="${cluster}/core"
+marg="${cluster}/nodes/margaret"
 
-${core}/build_ubuntu_core.sh
-${cluster}/nodes/jakebase/nfs/connect_client.sh "root"
+${cluster}/core/build_core.sh "ubuntu"
 
-${core}/debian/mods/build_debian_xfce_lightdm.sh
-${core}/debian/mods/install_nomachine_deb.sh
-${core}/ubuntu/mods/install_kstars_ekos.sh
+echo "${ADA_PLUM}=== Building Margaret Node"
 
-${core}/debian/mods/apt_update_upgrade_slay.sh
+${marg}/xfce/build_gui.sh
+${marg}/kstars/build_app.sh
+${marg}/nomachine/build_app.sh
 
-sudo reboot
+${cluster}/core/apt_update_upgrade_slay.sh
+
+echo "${YAY_GRN}=== Build complete"
+
+if [[ "$(read -rp 'Reboot? [y/n] ' yn; echo "$yn")" =~ ^[Yy]$ ]]; then
+    echo "${ADA_PLUM}=== Rebooting"
+    sudo reboot
+fi
