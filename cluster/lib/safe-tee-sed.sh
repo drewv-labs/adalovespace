@@ -24,9 +24,31 @@ fi
 
 [ "$use_sudo" == "yes" ] && sudo_cmd="sudo" || sudo_cmd=""
 
+# Function to find a safe delimiter for sed
+find_safe_delimiter() {
+    local pattern="$1"
+    local data="$2"
+    local delimiters='/%!@#$^&*()-_=+[]{}|;:,.<>?`~'
+    local default_delim="/"
+
+    # Check each character in delimiters to find a safe one
+    for (( i=0; i<${#delimiters}; i++ )); do
+        local delim="${delimiters:$i:1}"
+        if [[ "$pattern" != *"$delim"* && "$data" != *"$delim"* ]]; then
+            echo "$delim"
+            return 0
+        fi
+    done
+
+    # If no safe delimiter is found, use default /
+    echo "$default_delim"
+}
+
+# Find a safe delimiter
+safe_delim=$(find_safe_delimiter "$pattern" "$data")
+
 if grep -qF -- "$pattern" "$target"; then
-    # TODO: Better delimiter
-    if ! $sudo_cmd sed -i "/${pattern}/c\\${data}" "$target"; then
+    if ! $sudo_cmd sed -i "${safe_delim}${pattern}${safe_delim}c\\${data}${safe_delim}" "$target"; then
         echo "${ADA_RED}FATAL: [safe-tee-sed] sed failed for pattern '$pattern' in $target" >&2
         exit 1
     fi
