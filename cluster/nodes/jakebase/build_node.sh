@@ -1,20 +1,23 @@
 #!/bin/bash
 set -euxo pipefail
-source ada-preflight ${BASH_SOURCE[0]}
+source ada-preflight "${BASH_SOURCE[0]}"
 
 cluster=${ADA_ROOT}/cluster
-debmods=${cluster}/debian/mods
-jakebase=${cluster}/nodes/jakebase
+jbase=${cluster}/nodes/jakebase
 
-${debmods}/base_tune.sh
-${debmods}/base_installs.sh
+${cluster}/core/build_debian_core.sh
 
-${jakebase}/build_jakenfaces.sh  # JakeNFaceS: NFS Host
-${jakebase}/build_jakegresql.sh  # JakegreSQL: PostgreSQL Host
-${jakebase}/build_jakeskeett.sh  # JakeSkeett: Mosquitto Broker
-${jakebase}/build_jakegester.sh  # JakeGester: Telegraf MQTT->PSQL Ingestion Engine
-${jakebase}/build_janktifyme.sh  # JanktifyMe: Ntfy Server for MQTT:ada/alerts/# topics
+echo "${ADA_PLUM}=== Building JakeBase Node"
+${jbase}/nfs/build_host.sh
+${jbase}/psql/build_host.sh
+${jbase}/mqtt/build_broker.sh
+${jbase}/telegraf/build_daemon.sh
+${jbase}/ntfy/build_server.sh
 
-${debmods}/apt_update_upgrade_slay.sh
+${cluster}/core/apt_update_upgrade_slay.sh
 
-sudo reboot
+echo "${YAY_GRN}=== Build complete"
+if [[ "$(read -rp 'Reboot? [y/n] ' yn; echo "$yn")" =~ ^[Yy]$ ]]; then
+    echo "${ADA_PLUM}=== Rebooting"
+    sudo reboot
+fi

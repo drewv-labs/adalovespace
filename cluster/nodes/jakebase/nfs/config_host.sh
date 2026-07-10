@@ -5,6 +5,7 @@ source ada-preflight "${BASH_SOURCE[0]}"
 service_user_dir="/home/${ADA_USER}"
 if [[ ! -e ${service_user_dir}/adalovespace ]]; then
     echo "${ERR_RED}FATAL: ${service_user_dir}/adalovespace does not exist"
+    echo "Please clone from GitHub and try again... or just go outside and look at stars..."
     exit 1
 fi
 

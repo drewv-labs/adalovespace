@@ -14,7 +14,7 @@ sudo chmod 0440 "${sudoers_file}"
 
 # 3. Validate the syntax safely before completing the build
 if ! sudo visudo -cf "${sudoers_file}"; then
-    echo "CRITICAL ERROR: Malformed sudoers syntax detected! Removing file to prevent system lockout."
+    echo "${ERR_RED}CRITICAL ERROR: Malformed sudoers syntax detected! Removing file to prevent system lockout."
     sudo rm -f "${sudoers_file}"
     exit 1
 fi

@@ -1,4 +1,4 @@
-#!/bin/bash
-set -euxo pipefail
+# #!/bin/bash
+# set -euxo pipefail
 
-source $1
+# source $1

@@ -1,5 +1,5 @@
 #!/bin/bash
-# AdaLovespace Preflight Optional — Env loader only (no root check)
+# AdaLovespace Preflight No SUDO Check — Env loader only (no root check)
 #
 # Usage: source ada-preflight-optional "${BASH_SOURCE[0]}"
 # Use when root access is not required (e.g., dev environments).
@@ -9,7 +9,7 @@
 _find_ada_root() {
     local input_path="$1"
     if [[ ! -e "$input_path" ]]; then
-        echo "${ERR_RED}FATAL: [ada-preflight-optional] Input path does not exist: ${input_path}" >&2
+        echo "FATAL: [ada-preflight-optional] Input path does not exist: ${input_path}" >&2
         return 1
     fi
 
@@ -22,7 +22,7 @@ _find_ada_root() {
         cur="$(dirname "$cur")"
     done
 
-    echo "${ERR_RED}FATAL: [ada-preflight-optional] Could not locate cluster.env from ${input_path}" >&2
+    echo "FATAL: [ada-preflight-optional] Could not locate cluster.env from ${input_path}" >&2
     return 1
 }
 
@@ -33,7 +33,7 @@ _load_env() {
         source "${ADA_ROOT}/${env_file}"
         set -u
     else
-        echo "${ERR_RED}FATAL: [ada-preflight-optional] Could not locate ${env_file} in ${ADA_ROOT}" >&2
+        echo "FATAL: [ada-preflight-optional] Could not locate ${env_file} in ${ADA_ROOT}" >&2
         return 1 2>/dev/null || exit 1
     fi
 }
@@ -43,4 +43,4 @@ export ADA_ROOT
 
 _load_env || exit $?
 
-_ADAPREFLIGHT_LOADED=1
+_ADA_PREFLIGHT_LOADED=1
