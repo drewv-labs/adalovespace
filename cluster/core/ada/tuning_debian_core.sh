@@ -2,8 +2,7 @@
 set -euxo pipefall
 source ada-preflight "${BASH_SOURCE[0]}"
 
-root_dir="$(find_ada_root ${BASH_SOURCE[0]})"
-core_dir="${root_dir}/cluster/core"
+core_dir="${ADA_ROOT}/cluster/core"
 ada_dir="${core_dir}/ada"
 deb_dir="${core_dir}/debian"
 

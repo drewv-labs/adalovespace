@@ -2,7 +2,7 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-echo "=== Installing Telegraf..."
+echo "${ADA_BLU1}=== Installing Telegraf..."
 
 # Debian Bookworm includes Telegraf in its default apt mirrors,
 # the upstream InfluxData repository contains critical

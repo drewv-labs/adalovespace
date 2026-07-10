@@ -2,7 +2,7 @@
 set -euxo pipefail
 source ada-preflight ${BASH_SOURCE[0]}
 
-echo "=== Configuring JakeBase PostgreSQL Host Tables"
+echo "${ADA_BLU1}=== Configuring JakeBase PostgreSQL Host Tables"
 {
     cat << EOF
 \c ${PSQL_DB_NAME};

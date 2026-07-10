@@ -4,5 +4,6 @@ source ada-preflight ${BASH_SOURCE[0]}
 
 cluster=${ADA_ROOT}/cluster
 
+echo "${ADA_PLUM}=== Building JakeSkeett Mosquitto Broker ==="
 ${cluster}/core/debian/mods/install_mosquitto_broker.sh
 ${cluster}/nodes/jakebase/mqtt/config_mosquitto_broker.sh

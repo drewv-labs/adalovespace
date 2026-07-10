@@ -8,23 +8,21 @@
 set -euo pipefall
 source ada-preflight "${BASH_SOURCE[0]}"
 
-service_user="ada"
-admin_user="drew"
-home_dir="/home/${service_user}"
-app_dir="/opt/ada"
+home_dir="/home/${ADA_USER}"
 log_dir="/var/log/ada"
+echo "${ADA_BLU1}=== Setting up ${ADA_USER} service user"
 
-echo "--> 1. Creating ${service_user} user and group..."
+echo "${ADA_GRAY}--> 1. Creating ${ADA_USER} user and group..."
 # Create user with a valid home directory (needed for Python venvs/configs)
 # but assign /bin/bash for systemd execution context.
-if id "${service_user}" &>/dev/null; then
-  echo "User ${service_user} already exists. Skipping creation."
+if id "${ADA_USER}" &>/dev/null; then
+  echo "User ${ADA_USER} already exists. Skipping creation."
 else
-  useradd --create-home --home-dir "${home_dir}" --shell /bin/bash "${service_user}"
-  echo "Created user: ${service_user}"
+  useradd --create-home --home-dir "${home_dir}" --shell /bin/bash "${ADA_USER}"
+  echo "Created user: ${ADA_USER}"
 fi
 
-echo "--> 2. Assigning ${service_user} to hardware groups..."
+echo "${ADA_GRAY}--> 2. Assigning ${ADA_USER} to hardware groups..."
 # Standard Debian hardware groups for astrophotography & edge computing
 # (serial ports, USB cameras, GPIO pins, video devices, audio/I2C/SPI if present)
 hardware_groups="dialout,video,plugdev,tty"
@@ -36,32 +34,32 @@ for opt_group in gpio i2c spi audio input; do
   fi
 done
 
-usermod -a -G "${hardware_groups}" "${service_user}"
-echo "Assigned ${service_user} to groups: ${hardware_groups}"
+usermod -a -G "${hardware_groups}" "${ADA_USER}"
+echo "Assigned ${ADA_USER} to groups: ${hardware_groups}"
 
-echo "--> 3. Configuring collaborative group permissions..."
-# Add the admin user ('drew') to the 'ada' group so you can manage files
-if id "${admin_user}" &>/dev/null; then
-  usermod -a -G "${service_user}" "${admin_user}"
-  echo "Added ${admin_user} to the '${service_user}' group for shared workspace access."
+echo "${ADA_GRAY}--> 3. Configuring collaborative group permissions..."
+# Add the admin user to the 'ada' group so you can manage files
+if id "${ADA_ADMN}" &>/dev/null; then
+  usermod -a -G "${ADA_USER}" "${ADA_ADMN}"
+  echo "Added ${ADA_ADMN} to the '${ADA_USER}' group for shared workspace access."
 else
-  echo "Warning: Admin user '${admin_user}' not found. Skipping group join."
+  echo "Warning: Admin user '${ADA_ADMN}' not found. Skipping group join."
 fi
 
-echo "--> 4. Provisioning directory structure and applying SetGID magic..."
+echo "${ADA_GRAY}--> 4. Provisioning directory structure and applying SetGID magic..."
 # Create application and log directories
-mkdir -p "${app_dir}" "${log_dir}"
+mkdir -p "${ADA_ROOT}" "${log_dir}"
 
 # Set ownership: root owner, 'ada' group
-chown -R root:"${service_user}" "${app_dir}" "${log_dir}"
+chown -R root:"${ADA_USER}" "${ADA_ROOT}" "${log_dir}"
 
 # Set permissions: 2775 (rwxrwsr-x)
 # The '2' is the SetGID bit: any new file created in these folders automatically
 # inherits the 'ada' group, preventing permission lockouts between drew and ada!
-chmod -R 2775 "${app_dir}" "${log_dir}"
+chmod -R 2775 "${ADA_ROOT}" "${log_dir}"
 
 # Ensure standard secure permissions on the service user's home directory
-chown -R "${service_user}:${service_user}" "${home_dir}"
+chown -R "${ADA_USER}:${ADA_USER}" "${home_dir}"
 chmod 750 "${home_dir}"
 
-echo "--> Provisioning complete! Structure ready for deployment."
+echo "${YAY_GRN}--> Provisioning complete! Structure ready for deployment."

@@ -9,7 +9,7 @@
 _find_ada_root() {
     local input_path="$1"
     if [[ ! -e "$input_path" ]]; then
-        echo "FATAL: [ada-preflight-optional] Input path does not exist: ${input_path}" >&2
+        echo "${ERR_RED}FATAL: [ada-preflight-optional] Input path does not exist: ${input_path}" >&2
         return 1
     fi
 
@@ -22,7 +22,7 @@ _find_ada_root() {
         cur="$(dirname "$cur")"
     done
 
-    echo "FATAL: [ada-preflight-optional] Could not locate cluster.env from ${input_path}" >&2
+    echo "${ERR_RED}FATAL: [ada-preflight-optional] Could not locate cluster.env from ${input_path}" >&2
     return 1
 }
 
@@ -33,7 +33,7 @@ _load_env() {
         source "${ADA_ROOT}/${env_file}"
         set -u
     else
-        echo "FATAL: [ada-preflight-optional] Could not locate ${env_file} in ${ADA_ROOT}" >&2
+        echo "${ERR_RED}FATAL: [ada-preflight-optional] Could not locate ${env_file} in ${ADA_ROOT}" >&2
         return 1 2>/dev/null || exit 1
     fi
 }

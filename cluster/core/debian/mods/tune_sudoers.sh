@@ -2,13 +2,12 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-target_user="drew"
-sudoers_file="/etc/sudoers.d/010_${target_user}_nopasswd"
+sudoers_file="/etc/sudoers.d/010_${ADA_ADMN}_nopasswd"
 
-echo "=== Configuring passwordless sudo for ${target_user} ==="
+echo "${ADA_BLU1}=== Configuring passwordless sudo for ${ADA_ADMN} ==="
 
 # 1. Write the rule atomically into the drop-in directory
-echo "${target_user} ALL=(ALL) NOPASSWD: ALL" | sudo tee "${sudoers_file}" > /dev/null
+echo "${ADA_ADMN} ALL=(ALL) NOPASSWD: ALL" | sudo tee "${sudoers_file}" > /dev/null
 
 # 2. Enforce strict permissions (Must be 0440 or sudo will reject it)
 sudo chmod 0440 "${sudoers_file}"

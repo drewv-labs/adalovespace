@@ -2,7 +2,7 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-echo "=== Disabling Unattended Upgrades Service"
+echo "${ADA_BLU1}=== Disabling Unattended Upgrades Service"
 
 sudo systemctl disable --now unattended-upgrades.service
 sudo systemctl disable --now apt-daily.timer

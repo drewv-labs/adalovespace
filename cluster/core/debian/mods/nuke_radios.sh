@@ -2,7 +2,7 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-echo "=== Nuking Bluetooth and Wi-Fi Radios"
+echo "${ADA_BLU1}=== Nuking Bluetooth and Wi-Fi Radios"
 
 sudo systemctl disable --now bluetooth.service
 sudo systemctl disable --now wpa_supplicant.service

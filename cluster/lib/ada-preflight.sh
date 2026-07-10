@@ -9,7 +9,7 @@
 
 _check_root() {
     if [[ "${EUID}" -ne 0 ]]; then
-        echo "FATAL: [ada-preflight] This script must run as root (EUID=$(id -u))." >&2
+        echo "${ERR_RED}FATAL: [ada-preflight] This script must run as root (EUID=$(id -u))." >&2
         return 1 2>/dev/null || exit 1
     fi
 }
@@ -17,7 +17,7 @@ _check_root() {
 _find_ada_root() {
     local input_path="$1"
     if [[ ! -e "$input_path" ]]; then
-        echo "FATAL: [ada-preflight] Input path does not exist: ${input_path}" >&2
+        echo "${ERR_RED}FATAL: [ada-preflight] Input path does not exist: ${input_path}" >&2
         return 1
     fi
 
@@ -30,7 +30,7 @@ _find_ada_root() {
         cur="$(dirname "$cur")"
     done
 
-    echo "FATAL: [ada-preflight] Could not locate cluster.env from ${input_path}" >&2
+    echo "${ERR_RED}FATAL: [ada-preflight] Could not locate cluster.env from ${input_path}" >&2
     return 1
 }
 
@@ -41,7 +41,7 @@ _load_env() {
         source "${ADA_ROOT}/${env_file}"
         set -u
     else
-        echo "FATAL: [ada-preflight] Could not locate ${env_file} in ${ADA_ROOT}" >&2
+        echo "${ERR_RED}FATAL: [ada-preflight] Could not locate ${env_file} in ${ADA_ROOT}" >&2
         return 1 2>/dev/null || exit 1
     fi
 }

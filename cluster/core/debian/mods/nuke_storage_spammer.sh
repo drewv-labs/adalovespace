@@ -2,7 +2,7 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-echo "=== Purging Storage Spammer"
+echo "${ADA_BLU1}=== Purging Storage Spammer"
 sudo systemctl disable --now multipathd.service multipathd.socket
 sudo apt purge multipath-tools -y
 echo ""

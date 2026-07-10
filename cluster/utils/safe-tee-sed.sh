@@ -18,7 +18,7 @@ data="${3:?usage: safe-tee-sed TARGET PATTERN DATA [SUDO]}"
 use_sudo="${4:-no}"
 
 if [ ! -f "$target" ]; then
-    echo "FATAL: [safe-tee-sed] Target file not found: $target" >&2
+    echo "${ADA_RED}FATAL: [safe-tee-sed] Target file not found: $target" >&2
     exit 1
 fi
 
@@ -26,12 +26,12 @@ fi
 
 if grep -q -- "$pattern" "$target"; then
     if ! $sudo_cmd sed -i "/${pattern}/c\\${data}" "$target"; then
-        echo "FATAL: [safe-tee-sed] sed failed for pattern '$pattern' in $target" >&2
+        echo "${ADA_RED}FATAL: [safe-tee-sed] sed failed for pattern '$pattern' in $target" >&2
         exit 1
     fi
 else
     if ! printf '%s\n' "$data" | $sudo_cmd tee -a "$target" >/dev/null; then
-        echo "FATAL: [safe-tee-sed] tee failed for $target" >&2
+        echo "${ADA_RED}FATAL: [safe-tee-sed] tee failed for $target" >&2
         exit 1
     fi
 fi
