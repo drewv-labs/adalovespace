@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Takes in a node name and path to cluster.env, then generates a hardcoded client bootstrapper script.
 # SCP the generated script to the client node and execute it to bootstrap the respective node.
 

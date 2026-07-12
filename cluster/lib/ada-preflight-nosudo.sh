@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # AdaLovespace Preflight No SUDO Check — Env loader only (no root check)
 #
 # Usage: source ada-preflight-optional "${BASH_SOURCE[0]}"

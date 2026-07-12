@@ -2,4 +2,5 @@
 
 .venv
 .deb
+.tmp
 cluster.conf

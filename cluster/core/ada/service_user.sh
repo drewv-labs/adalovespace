@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # ==============================================================================
 # Script: setup_ada_service_user.sh
 # Purpose: Provision the 'ada' runtime service user and configure shared access

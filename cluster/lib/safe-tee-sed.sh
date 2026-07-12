@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # safe-tee-sed — Idempotent config update via sed replace or tee append.
 #
 # Usage:

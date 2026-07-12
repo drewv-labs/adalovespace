@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euxo pipefall
 source ada-preflight "${BASH_SOURCE[0]}"
 

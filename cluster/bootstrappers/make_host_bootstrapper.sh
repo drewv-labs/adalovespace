@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # Takes in a path to cluster.env, then generates a hardcoded host bootstrapper script for JakeBase Node.
 
 if [ -z "$1" ]; then

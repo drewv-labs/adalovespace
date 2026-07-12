@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # This script disables various services and
 # tweaks settings to optimize power usage on a Debian-based system.
 

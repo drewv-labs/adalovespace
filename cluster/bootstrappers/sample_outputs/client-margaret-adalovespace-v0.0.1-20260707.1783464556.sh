@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 # This buildscript was generated at $(date)
 set -euxo pipefail
 

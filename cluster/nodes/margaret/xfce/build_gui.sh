@@ -1,4 +1,4 @@
-#!/bin/bash
+#!/usr/bin/env bash
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
