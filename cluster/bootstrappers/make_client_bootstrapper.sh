@@ -2,7 +2,11 @@
 # Takes in a node name and path to cluster.env, then generates a hardcoded client bootstrapper script.
 # SCP the generated script to the client node and execute it to bootstrap the respective node.
 
-# Check if the node argument is provided
+if [ -z "$1" ]; then
+    echo "Usage: $0 <node> </path/to/cluster.env>"
+    exit 1
+fi
+
 if [ -z "$2" ]; then
     echo "Usage: $0 <node> </path/to/cluster.env>"
     exit 1
@@ -11,16 +15,29 @@ fi
 node=$1
 cluster_env=$2
 
-if [[ -f "$cluster_env" ]]; then
-    source $cluster_env
-else
+if [[ ! -f "$cluster_env" ]]; then
     echo "Error: $cluster_env not found"
     exit 1
 fi
 
-output_file="~/Downloads/client-${node}-adalovespace-v${ADA_VERSION}-$(date +"%Y%m%d.%s").sh"
+source $cluster_env
 
-tee -a $output_file << EOF
+# Ensure required environment variables are set
+required_vars=("ADA_VERSION" "NFS_CODE" "NFS_HOST" "ADA_CODESPACE")
+for var in "${required_vars[@]}"; do
+    if [[ -z "${!var}" ]]; then
+        echo "Error: Required variable $var is not set in $cluster_env"
+        exit 1
+    fi
+done
+
+output_dir="${BOOTSTRAPPER_OUTPUT_DIR:-~/Downloads}"
+mkdir -p "$output_dir"
+
+timestamp=$(date +"%Y%m%d.%s")
+output_file="$output_dir/client-${node}-adalovespace-v${ADA_VERSION}-${timestamp}.sh"
+
+tee $output_file << EOF
 #!/bin/bash
 # This buildscript was generated at $(date)
 set -euxo pipefail
@@ -32,7 +49,6 @@ if ! mountpoint -q "${NFS_CODE}"; then
 fi
 
 # 2. Synchronize Code to Local Solid-State Runtime Mirror
-# This is blistering fast and detaches runtime execution from network I/O
 sudo mkdir -p "${ADA_CODESPACE}"
 sudo rsync -aq --delete --progress "${NFS_CODE}/adalovespace/" "${ADA_CODESPACE}"
 echo "Bootstrapper cloned from JakeBaseNFS"
@@ -43,8 +59,10 @@ sudo ln -s ${ADA_CODESPACE}/cluster/lib/ada-preflight-nosudo.sh /usr/local/bin/a
 sudo ln -s ${ADA_CODESPACE}/cluster/lib/safe-tee-sed.sh /usr/local/bin/safe-tee-sed
 
 # 4. Pivot Execution to Local Mirror Context
-# Your scripts run with local IOPS speeds, completely immune to field network drops!
 buildscript="${ADA_CODESPACE}/cluster/nodes/${node}/build_node.sh"
 echo "executing ${buildscript}"
 exec "${buildscript}"
 EOF
+
+chmod +x $output_file
+echo "Generated bootstrapper script: $output_file"
