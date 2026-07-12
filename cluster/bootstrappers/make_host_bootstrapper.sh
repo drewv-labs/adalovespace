@@ -22,7 +22,7 @@ timestamp=$(date +"%Y%m%d.%s")
 output_file="$output_dir/client-${node}-adalovespace-v${ADA_VERSION}-${timestamp}.sh"
 
 tee $output_file << EOF
-#!/bin/bash
+#!/usr/bin/env bash
 # This buildscript was generated at $(date)
 set -euxo pipefail
 
