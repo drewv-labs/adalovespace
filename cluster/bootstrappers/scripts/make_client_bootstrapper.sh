@@ -24,7 +24,6 @@ if [[ ! -d "${ADA_CLUSTER}/nodes/${node}" ]]; then
 fi
 
 output_dir="${BOOTSTRAPPER_OUTPUT_DIR:-${HOME}/Downloads}"
-echo "output_dir=<${output_dir}>"
 mkdir -p "$output_dir"
 
 output_file="$output_dir/adalovespace_v${ADA_VERSION}-${node}-bootstrapper-$(date +"%Y%m%d_%s").sh"
