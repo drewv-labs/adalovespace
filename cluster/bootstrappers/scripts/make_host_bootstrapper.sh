@@ -26,8 +26,8 @@ tee "$output_file" > /dev/null << EOF
 set -euxo pipefail
 
 # 1. Clone Code to Local Solid-State Runtime Mirror
-sudo mkdir -p "${ADA_CODESPACE}"
 git clone --depth 1 https://github.com/adalovespace/adalovespace.git "${ADA_CODESPACE}"
+sudo chmod -R +x "${ADA_CODESPACE}"
 
 # 2. Soft link libs and utils
 for macro in "${ADA_CODESPACE}"/cluster/lib/*.sh; do
