@@ -2,7 +2,7 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-echo "${ADA_PLUM}=== Configuring Passwordless Login for User=${ADA_ADMN}"
+ada-log "mod" "=== Configuring Passwordless Login for User=${ADA_ADMN}"
 
 sudo groupadd -r nopasswdlogin
 sudo gpasswd -a ${ADA_ADMN} nopasswdlogin
@@ -14,4 +14,4 @@ sudo tee -a /etc/lightdm/lightdm.conf | cat << EOF
     user-session=xfce
 EOF
 
-echo "${YAY_GRN}=== Passwordless Login Configured for User=${ADA_ADMN}\n"
+ada-log "yay" "=== Passwordless Login Configured for User=${ADA_ADMN}\n"

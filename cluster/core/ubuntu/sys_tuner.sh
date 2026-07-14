@@ -2,11 +2,11 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-cluser_core=${ADA_ROOT}/cluster/core
+core=${ADA_CLUSTER}/core
 
-echo "${ADA_BLU2}=== Ubuntu Sys Tuner"
+ada-log "sys" "=== Ubuntu System Tuner"
 
-${cluser_core}/debian/sys_tuner.sh
+${core}/debian/sys_tuner.sh "$@"
 
-${cluser_core}/ubuntu/mods/nuke_cloud_bloat.sh
-${cluser_core}/ubuntu/mods/nuke_snap.sh
+${core}/ubuntu/mods/nuke_cloud_bloat.sh
+${core}/ubuntu/mods/nuke_snap.sh

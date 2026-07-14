@@ -22,20 +22,11 @@ fi
 
 source $cluster_env
 
-# Ensure required environment variables are set
-required_vars=("ADA_VERSION" "NFS_CODE" "NFS_HOST" "ADA_CODESPACE")
-for var in "${required_vars[@]}"; do
-    if [[ -z "${!var}" ]]; then
-        echo "Error: Required variable $var is not set in $cluster_env"
-        exit 1
-    fi
-done
 
 output_dir="${BOOTSTRAPPER_OUTPUT_DIR:-~/Downloads}"
 mkdir -p "$output_dir"
 
-timestamp=$(date +"%Y%m%d.%s")
-output_file="$output_dir/client-${node}-adalovespace-v${ADA_VERSION}-${timestamp}.sh"
+output_file="$output_dir/adalovespace_v${ADA_VERSION}-${node}-bootstrapper-$(date +"%Y%m%d_%s").sh"
 
 tee $output_file << EOF
 #!/usr/bin/env bash
@@ -54,8 +45,10 @@ sudo rsync -aq --delete --progress "${NFS_CODE}/adalovespace/" "${ADA_CODESPACE}
 echo "Bootstrapper cloned from JakeBaseNFS"
 
 # 3. Soft link libs and utils
+sudo ln -s ${ADA_CODESPACE}/cluster/lib/ada-log.sh /usr/local/bin/ada-log
 sudo ln -s ${ADA_CODESPACE}/cluster/lib/ada-preflight.sh /usr/local/bin/ada-preflight
 sudo ln -s ${ADA_CODESPACE}/cluster/lib/ada-preflight-nosudo.sh /usr/local/bin/ada-preflight-nosudo
+sudo ln -s ${ADA_CODESPACE}/cluster/lib/arg-switches.sh /usr/local/bin/arg-switches
 sudo ln -s ${ADA_CODESPACE}/cluster/lib/safe-tee-sed.sh /usr/local/bin/safe-tee-sed
 
 # 4. Pivot Execution to Local Mirror Context

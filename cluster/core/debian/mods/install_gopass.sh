@@ -2,7 +2,7 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-echo "${ADA_BLU1}=== Installing Gopass Keychain"
+ada-log "mod" "=== Installing Gopass Keychain"
 
 sudo apt install -y gopass
 mkdir -p ~/.local/share/gopass/stores/root

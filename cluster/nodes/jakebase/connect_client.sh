@@ -4,7 +4,7 @@ source ada-preflight "${BASH_SOURCE[0]}"
 
 # Check if the script received an argument
 if [ $# -eq 0 ]; then
-    echo "${ERR_RED}Expecting NFS mode arg; e.g. 'root', 'share', 'code', 'wheelhouse'"
+    ada-log "oof" "Expecting NFS mode arg; e.g. 'root', 'share', 'code', 'wheelhouse'"
     exit 1
 fi
 
@@ -38,11 +38,12 @@ case "$suffix_upper" in
         ;;
 esac
 
-echo "${ADA_PLUM}=== Connecting JakeBase NFS as Client"
+ada-log "app" "=== Connecting JakeBase NFS as Client"
 
 sudo mkdir -p "$nfs_dir"
 safe-tee-sed "/etc/fstab" "^${nfs_dir}" "${NFS_HOST}:${nfs_dir} ${nfs_dir} nfs rw,sync,no_subtree_check,all_squash,insecure 0 0" "yes"
 
 sudo systemctl daemon-reload
 sudo mount -a
+
 echo ""

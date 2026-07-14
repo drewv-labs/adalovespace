@@ -4,12 +4,11 @@ source ada-preflight "${BASH_SOURCE[0]}"
 
 service_user_dir="/home/${ADA_USER}"
 if [[ ! -e ${service_user_dir}/adalovespace ]]; then
-    echo "${ERR_RED}FATAL: ${service_user_dir}/adalovespace does not exist"
-    echo "Please clone from GitHub and try again... or just go outside and look at stars..."
+    ada-log "oof" "FATAL: ${service_user_dir}/adalovespace does not exist"
     exit 1
 fi
 
-echo "${ADA_BLU1}=== Configuring JakeBase NFS Host"
+ada-log "mod" "=== Configuring JakeBase NFS Host"
 
 sudo mkdir -p "${NFS_ROOT}"
 sudo chown nobody:nogroup "${NFS_ROOT}"
@@ -20,4 +19,5 @@ sudo exportfs -a
 sudo systemctl restart nfs-kernel-server
 
 sudo ln -s /home/${ADA_USER}/adalovespace "${NFS_CODE}/adalovespace"
+
 echo ""

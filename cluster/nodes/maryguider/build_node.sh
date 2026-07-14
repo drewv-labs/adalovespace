@@ -7,7 +7,6 @@ if [ "$(id -u)" -ne 0 ]; then
     exit 1
 fi
 
-sudo apt update -y
 sudo apt install dphys-swapfile -y
 sudo apt install git -y
 sudo apt install build-essential -y

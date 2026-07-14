@@ -2,7 +2,7 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-echo "${ADA_BLU1}=== Installing PostgreSQL"
+ada-log "mod" "=== Installing PostgreSQL"
 
 sudo apt install postgresql postgresql-contrib -y
 echo ""

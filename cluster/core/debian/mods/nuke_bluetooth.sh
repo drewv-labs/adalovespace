@@ -1,0 +1,11 @@
+#!/usr/bin/env bash
+set -euxo pipefail
+source ada-preflight "${BASH_SOURCE[0]}"
+
+ada-log "mod" "=== Nuking Bluetooth Radios"
+
+sudo systemctl disable --now bluetooth.service
+sudo apt-mark unhold bluez
+sudo apt purge bluez
+
+echo ""
