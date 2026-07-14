@@ -4,7 +4,7 @@ source ada-preflight ${BASH_SOURCE[0]}
 
 target_conf="/etc/telegraf/telegraf.conf"
 
-echo "${ADA_BLU1}=== Generating Dynamic Telegraf Schema Mappings ==="
+ada-log "mod" "=== Generating Dynamic Telegraf Schema Mappings ==="
 
 # Group the initialization core and template generation into a single execution stream
 {
@@ -74,5 +74,6 @@ EOF
 
 sudo systemctl restart telegraf
 
-echo "${YAY_GRN}=== Ingestion Engine Successfully Provisioned ==="
+ada-log "yay" "=== Ingestion Engine Successfully Provisioned"
+
 echo ""

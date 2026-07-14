@@ -26,7 +26,7 @@ if [[ -n "$LOG_PREFIX" ]]; then
             LOG_COLOR=$ADA_GRAY
             ;;
         *)
-            LOG_COLOR=$ADA_BLU1
+            LOG_COLOR=$ADA_WEIS
             ;;
     esac
 fi

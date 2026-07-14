@@ -4,5 +4,5 @@ source ada-preflight "${BASH_SOURCE[0]}"
 
 ada-log "mod" "=== Installing INDI Web Server"
 
-sudo apt install indiweb
+sudo apt install indi-full -y
 echo ""

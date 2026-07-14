@@ -2,7 +2,7 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-${ADA_CLUSTER}/core/build_core.sh "debian"
+${ADA_CLUSTER}/core/build_core.sh
 
 ada-log "main" "=== Building JakeBase Node"
 

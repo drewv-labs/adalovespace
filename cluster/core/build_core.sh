@@ -21,7 +21,7 @@ ada-log "main" "=== Building ${variant} Core"
 ${core}/ada/prompt_ps1.sh
 ${core}/ada/service_user.sh
 
-${core}/${variant}/sys_tuner.sh
+${core}/${variant}/sys_tuner.sh $@
 ${core}/${variant}/base_installs.sh
 
 ada-log "yay" "=== ${variant} Core Complete!"

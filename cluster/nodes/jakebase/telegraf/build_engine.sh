@@ -7,4 +7,4 @@ cluster=${ADA_ROOT}/cluster
 echo "${ADA_PLUM}=== Building Telegraf Ingestion Engine ==="
 
 ${cluster}/core/debian/mods/install_telegraf.sh
-${cluster}/nodes/jakebase/telegraf/config_daemon.sh
+${cluster}/nodes/jakebase/telegraf/config_engine.sh
