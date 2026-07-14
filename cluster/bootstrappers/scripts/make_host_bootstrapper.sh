@@ -18,7 +18,7 @@ source "$cluster_env"
 output_dir="${BOOTSTRAPPER_OUTPUT_DIR:-${HOME}/Downloads}"
 mkdir -p "$output_dir"
 
-output_file="$output_dir/adalovespace_v${ADA_VERSION}-jakebase-bootstrapper-$(date +"%Y%m%d_%s").sh"
+output_file="$output_dir/adalovespace-jakebase-bootstrapper-v${ADA_VERSION}.sh"
 
 tee "$output_file" > /dev/null << EOF
 #!/usr/bin/env bash
@@ -26,7 +26,8 @@ tee "$output_file" > /dev/null << EOF
 set -euxo pipefail
 
 # 1. Clone Code to Local Solid-State Runtime Mirror
-git clone --depth 1 https://github.com/adalovespace/adalovespace.git "${ADA_CODESPACE}"
+git clone --depth 1 https://github.com/dvandagriff/adalovespace.git "${HOME}"
+sudo ln -sf "${HOME}/adalovespace" "${ADA_CODESPACE}"
 sudo chmod -R +x "${ADA_CODESPACE}"
 
 # 2. Soft link libs and utils

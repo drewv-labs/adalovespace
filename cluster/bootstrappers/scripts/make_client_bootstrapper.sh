@@ -26,7 +26,7 @@ fi
 output_dir="${BOOTSTRAPPER_OUTPUT_DIR:-${HOME}/Downloads}"
 mkdir -p "$output_dir"
 
-output_file="$output_dir/adalovespace_v${ADA_VERSION}-${node}-bootstrapper-$(date +"%Y%m%d_%s").sh"
+output_file="$output_dir/adalovespace-${node}-bootstrapper-v${ADA_VERSION}.sh"
 
 tee "$output_file" > /dev/null << EOF
 #!/usr/bin/env bash
