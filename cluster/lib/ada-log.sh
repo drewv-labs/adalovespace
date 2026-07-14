@@ -36,7 +36,7 @@ message="[$(hostname)]:${LOG_PREFIX} $timestamp $2"
 LOG_FILE="${3:-}"
 
 if [[ -n "$LOG_FILE" ]]; then
-    tee -a "$LOG_FILE" <<< "${LOG_COLOR}${message}"
+    tee -a "$LOG_FILE" <<< "${LOG_COLOR}${message}${ADA_RSET}"
 else
-    tee <<< "${LOG_COLOR}${message}"
+    tee <<< "${LOG_COLOR}${message}${ADA_RSET}"
 fi

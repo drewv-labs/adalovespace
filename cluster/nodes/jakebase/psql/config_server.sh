@@ -34,7 +34,7 @@ CREATE INDEX IF NOT EXISTS idx_${TOPIC}_time ON ${TBL}(${PSQL_MQTT_TIMESTAMP_FLD
 EOF
 done
 
-for TOPIC in ${MQTT_TOPICS}; do
+for TOPIC in ${MQTT_SUB_TOPICS}; do
     TBL="${TOPIC}.${PSQL_TBL_NAME}"
     cat << EOF | sudo psql -U postgres > /dev/null
 

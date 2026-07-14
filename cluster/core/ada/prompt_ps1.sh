@@ -6,6 +6,6 @@ ada-log "sys" "=== Setting up Ada's Custom Prompt"
 
 target="/etc/bash.bashrc"
 pattern="export PS1="
-data="${pattern}'\[${ADA_BLU2}\]\u\[${ADA_PLUM}\]<3\[${ADA_BLU1}\][\w] \[${ADA_GRAY}\]\$ \[\e[0m\]'"
+data="export PS1='\[\e[38;5;27m\]\u\[\e[38;5;53m\]<3\[\e[38;5;39m\][\w] \[\e[38;5;240m\]\$ \[\e[0m\]'"
 
 safe-tee-sed "$target" "$pattern" "$data" "yes"
