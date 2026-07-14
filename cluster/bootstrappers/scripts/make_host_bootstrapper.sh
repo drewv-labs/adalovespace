@@ -6,21 +6,21 @@ if [ -z "$1" ]; then
     exit 1
 fi
 
-cluster_env=$1
+cluster_env="$1"
 
 if [[ ! -f "$cluster_env" ]]; then
     echo "Error: $cluster_env not found"
     exit 1
 fi
 
-source $cluster_env
+source "$cluster_env"
 
 output_dir="${BOOTSTRAPPER_OUTPUT_DIR:-${HOME}/Downloads}"
 mkdir -p "$output_dir"
 
 output_file="$output_dir/adalovespace_v${ADA_VERSION}-jakebase-bootstrapper-$(date +"%Y%m%d_%s").sh"
 
-tee $output_file > /dev/null << EOF
+tee "$output_file" > /dev/null << EOF
 #!/usr/bin/env bash
 # This buildscript was generated at $(date)
 set -euxo pipefail
@@ -40,5 +40,5 @@ echo "executing ${buildscript}"
 exec "${buildscript}"
 EOF
 
-chmod +x $output_file
+chmod +x "$output_file"
 echo "Generated bootstrapper script: $output_file"
