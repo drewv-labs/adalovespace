@@ -5,7 +5,7 @@ source ada-preflight "${BASH_SOURCE[0]}"
 ada-log "mod" "=== Compiling PHD2 Guiding Engine"
 
 ada-log "debug" "---> Making 2gb swap space"
-/etc/dphys-swapfile CONF_SWAPSIZE=2048
+safe-tee-sed /etc/dphys-swapfile CONF_SWAPSIZE CONF_SWAPSIZE=2048 yes
 sudo systemctl restart dphys-swapfile
 
 ada-log "debug" "---> Cloning PHD2 repository"
@@ -22,5 +22,8 @@ sudo make install
 ada-log "yay" "---> Compilation complete"
 
 ada-log "debug" "---> Swap space back to 100mb"
-/etc/dphys-swapfile CONF_SWAPSIZE=100
+safe-tee-sed /etc/dphys-swapfile CONF_SWAPSIZE CONF_SWAPSIZE=100 yes
+
+ada-log "yay" "=== PHD2 Guiding Engine Compiled Successfully"
+
 sudo systemctl restart dphys-swapfile

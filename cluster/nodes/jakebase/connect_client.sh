@@ -20,12 +20,16 @@ case "$suffix_upper" in
         nfs_dir=${NFS_ROOT}
         ;;
 
-    "SHARE")
-        nfs_dir=${NFS_SHARE}
-        ;;
-
     "CODE")
         nfs_dir=${NFS_CODE}
+        ;;
+
+    "LOGS")
+        nfs_dir=${NFS_LOGS}
+        ;;
+
+    "SHARE")
+        nfs_dir=${NFS_SHARE}
         ;;
 
     "WHEELHOUSE")
@@ -33,7 +37,7 @@ case "$suffix_upper" in
         ;;
 
     *)
-        echo "${ERR_RED}Unknown type: ${suffix}"
+        ada-log "oof" "Unknown type: ${suffix}"
         exit 1
         ;;
 esac

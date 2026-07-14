@@ -2,22 +2,27 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-service_user_dir="/home/${ADA_USER}"
-if [[ ! -e ${service_user_dir}/adalovespace ]]; then
-    ada-log "oof" "FATAL: ${service_user_dir}/adalovespace does not exist"
+if [[ ! -e "${ADA_CODESPACE}" ]]; then
+    ada-log "oof" "FATAL: '${ADA_CODESPACE}' does not exist"
     exit 1
 fi
 
 ada-log "mod" "=== Configuring JakeBase NFS Host"
 
 sudo mkdir -p "${NFS_ROOT}"
-sudo chown nobody:nogroup "${NFS_ROOT}"
-sudo chmod 777 "${NFS_ROOT}"
+sudo mkdir -p "${NFS_CODE}"
+sudo mkdir -p "${NFS_LOGS}"
+sudo mkdir -p "${NFS_SHARE}"
+sudo mkdir -p "${NFS_WHEELHOUSE}"
+
+sudo ln -s "${ADA_CODESPACE}" "${NFS_CODE}/adalovespace"
+
+sudo chown -R nobody:nogroup "${NFS_ROOT}"
+sudo chmod -R 777 "${NFS_ROOT}"
+
 safe-tee-sed "/etc/exports" "^${NFS_ROOT}" "${NFS_ROOT} *(rw,sync,no_subtree_check,all_squash,insecure)" "yes"
 
 sudo exportfs -a
 sudo systemctl restart nfs-kernel-server
-
-sudo ln -s /home/${ADA_USER}/adalovespace "${NFS_CODE}/adalovespace"
 
 echo ""

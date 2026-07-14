@@ -13,7 +13,8 @@ ${node}/phd2/build_engine.sh
 ${ADA_CLUSTER}/core/apt_update_upgrade_slay.sh
 
 ada-log "yay" "=== MaryGuider build complete and ready to reboot"
-if [[ "$(read -rp 'Reboot? [y/n] ' yn; echo "$yn")" =~ ^[Yy]$ ]]; then
+echo -n "Reboot? [y/n] " && read yn
+if [[ "$yn" =~ ^[Yy]$ ]]; then
     ada-log "main" "=== Rebooting"
     sudo reboot
 fi

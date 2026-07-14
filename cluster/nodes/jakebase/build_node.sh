@@ -16,7 +16,8 @@ ${jake}/telegraf/build_engine.sh
 ${ADA_CLUSTER}/core/apt_update_upgrade_slay.sh
 
 ada-log "yay" "=== Build complete"
-if [[ "$(read -rp 'Reboot? [y/n] ' yn; echo "$yn")" =~ ^[Yy]$ ]]; then
+echo -n "Reboot? [y/n] " && read yn
+if [[ "$yn" =~ ^[Yy]$ ]]; then
     ada-log "main" "=== Rebooting"
     sudo reboot
 fi

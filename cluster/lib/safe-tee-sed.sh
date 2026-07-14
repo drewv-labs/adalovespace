@@ -10,7 +10,7 @@
 #
 # Exit codes: 0 = success, 1 = failure (target missing or command failed)
 
-set -euo pipefail
+set -euxo pipefail
 
 target="${1:?usage: safe-tee-sed TARGET PATTERN DATA [SUDO]}"
 pattern="${2:?usage: safe-tee-sed TARGET PATTERN DATA [SUDO]}"
@@ -18,7 +18,7 @@ data="${3:?usage: safe-tee-sed TARGET PATTERN DATA [SUDO]}"
 use_sudo="${4:-no}"
 
 if [ ! -f "$target" ]; then
-    echo "${ADA_RED}FATAL: [safe-tee-sed] Target file not found: $target" >&2
+    ada-log "oof" "FATAL: [safe-tee-sed] Target file not found: $target"
     exit 1
 fi
 
@@ -49,12 +49,12 @@ safe_delim=$(find_safe_delimiter "$pattern" "$data")
 
 if grep -qF -- "$pattern" "$target"; then
     if ! $sudo_cmd sed -i "${safe_delim}${pattern}${safe_delim}c\\${data}${safe_delim}" "$target"; then
-        echo "${ADA_RED}FATAL: [safe-tee-sed] sed failed for pattern '$pattern' in $target" >&2
+        ada-log "oof" "FATAL: [safe-tee-sed] sed failed for pattern '$pattern' in $target"
         exit 1
     fi
 else
     if ! printf '%s\n' "$data" | $sudo_cmd tee -a "$target" >/dev/null; then
-        echo "${ADA_RED}FATAL: [safe-tee-sed] tee failed for $target" >&2
+        ada-log "oof" "FATAL: [safe-tee-sed] tee failed for $target"
         exit 1
     fi
 fi

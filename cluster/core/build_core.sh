@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euxo pipefall
+set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
 core="${ADA_ROOT}/cluster/core"

@@ -25,26 +25,17 @@ tee $output_file > /dev/null << EOF
 # This buildscript was generated at $(date)
 set -euxo pipefail
 
-# 1. Mount the central file systems from JakeBase if not present
-if ! mountpoint -q "${NFS_CODE}"; then
-    sudo mkdir -p "${NFS_CODE}"
-    sudo mount -t nfs "${NFS_HOST}:${NFS_CODE}" "${NFS_CODE}"
-fi
-
-# 2. Synchronize Code to Local Solid-State Runtime Mirror
+# 1. Clone Code to Local Solid-State Runtime Mirror
 sudo mkdir -p "${ADA_CODESPACE}"
-sudo rsync -aq --delete --progress "${NFS_CODE}/adalovespace/" "${ADA_CODESPACE}"
-echo "Bootstrapper cloned from JakeBaseNFS"
+git clone --depth 1 https://github.com/adalovespace/adalovespace.git "${ADA_CODESPACE}"
 
-# 3. Soft link libs and utils
-sudo ln -s ${ADA_CODESPACE}/cluster/lib/ada-log.sh /usr/local/bin/ada-log
-sudo ln -s ${ADA_CODESPACE}/cluster/lib/ada-preflight.sh /usr/local/bin/ada-preflight
-sudo ln -s ${ADA_CODESPACE}/cluster/lib/ada-preflight-nosudo.sh /usr/local/bin/ada-preflight-nosudo
-sudo ln -s ${ADA_CODESPACE}/cluster/lib/arg-switches.sh /usr/local/bin/arg-switches
-sudo ln -s ${ADA_CODESPACE}/cluster/lib/safe-tee-sed.sh /usr/local/bin/safe-tee-sed
+# 2. Soft link libs and utils
+for macro in "${ADA_CODESPACE}"/cluster/lib/*.sh; do
+    sudo ln -sf "$macro" "/usr/local/bin/${macro%.sh##*/}"
+done
 
-# 4. Pivot Execution to Local Mirror Context
-buildscript="${ADA_CODESPACE}/cluster/nodes/${node}/build_node.sh"
+# 3. Pivot Execution to Local Mirror Context
+buildscript="${ADA_CODESPACE}/cluster/nodes/jakebase/build_node.sh"
 echo "executing ${buildscript}"
 exec "${buildscript}"
 EOF

@@ -15,13 +15,17 @@ fi
 node=$1
 cluster_env=$2
 
+if [[ ! -d "${ADA_CLUSTER}/nodes/$node" ]]; then
+    echo "Error: $node not found"
+    exit 1
+fi
+
 if [[ ! -f "$cluster_env" ]]; then
     echo "Error: $cluster_env not found"
     exit 1
 fi
 
 source $cluster_env
-
 
 output_dir="${BOOTSTRAPPER_OUTPUT_DIR:-${HOME}/Downloads}"
 mkdir -p "$output_dir"
@@ -45,11 +49,9 @@ sudo rsync -aq --delete --progress "${NFS_CODE}/adalovespace/" "${ADA_CODESPACE}
 echo "Bootstrapper cloned from JakeBaseNFS"
 
 # 3. Soft link libs and utils
-sudo ln -s ${ADA_CODESPACE}/cluster/lib/ada-log.sh /usr/local/bin/ada-log
-sudo ln -s ${ADA_CODESPACE}/cluster/lib/ada-preflight.sh /usr/local/bin/ada-preflight
-sudo ln -s ${ADA_CODESPACE}/cluster/lib/ada-preflight-nosudo.sh /usr/local/bin/ada-preflight-nosudo
-sudo ln -s ${ADA_CODESPACE}/cluster/lib/arg-switches.sh /usr/local/bin/arg-switches
-sudo ln -s ${ADA_CODESPACE}/cluster/lib/safe-tee-sed.sh /usr/local/bin/safe-tee-sed
+for macro in "${ADA_CODESPACE}"/cluster/lib/*.sh; do
+    sudo ln -sf "$macro" "/usr/local/bin/${macro%.sh##*/}"
+done
 
 # 4. Pivot Execution to Local Mirror Context
 buildscript="${ADA_CODESPACE}/cluster/nodes/${node}/build_node.sh"

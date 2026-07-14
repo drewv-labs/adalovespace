@@ -15,7 +15,8 @@ ${node}/nomachine/build_service.sh
 ${ADA_CLUSTER}/core/apt_update_upgrade_slay.sh
 
 ada-log "yay" "=== Margaret build complete and ready to reboot"
-if [[ "$(read -rp 'Reboot? [y/n] ' yn; echo "$yn")" =~ ^[Yy]$ ]]; then
+echo -n "Reboot? [y/n] " && read yn
+if [[ "$yn" =~ ^[Yy]$ ]]; then
     ada-log "main" "=== Rebooting"
     sudo reboot
 fi
