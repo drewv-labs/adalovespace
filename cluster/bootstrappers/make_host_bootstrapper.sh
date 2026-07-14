@@ -15,12 +15,12 @@ fi
 
 source $cluster_env
 
-output_dir="${BOOTSTRAPPER_OUTPUT_DIR:-~/Downloads}"
+output_dir="${BOOTSTRAPPER_OUTPUT_DIR:-${HOME}/Downloads}"
 mkdir -p "$output_dir"
 
-output_file="$output_dir/adalovespace_v${ADA_VERSION}-${node}-bootstrapper-$(date +"%Y%m%d_%s").sh"
+output_file="$output_dir/adalovespace_v${ADA_VERSION}-jakebase-bootstrapper-$(date +"%Y%m%d_%s").sh"
 
-tee $output_file << EOF
+tee $output_file > /dev/null << EOF
 #!/usr/bin/env bash
 # This buildscript was generated at $(date)
 set -euxo pipefail
