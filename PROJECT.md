@@ -10,7 +10,7 @@ With that, lets meet Ada Lovespace...
 
 ## ` *** Namesakes & Tributes *** `  
 Each node is named after a pioneering woman in STEM whose work laid groundwork for precision computing, network architecture, or observational astronomy.
-#### `AdaBrain` | Ada Lovelace
+### `AdaBrain` | Ada Lovelace
 English mathematician and writer Ada Lovelace envisioned programmable computation long before mechanical computers existed, authoring the first algorithm for Charles Babbage’s Analytical Engine and proving that machines could manipulate abstract symbols—not just perform arithmetic. While her work predated modern astronomy by decades, her computational framework became indispensable to today’s automated observatories, where precise control logic and real-time data routing turn raw photon counts into publishable catalogs. AdaBrain channels this pioneering architecture as your scope-mounted INDI web server: exposing local telemetry, managing mount/camera parameters via the INDIGO/INDI protocol stack, and serving as the conceptual heart of Ada Lovespace itself. Positioned at the optical frontier, it reminds us that every exposure begins with a single well-crafted instruction—and that modern astrophotography pipelines still run on her original blueprint for programmable machines.
 
 ### `Caroline-V` | Caroline Herschel
@@ -22,7 +22,7 @@ Elizabeth “Jake” Feinler was instrumental in building the early Internet, ma
 ### `Margaret` | Margaret Hamilton
 As lead software engineer for NASA's Apollo missions, Margaret Hamilton pioneered real-time flight systems architecture and effectively founded modern software engineering. Her team demonstrated that rigorous design patterns, exhaustive testing, and graceful error recovery can keep critical systems functional under extreme failure conditions. While her work was aerospace rather than astronomical, the same principles of timing-critical orchestration apply directly to astrophotography: Margaret runs your Kstars/Ekos stack, synchronizing mount tracking, filter wheels, camera triggers, and environmental sensors into a single fault-tolerant capture pipeline.
 
-#### `MaryGuider` | Mary Somerville
+### `MaryGuider` | Mary Somerville
 Scottish polymath Mary Somerville transformed observational astronomy into a mathematical science through her work in celestial mechanics and geodesy. She translated Laplace's Mécanique Céleste, authored foundational textbooks, and calculated planetary perturbations that directly enabled John Couch Adams to predict Neptune's existence before it was observed. Her legacy of precision-driven computation aligns perfectly with MaryGuider's role as a dedicated PHD2 guiding engine—where sub-arcsecond tracking accuracy and unwavering loop discipline keep your optics locked on target through the longest, coldest exposures.
 
 ### `RadiaWrt` | Radia Perlman
