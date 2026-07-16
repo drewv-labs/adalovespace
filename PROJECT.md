@@ -1,8 +1,8 @@
-# $_AdaLovespace @<3[\s]
+# $__AdaLovespace_ `@<3[\s]`
 
 A Heterogeneous Distributed Edge AI Cluster and Field Lab for Real-Time Astrophysical Analysis  
 
-### > Context
+### > Background
 
 I'm a bored pro data engineer with over 10y of exp and obsessed with astrophotography. My goal is to build a high-fidelity prototype of modern research infrastructure using my experience building data pipelines and applications toward working on FOSS astro research and citizen science projects. 
 
