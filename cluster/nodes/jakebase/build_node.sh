@@ -4,7 +4,7 @@
 set -euo pipefail
 
 # -- Embedded bootstrap: resolve repo root, set up symlinks --
-_selfboot_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+_selfboot_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../.."
 source "${_selfboot_dir}/lib/ada-selfboot.sh" jakebase
 
 source ada-preflight "${BASH_SOURCE[0]}"
