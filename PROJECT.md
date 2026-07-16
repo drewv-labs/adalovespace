@@ -1,34 +1,41 @@
-# ` $_AdaLovespace @<3[\s] `  
+# $_AdaLovespace @<3[\s]
+
 A Heterogeneous Distributed Edge AI Cluster and Field Lab for Real-Time Astrophysical Analysis  
 
-## ` *** Context *** `
+### *** Context ***
+
 I'm a bored pro data engineer with over 10y of exp and obsessed with astrophotography. My goal is to build a high-fidelity prototype of modern research infrastructure using my experience building data pipelines and applications toward working on FOSS astro research and citizen science projects. 
 
 To accomplish this, I'm avidly building out my homelab into a cutting edge astrophotography automation & ML engineering lab while converting my f/4 8in newtonian astrophotography rig into a fully automated Linux driven distributed field lab with a small edge AI compute cluster. Coupling this decoupled infrastructure data with a horde of ESP32 based sensor arrays, various other support cams and sensors feeding mix of this real time local data and other cluster meta data into an edge NPU engine to signal inference driven events. Events like, but not limited to, Ekos schedule injection, safe/emergency system shutdown, and alerting via NTFY.  
 
 With that, lets meet Ada Lovespace...
 
-## ` *** Namesakes & Tributes *** `  
+### *** Namesakes & Tributes ***
+
 Each node is named after a pioneering woman in STEM whose work laid groundwork for precision computing, network architecture, or observational astronomy.
-### `AdaBrain` | Ada Lovelace
+
+#### `AdaBrain` | Ada Lovelace
 English mathematician and writer Ada Lovelace envisioned programmable computation long before mechanical computers existed, authoring the first algorithm for Charles Babbage’s Analytical Engine and proving that machines could manipulate abstract symbols—not just perform arithmetic. While her work predated modern astronomy by decades, her computational framework became indispensable to today’s automated observatories, where precise control logic and real-time data routing turn raw photon counts into publishable catalogs. AdaBrain channels this pioneering architecture as your scope-mounted INDI web server: exposing local telemetry, managing mount/camera parameters via the INDIGO/INDI protocol stack, and serving as the conceptual heart of Ada Lovespace itself. Positioned at the optical frontier, it reminds us that every exposure begins with a single well-crafted instruction—and that modern astrophotography pipelines still run on her original blueprint for programmable machines.
 
-### `Caroline-V` | Caroline Herschel
+#### `Caroline-V` | Caroline Herschel
 German-British astronomer Caroline Herschel independently discovered eight comets, cataloged hundreds of nebulae, and pioneered systematic data reduction techniques that turned observational astronomy into a reproducible science. She also developed efficient mechanical calculation methods to automate ephemeris computations—early computational optimization in practice. Caroline-V honors her as your RISC-V inference engine: delivering low-power, high-efficiency AI processing for real-time object detection, defect mapping, and image analysis at the edge of your observatory stack, where every watt counts.
 
-### `JakeBase` | Elizabeth “Jake” Feinler
+#### `JakeBase` | Elizabeth “Jake” Feinler
 Elizabeth “Jake” Feinler was instrumental in building the early Internet, managing ARPANET’s first Network Information Center and designing the host directory that made distributed computing scalable and discoverable. She championed open data standards when most networks were proprietary silos. JakeBase channels her infrastructure-first philosophy as your central NFS/PostgreSQL/MQTT broker—routing telemetry, persisting raw FITS catalogs, and ensuring every edge node can reliably publish, subscribe, and back up its astronomical findings across the lab’s local fabric without single-point bottlenecks.
 
-### `Margaret` | Margaret Hamilton
+#### `Margaret` | Margaret Hamilton
 As lead software engineer for NASA's Apollo missions, Margaret Hamilton pioneered real-time flight systems architecture and effectively founded modern software engineering. Her team demonstrated that rigorous design patterns, exhaustive testing, and graceful error recovery can keep critical systems functional under extreme failure conditions. While her work was aerospace rather than astronomical, the same principles of timing-critical orchestration apply directly to astrophotography: Margaret runs your Kstars/Ekos stack, synchronizing mount tracking, filter wheels, camera triggers, and environmental sensors into a single fault-tolerant capture pipeline.
 
-### `MaryGuider` | Mary Somerville
+#### `MaryGuider` | Mary Somerville
 Scottish polymath Mary Somerville transformed observational astronomy into a mathematical science through her work in celestial mechanics and geodesy. She translated Laplace's Mécanique Céleste, authored foundational textbooks, and calculated planetary perturbations that directly enabled John Couch Adams to predict Neptune's existence before it was observed. Her legacy of precision-driven computation aligns perfectly with MaryGuider's role as a dedicated PHD2 guiding engine—where sub-arcsecond tracking accuracy and unwavering loop discipline keep your optics locked on target through the longest, coldest exposures.
 
-### `RadiaWrt` | Radia Perlman
+#### `RadiaWrt` | Radia Perlman
 Network architect Radia Perlman invented Spanning Tree Protocol (STP), solving critical routing loops in early Ethernet networks and enabling reliable, scalable topologies to become the backbone of modern networking. Her designs prioritize resilience without sacrificing throughput or introducing unnecessary latency. RadiaWrt embodies this engineering philosophy as your dedicated OpenWrt router—handling inter-node synchronization, traffic shaping, and fault-tolerant connectivity so data flows cleanly between capture, processing, and storage layers even when cables are swapped or nodes reboot mid-session.
 
-## ` *** AdaScope *** ` | Automagical Newtonian Astrograph
+### *** Topology ***
+
+#### `AdaScope` | Automagical Newtonian Astrograph
+
 * `AdaBrain`: 
   * namesake: Ada Lovelace
   * role: Scope Pilot
@@ -62,7 +69,8 @@ Network architect Radia Perlman invented Spanning Tree Protocol (STP), solving c
       * pwr: Single USB tether to AdaBrain
 
 
-## ` *** AdaStack *** ` | Astro Edge Lab
+#### `AdaStack` | Astro Edge Lab
+
 * `RadiaWrt`: 
   * namesake: Radia Perlman
   * role: Network Operator
@@ -122,7 +130,7 @@ Network architect Radia Perlman invented Spanning Tree Protocol (STP), solving c
         * 2x 1gpbs ETH
       * pwr: PoE HAT 
 
-## ` *** NookStack *** ` | Mainframe, Research Lab, & Studio
+#### `NookStack` | Mainframe, Research Lab, & Studio
 
 * `LabWrt`: 
   * role: Network Operator
@@ -176,7 +184,7 @@ Network architect Radia Perlman invented Spanning Tree Protocol (STP), solving c
       * storage1: 500GB M.2 NVMe SSD
       * network1: 2.5gbps ETH
 
-## ` *** Mission *** `
+### *** Mission ***
 Use this project to perform 3 demos; 
 
 1. Single scope `SynapseHorde` build, which will be a system of custom ESP32 sensor pods im calling “Synapse Pods” and the idea is to place these systematically inside and outside the Newtonian tube and around the local area around the rig to feed the pod sensor data via MQTT payload at a variable rate to the edge lab where we can use python tools like Plotly to visualize a 3D model of things like temp, humidity, pressure, light level, and sound while combining these data points + accelerometer and guiding image data into the inferencing engine to detect things like micro vibrations, macro vibrations from wind, light leaks inside the tube in real time, heat currents, etc. So for example if the plan is set to start the run at 8pm but we’re detecting heat currents inside the tube then run a “pre-run heatcurrent-hold” subroutine that puts none-essential systems on low power and basically just watch heat current data until its clear then recalc the plan/ refocus and go. Or like during the run if we detect light leak inside the tube, pause the run and shoot me a NTFY alert to come inspect. This is the “Set it and forget it” build so after setup I can just get high and actually enjoy the night sky.
