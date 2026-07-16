@@ -1,5 +1,12 @@
 #!/usr/bin/env bash
-set -euxo pipefail
+# Self-Bootstrap + build for JakeBase node.
+# Run as root from a fresh checkout: sudo ./cluster/nodes/jakebase/build_node.sh
+set -euo pipefail
+
+# -- Embedded bootstrap: resolve repo root, set up symlinks --
+_selfboot_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/.."
+source "${_selfboot_dir}/lib/ada-selfboot.sh" jakebase
+
 source ada-preflight "${BASH_SOURCE[0]}"
 
 ${ADA_CLUSTER}/core/build_core.sh
