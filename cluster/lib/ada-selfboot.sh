@@ -71,10 +71,16 @@ _setup_libs() {
 
     for macro in "$lib_dir"/*.sh; do
         [ -f "$macro" ] || continue
-        local name="${macro##*/}"
-        local link_path="${target_dir}/${name%.sh##*/}"
-        sudo ln -sf "$macro" "$link_path" && sudo chmod +x "$link_path"
+        local name="${macro##*/}"             # "ada-log.sh"
+        local base="${name%.sh}"              # "ada-log" (strip .sh)
+        sudo ln -sf "$macro" "${target_dir}/${base}" && sudo chmod +x "${target_dir}/${base}"
     done
+
+    # Clean up stale symlinks that shouldn't be in /usr/local/bin/
+    if [[ -L "${target_dir}/lib" ]]; then
+        echo "[ada-selfboot] Removing stale symlink: ${target_dir}/lib"
+        sudo rm -f "${target_dir}/lib"
+    fi
 }
 
 # Only run setup steps when executing as root (the expected use case)
