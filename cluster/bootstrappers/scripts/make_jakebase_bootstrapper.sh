@@ -25,13 +25,15 @@ tee "$output_file" > /dev/null << EOF
 # This buildscript was generated at $(date)
 set -euxo pipefail
 
-# 1. Clone Code to Local Solid-State Runtime Mirror
-sudo ln -sf "${HOME}/adalovespace" "${ADA_CODESPACE}"
+# 1. Link the codebase from our admin user to system mirror
+sudo ln -sf "/home/${ADA_ADMN}/adalovespace" "${ADA_CODESPACE}"
 sudo chmod -R +x "${ADA_CODESPACE}"
 
 # 2. Soft link libs and utils
 for macro in "${ADA_CODESPACE}"/cluster/lib/*.sh; do
-    sudo ln -sf "$macro" "/usr/local/bin/${macro%.sh##*/}"
+    target="/usr/local/bin/${macro%.sh##*/}"
+    sudo ln -sf "$macro" "$target"
+    sudo chmod +x "$target"
 done
 
 # 3. Pivot Execution to Local Mirror Context

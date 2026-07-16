@@ -30,9 +30,16 @@ fi
 scripts="${ADA_CLUSTER}/bootstrappers/scripts"
 case "$node" in
     "jakebase")
-        "${scripts}/make_host_bootstrapper.sh" "$cluster_env"
+        "${scripts}/make_jakebase_bootstrapper.sh" "$cluster_env"
         ;;
-    *)
+    "adabrain"|"caroline-v"|"margaret"|"maryguider")
         "${scripts}/make_client_bootstrapper.sh" "$cluster_env" "$node"
+        ;;
+    "radiawrt")
+        echo "RadiaWrt should be built from node_archive file; $ADA_CLUSTER/nodes/radiawrt/node_archive.tar.gz"
+        ;;
+    *)  # technically shouldn't happen but its better to be safe
+        echo "Unknown node: $node"
+        exit 1
         ;;
 esac

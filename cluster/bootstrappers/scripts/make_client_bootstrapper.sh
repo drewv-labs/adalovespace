@@ -1,6 +1,10 @@
 #!/usr/bin/env bash
-# Takes in a node name and path to cluster.env, then generates a hardcoded client bootstrapper script.
+# Takes in a node name and path to cluster.env, then generates a hardcoded bootstrapper script
+# for a JakeBase "client" node, which should be one of AdaBrain, MaryGuider, Margaret, or Caroline-V.
 # SCP the generated script to the client node and execute it to bootstrap the respective node.
+#
+# !!! ASSUMPTIONS:
+#  - JakeBase "anchor" node built
 usage_str="Usage: ${0} </path/to/cluster.env> <node>"
 
 if [ -z "$2" ]; then
