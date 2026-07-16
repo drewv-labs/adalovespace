@@ -26,7 +26,6 @@ tee "$output_file" > /dev/null << EOF
 set -euxo pipefail
 
 # 1. Clone Code to Local Solid-State Runtime Mirror
-git clone --depth 1 https://github.com/dvandagriff/adalovespace.git "${HOME}"
 sudo ln -sf "${HOME}/adalovespace" "${ADA_CODESPACE}"
 sudo chmod -R +x "${ADA_CODESPACE}"
 
