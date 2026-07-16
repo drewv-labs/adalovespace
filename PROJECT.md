@@ -2,7 +2,7 @@
 
 A Heterogeneous Distributed Edge AI Cluster and Field Lab for Real-Time Astrophysical Analysis  
 
-### *** Context ***
+### > Context
 
 I'm a bored pro data engineer with over 10y of exp and obsessed with astrophotography. My goal is to build a high-fidelity prototype of modern research infrastructure using my experience building data pipelines and applications toward working on FOSS astro research and citizen science projects. 
 
@@ -10,7 +10,7 @@ To accomplish this, I'm avidly building out my homelab into a cutting edge astro
 
 With that, lets meet Ada Lovespace...
 
-### *** Namesakes & Tributes ***
+### > Namesakes & Tributes
 
 Each node is named after a pioneering woman in STEM whose work laid groundwork for precision computing, network architecture, or observational astronomy.
 
@@ -32,7 +32,7 @@ Scottish polymath Mary Somerville transformed observational astronomy into a mat
 #### `RadiaWrt` | Radia Perlman
 Network architect Radia Perlman invented Spanning Tree Protocol (STP), solving critical routing loops in early Ethernet networks and enabling reliable, scalable topologies to become the backbone of modern networking. Her designs prioritize resilience without sacrificing throughput or introducing unnecessary latency. RadiaWrt embodies this engineering philosophy as your dedicated OpenWrt router—handling inter-node synchronization, traffic shaping, and fault-tolerant connectivity so data flows cleanly between capture, processing, and storage layers even when cables are swapped or nodes reboot mid-session.
 
-### *** Topology ***
+### > Topology
 
 #### `AdaScope` | Automagical Newtonian Astrograph
 
@@ -184,7 +184,7 @@ Network architect Radia Perlman invented Spanning Tree Protocol (STP), solving c
       * storage1: 500GB M.2 NVMe SSD
       * network1: 2.5gbps ETH
 
-### *** Mission ***
+### > Mission
 Use this project to perform 3 demos; 
 
 1. Single scope `SynapseHorde` build, which will be a system of custom ESP32 sensor pods im calling “Synapse Pods” and the idea is to place these systematically inside and outside the Newtonian tube and around the local area around the rig to feed the pod sensor data via MQTT payload at a variable rate to the edge lab where we can use python tools like Plotly to visualize a 3D model of things like temp, humidity, pressure, light level, and sound while combining these data points + accelerometer and guiding image data into the inferencing engine to detect things like micro vibrations, macro vibrations from wind, light leaks inside the tube in real time, heat currents, etc. So for example if the plan is set to start the run at 8pm but we’re detecting heat currents inside the tube then run a “pre-run heatcurrent-hold” subroutine that puts none-essential systems on low power and basically just watch heat current data until its clear then recalc the plan/ refocus and go. Or like during the run if we detect light leak inside the tube, pause the run and shoot me a NTFY alert to come inspect. This is the “Set it and forget it” build so after setup I can just get high and actually enjoy the night sky.
