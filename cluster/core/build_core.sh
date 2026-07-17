@@ -7,9 +7,9 @@ core="${ADA_ROOT}/cluster/core"
 variant="${1:-debian}"
 shift 2>/dev/null || true
 
-available_variants=$(ls -d ${core}/*/ | xargs -n 1 basename | grep -v '^ada$')
-if [[ ! " ${available_variants[@]} " =~ " ${variant} " ]]; then
-    ada-log "oof" "=== Invalid variant: ${variant}. Available variants are: ${available_variants[*]}"
+available_variants=$(ls -d ${core}/*/ | xargs -n 1 basename | grep -v '^ada$' | tr '\n' ' ')
+if [[ ! " ${available_variants} " =~ " ${variant} " ]]; then
+    ada-log "oof" "=== Invalid variant: ${variant}. Available variants are: ${available_variants}"
     exit 1
 fi
 
