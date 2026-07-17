@@ -28,7 +28,7 @@ ada-log "mod" "=== Generating Dynamic Telegraf Schema Mappings ==="
 EOF
 
     # Dynamically inject an input target structure for every active subsystem domain topic
-    for TOPIC in "${MQTT_SUB_TOPICS}"; do
+    for TOPIC in ${MQTT_SUB_TOPICS}; do
         cat << EOF
 
 # // ${TOPIC} consumer proxy
@@ -57,7 +57,7 @@ EOF
 EOF
 
     # Dynamically map the target outputs into isolated relational schemas inside Postgres
-    for TOPIC in "${MQTT_SUB_TOPICS}"; do
+    for TOPIC in ${MQTT_SUB_TOPICS}; do
         cat << EOF
 
 # // ${TOPIC} target data lake route
