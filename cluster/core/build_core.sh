@@ -4,11 +4,8 @@ source ada-preflight "${BASH_SOURCE[0]}"
 
 core="${ADA_ROOT}/cluster/core"
 
-if [ -z "$1" ]; then
-    variant="debian"
-else
-    variant="$1"
-fi
+variant="${1:-debian}"
+shift 2>/dev/null || true
 
 available_variants=$(ls -d ${core}/*/ | xargs -n 1 basename | grep -v '^ada$')
 if [[ ! " ${available_variants[@]} " =~ " ${variant} " ]]; then
@@ -16,12 +13,14 @@ if [[ ! " ${available_variants[@]} " =~ " ${variant} " ]]; then
     exit 1
 fi
 
+export ADA_BUILD_VARIANT="${variant}"
+
 ada-log "main" "=== Building ${variant} Core"
 
 ${core}/ada/prompt_ps1.sh
 ${core}/ada/service_user.sh
 
-${core}/${variant}/sys_tuner.sh $@
+${core}/${variant}/sys_tuner.sh "$@"
 ${core}/${variant}/base_installs.sh
 
 ada-log "yay" "=== ${variant} Core Complete!"
