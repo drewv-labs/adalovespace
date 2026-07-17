@@ -47,7 +47,8 @@ _load_env() {
 }
 
 _check_root || exit $?
-_INPUT_PATH="${1:?usage: source ada-preflight \"\${BASH_SOURCE[0]}\"}"
+_BASH_SRC="\${BASH_SOURCE[0]}"
+_INPUT_PATH="${1:?usage: source ada-preflight \"${_BASH_SRC}\"}"
 if [[ "$_INPUT_PATH" != /* ]]; then
     _INPUT_PATH="$(pwd)/${_INPUT_PATH}"
 fi
