@@ -6,9 +6,8 @@ set -euo pipefail
 # -- Embedded bootstrap: resolve repo root, set up symlinks --
 _selfboot_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)/../.."
 source "${_selfboot_dir}/lib/ada-selfboot.sh" jakebase
-echo "checkpoint1"
 source ada-preflight "${BASH_SOURCE[0]}"
-echo "checkpoint2"
+
 ${ADA_CLUSTER}/core/build_core.sh
 
 ada-log "main" "=== Building JakeBase Node"

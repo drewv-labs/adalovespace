@@ -47,7 +47,11 @@ _load_env() {
 }
 
 _check_root || exit $?
-ADA_ROOT="$(_find_ada_root "${1:?usage: source ada-preflight \"\${BASH_SOURCE[0]}\"}")" || exit $?
+_INPUT_PATH="${1:?usage: source ada-preflight \"\${BASH_SOURCE[0]}\"}"
+if [[ "$_INPUT_PATH" != /* ]]; then
+    _INPUT_PATH="$(pwd)/${_INPUT_PATH}"
+fi
+ADA_ROOT="$(_find_ada_root "${_INPUT_PATH}")" || exit $?
 export ADA_ROOT
 
 _load_env || exit $?
