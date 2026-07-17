@@ -17,23 +17,23 @@ suffix_upper="${suffix^^}"
 # 3. The Switch (case) Statement
 case "${suffix_upper}" in
     "ROOT")
-        nfs_dir=${NFS_ROOT}
+        nfs_dir="${NFS_ROOT}"
         ;;
 
     "CODE")
-        nfs_dir=${NFS_CODE}
+        nfs_dir="${NFS_CODE}"
         ;;
 
     "LOGS")
-        nfs_dir=${NFS_LOGS}
+        nfs_dir="${NFS_LOGS}"
         ;;
 
     "SHARE")
-        nfs_dir=${NFS_SHARE}
+        nfs_dir="${NFS_SHARE}"
         ;;
 
     "WHEELHOUSE")
-        nfs_dir=${NFS_WHEELHOUSE}
+        nfs_dir="${NFS_WHEELHOUSE}"
         ;;
 
     *)
