@@ -2,7 +2,7 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-ada-log "mod" "=== Nuking Bluetooth Radios"
+ada-log "mod" "=== Purging Bluetooth Radios"
 
 sudo systemctl disable --now bluetooth.service
 sudo apt-mark unhold bluez

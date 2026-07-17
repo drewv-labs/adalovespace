@@ -19,9 +19,9 @@ ada-log "sys" "=== Debian System Tuner"
 "${debmods}/tune_sudoers.sh"
 "${debmods}/tune_power_mode.sh"
 
-# // Optional Nukes
-arg-switch-if "keep_bluetooth" "false" "${debmods}/nuke_bluetooth.sh"
-arg-switch-if "keep_wifi" "false" "${debmods}/nuke_wifi.sh"
-arg-switch-if "keep_modemmanager" "false" "${debmods}/nuke_modemmanager.sh"
-arg-switch-if "keep_storage_spammer" "false" "${debmods}/nuke_storage_spammer.sh"
-arg-switch-if "keep_unattended_upgrades" "false" "${debmods}/nuke_unattended_upgrades.sh"
+# // Optional Purges
+arg-switch-if "keep_bluetooth" "false" "${debmods}/purge_bluetooth.sh"
+arg-switch-if "keep_wifi" "false" "${debmods}/purge_wifi.sh"
+arg-switch-if "keep_modemmanager" "false" "${debmods}/purge_modemmanager.sh"
+arg-switch-if "keep_storage_spammer" "false" "${debmods}/purge_storage_spammer.sh"
+arg-switch-if "keep_unattended_upgrades" "false" "${debmods}/purge_unattended_upgrades.sh"
