@@ -7,7 +7,7 @@ ada-log "mod" "=== Configuring JakeBase PostgreSQL Host"
 sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/g" /etc/postgresql/*/main/postgresql.conf
 entry="host    all             all             0.0.0.0/0               md5"
 
-safe-tee-sed "/etc/postgresql/*/main/pg_hba.conf" "^${entry}" "$entry" "yes"
+safe-tee-sed "/etc/postgresql/*/main/pg_hba.conf" "^${entry}" "${entry}" "yes"
 
 sudo psql -U postgres > /dev/null << EOF
 CREATE USER ${PSQL_CLUSTER_USER} WITH PASSWORD '${PSQL_CLUSTER_PASSWORD}';

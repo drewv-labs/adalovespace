@@ -5,9 +5,9 @@ source ada-preflight "${BASH_SOURCE[0]}"
 ada-log "mod" "=== Configuring Passwordless Login for User=${ADA_ADMN}"
 
 sudo groupadd -r nopasswdlogin
-sudo gpasswd -a ${ADA_ADMN} nopasswdlogin
+sudo gpasswd -a "${ADA_ADMN}" nopasswdlogin
 
-sudo tee -a /etc/lightdm/lightdm.conf | cat << EOF
+sudo tee -a /etc/lightdm/lightdm.conf << EOF
 [Seat:*]
     autologin-user=${ADA_ADMN}
     autologin-user-timeout=0

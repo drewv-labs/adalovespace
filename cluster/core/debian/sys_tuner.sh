@@ -16,8 +16,8 @@ debmods="${ADA_CLUSTER}/core/debian/mods"
 ada-log "sys" "=== Debian System Tuner"
 
 # // Tunes
-${debmods}/tune_sudoers.sh
-${debmods}/tune_power_mode.sh
+"${debmods}/tune_sudoers.sh"
+"${debmods}/tune_power_mode.sh"
 
 # // Optional Nukes
 arg-switch-if "keep_bluetooth" "false" "${debmods}/nuke_bluetooth.sh"

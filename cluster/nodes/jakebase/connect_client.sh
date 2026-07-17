@@ -15,7 +15,7 @@ suffix="${1##*_}"
 suffix_upper="${suffix^^}"
 
 # 3. The Switch (case) Statement
-case "$suffix_upper" in
+case "${suffix_upper}" in
     "ROOT")
         nfs_dir=${NFS_ROOT}
         ;;
@@ -44,7 +44,7 @@ esac
 
 ada-log "app" "=== Connecting JakeBase NFS as Client"
 
-sudo mkdir -p "$nfs_dir"
+sudo mkdir -p "${nfs_dir}"
 safe-tee-sed "/etc/fstab" "^${nfs_dir}" "${NFS_HOST}:${nfs_dir} ${nfs_dir} nfs rw,sync,no_subtree_check,all_squash,insecure 0 0" "yes"
 
 sudo systemctl daemon-reload

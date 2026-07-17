@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight ${BASH_SOURCE[0]}
+source ada-preflight "${BASH_SOURCE[0]}"
 
 target_conf="/etc/telegraf/telegraf.conf"
 
@@ -70,7 +70,7 @@ EOF
 EOF
     done
 
-} | sudo tee "$target_conf" > /dev/null
+} | sudo tee "${target_conf}" > /dev/null
 
 sudo systemctl restart telegraf
 

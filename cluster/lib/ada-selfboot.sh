@@ -14,22 +14,22 @@ _selfboot_dir="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 
 # Resolve the actual repo root by walking up from this script's location.
 # This works regardless of where we're called from and doesn't depend on PATH.
-_selfboot_candidate="$_selfboot_dir"
-while [[ "$_selfboot_candidate" != "/" ]]; do
-    if [[ -f "$_selfboot_candidate/cluster.env" ]]; then
+_selfboot_candidate="${_selfboot_dir}"
+while [[ "${_selfboot_candidate}" != "/" ]]; do
+    if [[ -f "${_selfboot_candidate}/cluster.env" ]]; then
         break
     fi
-    _selfboot_candidate="$(dirname "$_selfboot_candidate")"
+    _selfboot_candidate="$(dirname "${_selfboot_candidate}")"
 done
 
-if [[ ! -f "$_selfboot_candidate/cluster.env" ]]; then
+if [[ ! -f "${_selfboot_candidate}/cluster.env" ]]; then
     echo "FATAL: [ada-selfboot] Could not locate cluster.env from ${BASH_SOURCE[0]}" >&2
     return 1
 fi
 
 # Source cluster.env to get ADA_CODESPACE, etc. (without root check).
 set +u
-source "$_selfboot_candidate/cluster.env"
+source "${_selfboot_candidate}/cluster.env"
 set -u
 
 _selfboot_is_root=false
@@ -40,15 +40,15 @@ fi
 _setup_codespace() {
     # Only set up codespace symlink if we're running from /home/<user>/adalovespace
     local source_path
-    if [[ "$_selfboot_candidate" == /home/* ]]; then
-        source_path="$_selfboot_candidate"
+    if [[ "${_selfboot_candidate}" == /home/* ]]; then
+        source_path="${_selfboot_candidate}"
     else
         return 0
     fi
 
     if [[ ! -L "${ADA_CODESPACE:-}" ]] && [[ ! -d "${ADA_CODESPACE:-}" ]]; then
         echo "[ada-selfboot] Creating codespace symlink: ${source_path} -> ${ADA_CODESPACE}"
-        sudo ln -sf "$source_path" "$ADA_CODESPACE"
+        sudo ln -sf "${source_path}" "${ADA_CODESPACE}"
     fi
 
     # Verify the codespace is actually usable (cluster.env should be reachable)
@@ -66,14 +66,14 @@ _setup_libs() {
     if [[ -e "${ADA_CODESPACE}/cluster/lib" ]]; then
         lib_dir="${ADA_CODESPACE}/cluster/lib"
     else
-        lib_dir="$_selfboot_candidate/cluster/lib"
+        lib_dir="${_selfboot_candidate}/cluster/lib"
     fi
 
-    for macro in "$lib_dir"/*.sh; do
-        [ -f "$macro" ] || continue
+    for macro in "${lib_dir}"/*.sh; do
+        [ -f "${macro}" ] || continue
         local name="${macro##*/}"             # "ada-log.sh"
         local base="${name%.sh}"              # "ada-log" (strip .sh)
-        sudo ln -sf "$macro" "${target_dir}/${base}" && sudo chmod +x "${target_dir}/${base}"
+        sudo ln -sf "${macro}" "${target_dir}/${base}" && sudo chmod +x "${target_dir}/${base}"
     done
 
     # Clean up stale symlinks that shouldn't be in /usr/local/bin/
@@ -84,10 +84,10 @@ _setup_libs() {
 }
 
 # Only run setup steps when executing as root (the expected use case)
-if [[ "$_selfboot_is_root" == true ]]; then
+if [[ "${_selfboot_is_root}" == true ]]; then
     _setup_codespace
     _setup_libs
 fi
 
 _ADA_SELFBOOT_LOADED=1
-export ADA_SELFBOOT_NODE="$_selfboot_node"
+export ADA_SELFBOOT_NODE="${_selfboot_node}"

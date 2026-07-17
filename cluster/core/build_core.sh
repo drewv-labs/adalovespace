@@ -7,7 +7,7 @@ core="${ADA_ROOT}/cluster/core"
 variant="${1:-debian}"
 shift 2>/dev/null || true
 
-available_variants=$(ls -d ${core}/*/ | xargs -n 1 basename | grep -v '^ada$' | tr '\n' ' ')
+available_variants=$(ls -d "${core}/*/" | xargs -n 1 basename | grep -v '^ada$' | tr '\n' ' ')
 if [[ ! " ${available_variants} " =~ " ${variant} " ]]; then
     ada-log "oof" "=== Invalid variant: ${variant}. Available variants are: ${available_variants}"
     exit 1
@@ -17,10 +17,10 @@ export ADA_BUILD_VARIANT="${variant}"
 
 ada-log "main" "=== Building ${variant} Core"
 
-${core}/ada/prompt_ps1.sh
-${core}/ada/service_user.sh
+"${core}/ada/prompt_ps1.sh"
+"${core}/ada/service_user.sh"
 
-${core}/${variant}/sys_tuner.sh "$@"
-${core}/${variant}/base_installs.sh
+"${core}/${variant}/sys_tuner.sh" "$@"
+"${core}/${variant}/base_installs.sh"
 
 ada-log "yay" "=== ${variant} Core Complete!"

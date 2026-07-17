@@ -7,19 +7,19 @@
 [ -n "${_ADA_PREFLIGHT_LOADED:-}" ] && return 0
 
 _find_ada_root() {
-    local input_path="$1"
-    if [[ ! -e "$input_path" ]]; then
+    local input_path="${1}"
+    if [[ ! -e "${input_path}" ]]; then
         echo "FATAL: [ada-preflight-optional] Input path does not exist: ${input_path}" >&2
         return 1
     fi
 
-    local cur="$(readlink -f "$input_path")"
-    while [[ "$cur" != "/" ]]; do
-        if [[ -f "$cur/cluster.env" ]]; then
-            echo "$cur"
+    local cur="$(readlink -f "${input_path}")"
+    while [[ "${cur}" != "/" ]]; do
+        if [[ -f "${cur}/cluster.env" ]]; then
+            echo "${cur}"
             return 0
         fi
-        cur="$(dirname "$cur")"
+        cur="$(dirname "${cur}")"
     done
 
     echo "FATAL: [ada-preflight-optional] Could not locate cluster.env from ${input_path}" >&2
@@ -38,7 +38,8 @@ _load_env() {
     fi
 }
 
-ADA_ROOT="$(_find_ada_root "${1:?usage: source ada-preflight-optional \"\${BASH_SOURCE[0]}\"}")" || exit $?
+_BASH_SOURCE="\${BASH_SOURCE[0]}"
+ADA_ROOT="$(_find_ada_root "${1:?usage: source ada-preflight-optional \"${_BASH_SOURCE}\"}")" || exit $?
 export ADA_ROOT
 
 _load_env || exit $?

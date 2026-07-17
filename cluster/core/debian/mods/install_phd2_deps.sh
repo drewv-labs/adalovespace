@@ -27,7 +27,7 @@ deps=(
 
 sudo apt update -y
 for dep in "${deps[@]}"; do
-    sudo apt install "$dep" -y
+    sudo apt install "${dep}" -y
 done
 
 echo ""
