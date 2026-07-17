@@ -2,7 +2,7 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-ada-log "mod" "=== Nuking Unattended Upgrades Service"
+ada-log "mod" "=== Purging Unattended Upgrades Service"
 
 sudo systemctl disable --now unattended-upgrades.service
 sudo systemctl disable --now apt-daily.timer

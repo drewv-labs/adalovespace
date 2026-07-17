@@ -2,7 +2,7 @@
 set -euxo pipefail
 source ada-preflight "${BASH_SOURCE[0]}"
 
-ada-log "mod" "=== Nuking Wi-Fi Radios"
+ada-log "mod" "=== Purging Wi-Fi Radios"
 
 sudo systemctl disable --now wpa_supplicant.service
 sudo apt-mark unhold wpasupplicant
