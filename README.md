@@ -1,4 +1,4 @@
-# $__AdaLovespace_ `@<3[\s]`
+# **_Ada Lovespace_** `@<3[\s]`
 
 A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astrophysical Analysis
 
