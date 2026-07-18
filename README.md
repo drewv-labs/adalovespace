@@ -6,19 +6,19 @@
 ![Hardware](https://img.shields.io/badge/Hardware-RPi%20|%20RISC--V%20|%20ESP32%20|%20OpenWrt%20|%20Hailo--8L-brightgreen)  
 
 # `@<3[\s]` $ **Ada Lovespace**  
-#### A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astrophysical Analysis  
+#### A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astronomical Analysis  
 
 ![Ada Lovespace](assets/ada-lovespace-wallpaper-1080p.jpeg)
 
 ## ⁉️ About
 
 The Ada Lovespace project is a high-fidelity prototype of modern astrophotography and observatory-based research infrastructure. It comprises two main units:  
-* `AdaScope`, Bring your own scope, Ada will provide the brain and dedicated PHD2 guiding engine for rock solid scope control and resilient guiding performance.
-* `AdaStack`, your personal field data center. This mini rack is stacked with enough ponies to handle the most demanding of projects.    
+* `AdaScope` - bring your own scope, Ada will provide the brain and dedicated PHD2 guiding engine for rock solid scope control and resilient guiding performance.
+* `AdaStack` - your personal field data center. This mini rack is stacked with enough ponies to handle the most demanding of projects.    
 
 It's modularly designed and built around a small, highly resilient, low-power distributed edge AI cluster that expands automation and data pipelining applications, enabling more from your astro gear than you ever thought possible. Your ideas are the new bottleneck! ;) 
 
-Whether it's running a swarm of IoT sensors for real-time inference-driven event detection, experimenting with distributed scope clustering, or processing large volumes of astrophysical data onsite without disturbing core imaging — Ada Lovespace pushes the boundaries of what's possible in astrophotography and observatory research while sipping watts.
+Whether it's running a swarm of IoT sensors for real-time inference-driven event detection, experimenting with distributed scope clustering, or processing large volumes of astronomical data onsite without disturbing core imaging — Ada Lovespace pushes the boundaries of what's possible in astrophotography and observatory research while sipping watts.
 
 This project is intended for the hardcore hobbyist wanting to take their setup to the next level or anyone looking to learn technologies like distributed computing, machine learning, data science, niche architectures like RISC-V, and more — all while honoring the legacies of STEM's most badass ladies.
 
