@@ -20,7 +20,7 @@ It's modularly designed and built around a small, highly resilient, low-power di
 
 Whether it's running a swarm of IoT sensors for real-time inference-driven event detection, experimenting with distributed scope clustering, or processing large volumes of astrophysical data onsite without disturbing core imaging — Ada Lovespace pushes the boundaries of what's possible in astrophotography and observatory research while sipping watts.
 
-This project is intended for the hardcore hobbyist and anyone looking to learn technologies like MQTT pipelines, distributed computing, machine learning, data science, niche architectures like RISC-V, and more — all while honoring the legacies of STEM's most badass ladies.
+This project is intended for the hardcore hobbyist wanting to take their setup to the next level or anyone looking to learn technologies like distributed computing, machine learning, data science, niche architectures like RISC-V, and more — all while honoring the legacies of STEM's most badass ladies.
 
 With that, let's meet the Ada Lovespace gang...
 
