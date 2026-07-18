@@ -218,7 +218,7 @@ Ada Lovespace stands on the shoulders of incredible open-source projects and com
 - **PHD2** ([openastroproject.org/phd2](https://openastroproject.org/phd2)) — Autoguiding engine that keeps scopes locked on target
 - **PostgreSQL** ([postgresql.org](https://www.postgresql.org/)) — World's most advanced open-source relational database, maintained by a global community for over 30 years
 - **OpenWrt** ([openwrt.org](https://openwrt.org/)) — The router OS built by and for the networking community; running on 100% FOSS hardware (BananaPi OpenWrt One), the purest node in the cluster
-- **Mosquitto** ([eclipse.org/mosquitto](https://www.eclipse.org/mosquitto/)) — Lightweight MQTT broker for sensor telemetry
+- **Mosquitto** ([eclipse.org/mosquitto](https://www.eclipse.org/mosquitto/)) — Lightweight MQTT broker for sensor telemetry and mesh style networking between nodes
 - **Telegraf** ([telegraf.io](https://www.telegraf.io/)) — Metrics collection agent
 - **NTFY** ([ntfy.sh](https://ntfy.sh/)) — Notification service for edge alerts
 - **uv** ([astral.sh](https://docs.astral.sh/uv/)) — Blazingly fast Python project manager
