@@ -211,7 +211,7 @@ TDP values are included per-node to support system debriefing analyses — cross
 
 ## 🙏 Acknowledgments
 
-Ada Lovespace stands on the shoulders of incredible open-source projects and communities. We acknowledge their contributors and thank them for making this kind of work possible. Not all heroes wear capes and most go unrecognized:
+Ada Lovespace stands on the shoulders of incredible open-source projects and communities. Ada and I acknowledge their contributors and thank them for making this kind of work possible. Not all heroes wear capes and most go unrecognized:
 
 - **INDI** ([indi-software.org](https://www.indi-software.org)) — Astronomy device control interface, the backbone of observatory automation
 - **KStars / Ekos** ([kstars.org](https://kstars.org)) — Telescope control and imaging suite
