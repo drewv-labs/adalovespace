@@ -1,18 +1,18 @@
-![Arch](https://img.shields.io/badge/Arch-arm64%20|%20riscv64%20|%20x86_64-brightgreen)
-![Hardware](https://img.shields.io/badge/Hardware-RPi%20|%20RISC--V%20|%20ESP32%20|%20OpenWrt%20|%20Hailo--8L-brightgreen)
-![Go](https://img.shields.io/badge/Go-1.22+-00ADD8?logo=go&logoColor=white)
+![License](https://img.shields.io/badge/License-MIT-blue)  
+![Status](https://img.shields.io/badge/Status-Planning-blue)  
+![Go](https://img.shields.io/badge/Go-1.22+-00ADD8?logo=go&logoColor=white)  
 ![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)  
-![Status](https://img.shields.io/badge/Status-Planning-blue)
-![License](https://img.shields.io/badge/License-MIT-blue)
+![Arch](https://img.shields.io/badge/Arch-arm64%20|%20riscv64%20|%20x86_64-brightgreen)  
+![Hardware](https://img.shields.io/badge/Hardware-RPi%20|%20RISC--V%20|%20ESP32%20|%20OpenWrt%20|%20Hailo--8L-brightgreen)  
 
 # `@<3[\s]` $ **Ada Lovespace**  
 #### A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astrophysical Analysis  
 
 ![Ada Lovespace](assets/ada-lovespace-wallpaper-1080p.jpeg)
 
-## ⁉️ What the?
+## ⁉️ About
 
-The Ada Lovespace project is a high-fidelity prototype of modern astrophotography and observatory-based research infrastructure. It comprises of two main units:  
+The Ada Lovespace project is a high-fidelity prototype of modern astrophotography and observatory-based research infrastructure. It comprises two main units:  
 * `AdaScope`, Bring your own scope, Ada will provide the brain and dedicated PHD2 guiding engine for rock solid scope control and resilient guiding performance.
 * `AdaStack`, your personal field data center. This mini rack is stacked with enough ponies to handle the most demanding of projects.    
 
@@ -62,7 +62,7 @@ Network architect Radia Perlman invented Spanning Tree Protocol (STP), solving c
 
 RadiaWrt embodies this engineering philosophy as your dedicated OpenWrt router — handling inter-node synchronization, traffic shaping, and fault-tolerant connectivity so data flows cleanly between capture, processing, and storage layers even when cables are swapped or nodes reboot mid-session.
 
-## 🌮 Mission
+## 🚀 Mission
 
 Use this project to perform three demo builds:
 
@@ -93,7 +93,11 @@ With enough scope nodes, private citizens could run their own self-hosted Vera R
 
 ## 📂 Repository Structure
 The repository is organized into the following directories:
-TODO
+| Directory | Purpose |
+|-----------|---------|
+| `cluster/` | Edge cluster node provisioning scripts and configs |
+| `docs/` | Documentation, architecture diagrams, guides |
+| `assets/` | Images, wallpapers, branding assets |
 
 ## ⚙️ Drew's Gear
 
@@ -203,77 +207,23 @@ TDP values are included per-node to support system debriefing analyses — cross
   - Throughput: 1Gbps per port (8 ports)
   - PoE budget: 83W+
 
-### 🏠 `NookStack` | Home Data Center, Research Lab, & Studio 
-
-#### `LabWrt`
-- **Role:** Secondary Network Operator
-- **Location:** Rack shelf
-- **Hardware — NanoPi R6S**
-  - OS: OpenWrt
-  - Architecture: `arm64`
-  - SoC: Rockchip RK3588 (Octa-core Cortex-A76/A55)
-  - Networking: Integrated interfaces
-  - TDP: ~6–8W (RK3588 SoC estimate)
-  - Cooling: Passive / passive+heatsink
-- **Switch — Sodola 24-Port 2.5Gbps unmanaged**
-
-#### `MacDaddyPro`
-- **Role:** Development, Research & Studio
-- **Location:** Desk, mobile
-- **Hardware — MacBook Pro**
-  - OS: macOS 15.7.5
-  - Architecture: `arm64` (Apple Silicon)
-  - CPU/GPU: Apple M2 Max (12-core CPU, 38-core GPU, SoC)
-  - Memory: 96GB unified
-  - Storage: 4TB NVMe SSD
-  - Power: USB-C / MagSafe (mobile, no fixed PSU)
-  - TDP: ~30W sustained peak (M2 Max configurable up to ~60W TDP)
-  - Cooling: Active (fan-based laptop thermal system)
-
-#### `CoffeeCan`
-- **Role:** Hypervisor, Data Broker
-- **Location:** Rack-mount
-- **Hardware — 2013 Mac Pro (MacPro6,1)**
-  - OS: Proxmox VE (Debian-based hypervisor)
-  - Architecture: `x86_64`
-  - CPU: Intel Xeon E5-2697 v2 (12C/24T, 2.7GHz base / 3.5GHz turbo) — 1 socket
-  - GPU: Dual AMD Radeon RX 570 / R7 370 / R9 270X (Curacao XT GCN 1.0, 1280 SP, 2GB GDDR5 ×2)
-  - Memory: 64GB ECC DDR3
-  - Storage: 1TB NVMe SSD
-  - TDP: 80W (CPU per-core TDP, single-socket)
-  - Cooling: Passive (server chassis with internal fans)
-- **External Storage:**
-  - `BigRed` — 36TB USB RAID1 drive
-  - `LilBlu` — 12TB USB RAID5 drive
-
-#### `Poggerbox`
-- **Role:** CUDA Engine & GPU Compute
-- **Location:** Rack-mount
-- **Hardware — Custom Build**
-  - OS: Linux Mint Cinnamon 22.3 LTS
-  - Architecture: `x86_64`
-  - CPU: Intel Core i9-9900K (8C/16T, up to 5.0GHz)
-  - GPU: NVIDIA RTX 3080 Ti
-  - Memory: 32GB DDR4
-  - Storage: 500GB M.2 NVMe SSD
-  - Networking: 2.5GbE
-  - TDP: 125W (CPU) + 350W (GPU) ≈ 475W peak
-  - Cooling: Active (airflow tower case, multi-fan GPU cooler)
-
-#### `VisionForge`
-- **Role:** Caroline-V Building & Testing
-- **Location:** Rack Shelf
-- **Hardware — StarFive VisionFive 2**
-  - Architecture: `riscv64`
-  - CPU: StarFive JH7110 Quad-core SiFive XuanTie C910 RISC-V @ 1.5GHz
-  - Memory: 8GB LPDDR4
-  - Storage: 1TB NVMe SSD (PCIe)
-  - Networking: 2× Gigabit Ethernet
-  - Power: USB-C
-  - TDP: ~5W (SoC)
-  - Cooling: Passive (Heatsink Case)
-
 ---
+
+## 🙏 Acknowledgments
+
+Ada Lovespace stands on the shoulders of incredible open-source projects and communities. We acknowledge their contributors and thank them for making this kind of work possible. Not all heroes wear capes and most go unrecognized:
+
+- **INDI** ([indi-software.org](https://www.indi-software.org)) — Astronomy device control interface, the backbone of observatory automation
+- **KStars / Ekos** ([kstars.org](https://kstars.org)) — Telescope control and imaging suite
+- **PHD2** ([openastroproject.org/phd2](https://openastroproject.org/phd2)) — Autoguiding engine that keeps scopes locked on target
+- **PostgreSQL** ([postgresql.org](https://www.postgresql.org/)) — World's most advanced open-source relational database, maintained by a global community for over 30 years
+- **OpenWrt** ([openwrt.org](https://openwrt.org/)) — The router OS built by and for the networking community; running on 100% FOSS hardware (BananaPi OpenWrt One), the purest node in the cluster
+- **Mosquitto** ([eclipse.org/mosquitto](https://www.eclipse.org/mosquitto/)) — Lightweight MQTT broker for sensor telemetry
+- **Telegraf** ([telegraf.io](https://www.telegraf.io/)) — Metrics collection agent
+- **NTFY** ([ntfy.sh](https://ntfy.sh/)) — Notification service for edge alerts
+- **uv** ([astral.sh](https://docs.astral.sh/uv/)) — Blazingly fast Python project manager
+
+Beyond that: the RISC-V ecosystem, Hailo NPUs, and all the toolchains that make heterogeneous edge clusters work. None of this exists without the open-source communities behind it.
 
 ## 📜 License
 
