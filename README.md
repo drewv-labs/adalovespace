@@ -1,10 +1,22 @@
-# **_Ada Lovespace_** `@<3[\s]`
+![Arch](https://img.shields.io/badge/Arch-arm64%20|%20riscv64%20|%20x86_64-brightgreen)
+![Hardware](https://img.shields.io/badge/Hardware-RPi%20|%20RISC--V%20|%20ESP32%20|%20OpenWrt%20|%20Hailo--8L-brightgreen)
+![Go](https://img.shields.io/badge/Go-1.22+-00ADD8?logo=go&logoColor=white)
+![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white)
+![Status](https://img.shields.io/badge/Status-Planning-blue)
+![License](https://img.shields.io/badge/License-MIT-blue)
 
-A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astrophysical Analysis
+# **_Ada Lovespace_** `@<3[\s]`  
+#### A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astrophysical Analysis  
 
-## > What is this?
+![Ada Lovespace](assets/proj/ada-lovespace-wallpaper-1080p.jpeg)
 
-The Ada Lovespace project is a high-fidelity prototype of modern astrophotography and observatory-based research infrastructure. It's designed and built around a small, highly resilient, low-power distributed edge AI cluster that expands automation and data pipelining applications with no bounds.
+## ⁉️ What is this?
+
+The Ada Lovespace project is a high-fidelity prototype of modern astrophotography and observatory-based research infrastructure. It comprises of two main units:  
+* `AdaScope`, Bring your own scope, Ada will provide the brain and dedicated PHD2 guiding engine for rock solid scope control and resilient guiding performance.
+* `AdaStack`, your personal field data center. This mini rack is stacked with enough ponies to handle the most demanding of projects.    
+
+It's modularly designed and built around a small, highly resilient, low-power distributed edge AI cluster that expands automation and data pipelining applications, enabling more from your astro gear than you ever thought possible. Your ideas are the new bottleneck! ;) 
 
 Whether it's running a swarm of IoT sensors for real-time inference-driven event detection, experimenting with distributed scope clustering, or processing large volumes of astrophysical data onsite without disturbing core imaging — Ada Lovespace pushes the boundaries of what's possible in astrophotography and observatory research while sipping watts.
 
@@ -79,6 +91,10 @@ With enough scope nodes, private citizens could run their own self-hosted Vera R
 
 ---
 
+## 📂 Repository Structure
+The repository is organized into the following directories:
+TODO
+
 ## > Drew's Current Setup
 
 > [!NOTE]
@@ -86,7 +102,7 @@ With enough scope nodes, private citizens could run their own self-hosted Vera R
 
 TDP values are included per-node to support system debriefing analyses — cross-reference with cooling configuration and actual measured draw during imaging sessions to build thermal profiles and power budget models.
 
-### `AdaScope` | Automagical Astrograph
+### 🔭 `AdaScope` | Automagical Astrograph 🔭
 
 #### `AdaBrain`
 - **Namesake:** Ada Lovelace
@@ -120,11 +136,13 @@ TDP values are included per-node to support system debriefing analyses — cross
   - TDP: ~2W
   - Cooling: Passive (no fan; low sustained load)
 
-### `AdaStack` | Astro Edge Lab
+### `AdaStack` | Astro Edge Lab  
+
+![Ada Lovespace](assets/stack/unit-demo1.png)  
 
 #### `Caroline-V`
 - **Namesake:** Caroline Herschel
-- **Role:** Data Scientist & Inference Engine
+- **Role:** Inference Engine
 - **Hardware — StarFive VisionFive 2**
   - Architecture: `riscv64`
   - CPU: StarFive JH7110 Quad-core SiFive XuanTie C910 RISC-V @ 1.5GHz
@@ -185,7 +203,7 @@ TDP values are included per-node to support system debriefing analyses — cross
   - Throughput: 1Gbps per port (8 ports)
   - PoE budget: 83W+
 
-### `NookStack` | Mainframe, Research Lab & Studio
+### 🏠 `NookStack` | Home Data Center, Research Lab & Studio 🏠
 
 #### `LabWrt`
 - **Role:** Secondary Network Operator
@@ -254,3 +272,24 @@ TDP values are included per-node to support system debriefing analyses — cross
   - Power: USB-C
   - TDP: ~5W (SoC)
   - Cooling: Passive (Heatsink Case)
+
+---
+
+## 📜 License
+
+This project is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute this code for any purpose — commercial or otherwise — as long as you include the original copyright notice.
+
+## 🎓 Citing Ada Lovespace
+
+If you use this work in research, presentations, academic papers, or commercial products, we kindly ask that you cite this project:
+
+```bibtex
+@software{adalovespace2025,
+  author       = {Drew Van de Grift},
+  title        = {{Ada Lovespace}: A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astrophysical Analysis},
+  version      = {0.1.0},
+  year         = 2025,
+  url          = {https://github.com/dvandagriff/adalovespace},
+  license      = {MIT}
+}
+```

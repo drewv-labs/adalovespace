@@ -1,0 +1,27 @@
+cff-version: 1.2.0
+message: "If you use this software, please cite it."
+authors:
+  - family-names: Vandagriff
+    given-names: Drew
+    orcid: "https://orcid.org/YOUR-ORCID"  # ← Replace with your ORCID if you have one
+title: "Ada Lovespace: A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astrophysical Analysis"
+type: software
+version: 0.1.0
+license: MIT
+repository-code: "https://github.com/dvandagriff/adalovespace"
+date-released: "2025-07-18"
+abstract: >-
+  A high-fidelity prototype of modern astrophotography and observatory-based
+  research infrastructure featuring a small, highly resilient, low-power
+  distributed edge AI cluster that expands automation and data pipelining
+  applications to take your astrophography workflows to the next level.
+keywords:
+  - astrophotography
+  - observatory
+  - edge-ai
+  - distributed-computing
+  - open-source-science
+  - citizen-science
+  - python
+  - golang
+  - indi
