@@ -5,12 +5,12 @@
 ![Status](https://img.shields.io/badge/Status-Planning-blue)
 ![License](https://img.shields.io/badge/License-MIT-blue)
 
-# **_Ada Lovespace_** `@<3[\s]`  
+# `@<3[\s]` $ **Ada Lovespace**  
 #### A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astrophysical Analysis  
 
-![Ada Lovespace](assets/proj/ada-lovespace-wallpaper-1080p.jpeg)
+![Ada Lovespace](assets/ada-lovespace-wallpaper-1080p.jpeg)
 
-## ⁉️ What is this?
+## ⁉️ What the?
 
 The Ada Lovespace project is a high-fidelity prototype of modern astrophotography and observatory-based research infrastructure. It comprises of two main units:  
 * `AdaScope`, Bring your own scope, Ada will provide the brain and dedicated PHD2 guiding engine for rock solid scope control and resilient guiding performance.
@@ -24,7 +24,7 @@ This project is intended for the hardcore hobbyist and anyone looking to learn t
 
 With that, let's meet the Ada Lovespace gang...
 
-## > Namesakes & Tributes
+## 👩‍🔬 Namesakes & Tributes
 
 Ada Lovespace is currently comprised of **6 nodes**: two on-scope and four in a mini-rack enclosure placed near the rig. Each node is named after a pioneering woman in STEM whose work laid the groundwork for precision computing, network architecture, or observational astronomy.
 
@@ -62,7 +62,7 @@ Network architect Radia Perlman invented Spanning Tree Protocol (STP), solving c
 
 RadiaWrt embodies this engineering philosophy as your dedicated OpenWrt router — handling inter-node synchronization, traffic shaping, and fault-tolerant connectivity so data flows cleanly between capture, processing, and storage layers even when cables are swapped or nodes reboot mid-session.
 
-## > Mission
+## 🌮 Mission
 
 Use this project to perform three demo builds:
 
@@ -95,14 +95,14 @@ With enough scope nodes, private citizens could run their own self-hosted Vera R
 The repository is organized into the following directories:
 TODO
 
-## > Drew's Current Setup
+## ⚙️ Drew's Gear
 
 > [!NOTE]
 > The hardware details below serve as contextual knowledge for agentic workflows. This section will be converted to a **"Recommended Hardware & Setup"** when the project is ready for publication.
 
 TDP values are included per-node to support system debriefing analyses — cross-reference with cooling configuration and actual measured draw during imaging sessions to build thermal profiles and power budget models.
 
-### 🔭 `AdaScope` | Automagical Astrograph 🔭
+### 🔭 `AdaScope` | The Automagical Astrograph 
 
 #### `AdaBrain`
 - **Namesake:** Ada Lovelace
@@ -136,9 +136,9 @@ TDP values are included per-node to support system debriefing analyses — cross
   - TDP: ~2W
   - Cooling: Passive (no fan; low sustained load)
 
-### `AdaStack` | Astro Edge Lab  
+### 🧠 `AdaStack` | The Edge AstroLab 
 
-![Ada Lovespace](assets/stack/unit-demo1.png)  
+![Ada Lovespace](assets/unit-demo1.png)  
 
 #### `Caroline-V`
 - **Namesake:** Caroline Herschel
@@ -203,7 +203,7 @@ TDP values are included per-node to support system debriefing analyses — cross
   - Throughput: 1Gbps per port (8 ports)
   - PoE budget: 83W+
 
-### 🏠 `NookStack` | Home Data Center, Research Lab & Studio 🏠
+### 🏠 `NookStack` | Home Data Center, Research Lab, & Studio 
 
 #### `LabWrt`
 - **Role:** Secondary Network Operator
@@ -281,12 +281,12 @@ This project is licensed under the [MIT License](LICENSE). You are free to use, 
 
 ## 🎓 Citing Ada Lovespace
 
-If you use this work in research, presentations, academic papers, or commercial products, we kindly ask that you cite this project:
+I invite you to use this work in research, presentations, academic papers, or commercial products, and I kindly ask that you cite this project:
 
 ```bibtex
 @software{adalovespace2025,
-  author       = {Drew Van de Grift},
-  title        = {{Ada Lovespace}: A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astrophysical Analysis},
+  author       = {Drew Vandagriff},
+  title        = {{Ada Lovespace}: A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astronomical Analysis},
   version      = {0.1.0},
   year         = 2025,
   url          = {https://github.com/dvandagriff/adalovespace},
