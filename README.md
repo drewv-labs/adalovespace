@@ -5,7 +5,7 @@
 ![Arch](https://img.shields.io/badge/Arch-arm64%20|%20riscv64%20|%20x86_64-brightgreen)  
 ![Hardware](https://img.shields.io/badge/Hardware-RPi%20|%20RISC--V%20|%20ESP32%20|%20OpenWrt%20|%20Hailo--8L-brightgreen)  
 
-# `@<3[\s]` $ **Ada Lovespace**  
+# `@<3[\s]` **Ada Lovespace**  
 #### A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astronomical Analysis  
 
 ![Ada Lovespace](.github/images/banner.jpeg)
