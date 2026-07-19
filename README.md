@@ -113,7 +113,8 @@ The repository is organized into the following directories:
 TDP values are included per-node to support system debriefing analyses — cross-reference with cooling configuration and actual measured draw during imaging sessions to build thermal profiles and power budget models.
 
 ### 🔭 `AdaScope` | The Automagical Astrograph 
-
+<img src=".github/images/adascope-demo.jpeg" alt="AdaStack demo" width="350">  
+    
 #### `AdaBrain`
 - **Namesake:** Ada Lovelace
 - **Role:** Scope Pilot
