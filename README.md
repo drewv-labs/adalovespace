@@ -8,7 +8,8 @@
 # `@<3[\s]` $ **Ada Lovespace**  
 #### A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astronomical Analysis  
 
-![Ada Lovespace](assets/ada-lovespace-wallpaper-1080p.jpeg)
+<img src=".github/images/namesakes/ada-lovespace.png" alt="Ada Lovelace portrait" width="120">
+
 
 ## ⁉️ About
 
