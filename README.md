@@ -28,40 +28,40 @@ With that, let's meet the Ada Lovespace gang...
 
 Ada Lovespace is currently comprised of **6 nodes**: two on-scope and four in a mini-rack enclosure placed near the rig. Each node is named after a pioneering woman in STEM whose work laid the groundwork for precision computing, network architecture, or observational astronomy.
 
-### \`AdaBrain\` \| [Ada Lovelace](https://en.wikipedia.org/wiki/Ada_Lovelace) (1815–1852)`
+### `AdaBrain` \| [Ada Lovelace](https://en.wikipedia.org/wiki/Ada_Lovelace) (1815–1852)
 <img src=".github/images/namesakes/ada-lovespace.png" alt="Ada Lovelace portrait" width="120">
 
 English mathematician and writer Ada Lovelace envisioned programmable computation long before mechanical computers existed, authoring the first algorithm for Charles Babbage's Analytical Engine and proving that machines could manipulate abstract symbols — not just perform arithmetic. While her work predated modern astronomy by decades, her computational framework became indispensable to today's automated observatories, where precise control logic and real-time data routing turn raw photon counts into publishable catalogs.
 
 AdaBrain channels this pioneering architecture as your scope-mounted INDI web server: exposing local telemetry, managing mount/camera parameters via the INDIGO/INDI protocol stack, and serving as the conceptual heart of Ada Lovespace itself. Positioned at the optical frontier, it reminds us that every exposure begins with a single well-crafted instruction — and that modern astrophotography pipelines still run on her original blueprint for programmable machines.
 
-### \`Caroline-V\` \| [Caroline Herschel](https://en.wikipedia.org/wiki/Caroline_Herschel) (1750–1848)`
+### `Caroline-V` \| [Caroline Herschel](https://en.wikipedia.org/wiki/Caroline_Herschel) (1750–1848)
 <img src=".github/images/namesakes/caroline-herschel.jpg" alt="Caroline Herschel portrait" width="120">
 
 German-British astronomer Caroline Herschel independently discovered eight comets, cataloged hundreds of nebulae, and pioneered systematic data reduction techniques that turned observational astronomy into a reproducible science. She also developed efficient mechanical calculation methods to automate ephemeris computations — early computational optimization in practice.
 
 Caroline-V honors her as your RISC-V inference engine: delivering low-power, high-efficiency AI processing for real-time object detection, defect mapping, and image analysis at the edge of your observatory stack, where every watt counts.
 
-### \`JakeBase\` \| [Elizabeth "Jake" Feinler](https://en.wikipedia.org/wiki/Jake_Feinler) (1931–present)`
+### `JakeBase` \| [Elizabeth "Jake" Feinler](https://en.wikipedia.org/wiki/Jake_Feinler) (1931–present)
 <img src=".github/images/namesakes/elizabeth-feinler.jpg" alt="Elizabeth Feinler portrait" width="120">
 
 Elizabeth "Jake" Feinler was instrumental in building the early Internet, managing ARPANET's first Network Information Center and designing the host directory that made distributed computing scalable and discoverable. She championed open data standards when most networks were proprietary silos.
 
 JakeBase channels her infrastructure-first philosophy as your central NFS/PostgreSQL/MQTT broker — routing telemetry, persisting raw FITS catalogs, and ensuring every edge node can reliably publish, subscribe, and back up its astronomical findings across the lab's local fabric without single-point bottlenecks.
 
-### \`Margaret\` \| [Margaret Hamilton](https://en.wikipedia.org/wiki/Margaret_Hamilton_(scientist)) (1936–present)`
+### `Margaret` \| [Margaret Hamilton](https://en.wikipedia.org/wiki/Margaret_Hamilton_(scientist)) (1936–present)
 <img src=".github/images/namesakes/margaret-hamilton.jpg" alt="Margaret Hamilton portrait" width="120">
 
 As lead software engineer for NASA's Apollo missions, Margaret Hamilton pioneered real-time flight systems architecture and effectively founded modern software engineering. Her team demonstrated that rigorous design patterns, exhaustive testing, and graceful error recovery can keep critical systems functional under extreme failure conditions. While her work was aerospace rather than astronomical, the same principles of timing-critical orchestration apply directly to astrophotography: Margaret runs your KStars/Ekos stack, synchronizing mount tracking, filter wheels, camera triggers, and environmental sensors into a single fault-tolerant capture pipeline.
 
-### \`MaryGuider\` \| [Mary Somerville](https://en.wikipedia.org/wiki/Mary_Somerville) (1780–1827)`
+### `MaryGuider` \| [Mary Somerville](https://en.wikipedia.org/wiki/Mary_Somerville) (1780–1827)
 <img src=".github/images/namesakes/mary-somerville.jpg" alt="Mary Somerville portrait" width="120">
 
 Scottish polymath Mary Somerville transformed observational astronomy into a mathematical science through her work in celestial mechanics and geodesy. She translated Laplace's *Mécanique Céleste*, authored foundational textbooks, and calculated planetary perturbations that directly enabled John Couch Adams to predict Neptune's existence before it was observed.
 
 Her legacy of precision-driven computation aligns perfectly with MaryGuider's role as a dedicated PHD2 guiding engine — where sub-arcsecond tracking accuracy and unwavering loop discipline keep your optics locked on target through the longest, coldest exposures.
 
-### \`RadiaWrt\` \| [Radia Perlman](https://en.wikipedia.org/wiki/Radia_Perlman) (1951–present)`
+### `RadiaWrt` \| [Radia Perlman](https://en.wikipedia.org/wiki/Radia_Perlman) (1951–present)
 <img src=".github/images/namesakes/radia-perlman.jpg" alt="Radia Perlman portrait" width="120">
 
 Network architect Radia Perlman invented Spanning Tree Protocol (STP), solving critical routing loops in early Ethernet networks and enabling reliable, scalable topologies to become the backbone of modern networking. Her designs prioritize resilience without sacrificing throughput or introducing unnecessary latency.
