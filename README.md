@@ -148,7 +148,7 @@ TDP values are included per-node to support system debriefing analyses — cross
 
 ### 🧠 `AdaStack` | The Edge AstroLab 
 
-<img src=".github/images/adastack-demo.png" alt="AdaStack demo" width="120">
+<img src=".github/images/adastack-demo.png" alt="AdaStack demo" width="480">
 
 #### `Caroline-V`
 - **Namesake:** Caroline Herschel
