@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "${BASH_SOURCE[0]}"
+source ada-preflight "$BASH_SOURCE[0]"
 
 if [[ ! -e "${ADA_CODESPACE}" ]]; then
     ada-log "oof" "FATAL: '${ADA_CODESPACE}' does not exist"

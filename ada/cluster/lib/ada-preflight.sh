@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # AdaLovespace Preflight — Root check + env loader (merged sudo-check & ada-env)
 #
-# Usage: source ada-preflight "${BASH_SOURCE[0]}"
+# Usage: source ada-preflight "$BASH_SOURCE[0]"
 #
 # Checks root, resolves ADA_ROOT, sources cluster.env.
 

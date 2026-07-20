@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "${BASH_SOURCE[0]}"
+source ada-preflight "$BASH_SOURCE[0]"
 
 # Check if the script received an argument
 if [ $# -eq 0 ]; then

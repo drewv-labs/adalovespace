@@ -102,8 +102,7 @@ The repository is organized into the following directories:
 | Directory | Purpose |
 |-----------|---------|
 | `ada/cluster/` | Edge cluster node provisioning scripts and configs |
-| `docs/` | Documentation, architecture diagrams, guides |
-| `assets/` | Images, wallpapers, branding assets |
+| `knowbase/` | Documentation, architecture diagrams, guides |
 
 ## ⚙️ Drew's Gear
 

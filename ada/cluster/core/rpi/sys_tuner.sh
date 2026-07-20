@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "${BASH_SOURCE[0]}"
+source ada-preflight "$BASH_SOURCE[0]"
 source arg-switches \
     "keep_bluetooth" \
     "keep_wifi" \

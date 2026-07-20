@@ -6,7 +6,7 @@
 # ==============================================================================
 
 set -euo pipefail
-source ada-preflight "${BASH_SOURCE[0]}"
+source ada-preflight "$BASH_SOURCE[0]"
 
 home_dir="/home/${ADA_USER}"
 

@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "${BASH_SOURCE[0]}"
+source ada-preflight "$BASH_SOURCE[0]"
 
 sudoers_file="/etc/sudoers.d/010_${ADA_ADMN}_nopasswd"
 
