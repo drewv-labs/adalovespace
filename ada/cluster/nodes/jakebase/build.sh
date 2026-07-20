@@ -3,23 +3,14 @@
 # Run as root from a fresh checkout: sudo ./cluster/nodes/jakebase/build_node.sh
 set -euo pipefail
 
-source ada-preflight "$BASH_SOURCE[0]"
+source ada-preflight "$BASH_SOURCE"
 
-ada-log "main" "=== Building JakeBase Node"
+ada-log main "=== Building JakeBase Node"
 
-jake="${ADA_CLUSTER}/nodes/jakebase"
+jakebase="$ADA_CLUSTER/nodes/jakebase"
 
-"${jake}/nfs/build.sh"
-"${jake}/psql/build.sh"
-"${jake}/mqtt/build.sh"
-"${jake}/ntfy/build.sh"
-"${jake}/telegraf/build.sh"
-
-"${ADA_CLUSTER}/core/apt_update_upgrade_slay.sh"
-
-ada-log "yay" "=== JakeBase Node Build Complete!"
-echo -n "Reboot? [y/n] " && read yn
-if [[ "$yn" =~ ^[Yy]$ ]]; then
-    ada-log "main" "=== Rebooting"
-    sudo reboot
-fi
+"$jakebase/nfs/build.sh"
+"$jakebase/psql/build.sh"
+"$jakebase/mqtt/build.sh"
+"$jakebase/ntfy/build.sh"
+"$jakebase/telegraf/build.sh"

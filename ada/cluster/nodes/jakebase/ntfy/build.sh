@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "$BASH_SOURCE[0]"
+source ada-preflight "$BASH_SOURCE"
 
-ada-log "app" "=== Building Ntfy Server ==="
+ada-log app "=== Building Ntfy Server ==="
 
-"${ADA_CLUSTER}/core/debian/mods/install_ntfy.sh"
+"$ADA_CLUSTER/core/debian/mods/install_ntfy.sh"

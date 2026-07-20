@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "$BASH_SOURCE[0]"
+source ada-preflight "$BASH_SOURCE"
 
-ada-log "mod" "=== Installing Telegraf"
+ada-log mod "=== Installing Telegraf"
 
 # Debian Bookworm includes Telegraf in its default apt mirrors,
 # the upstream InfluxData repository contains critical
@@ -13,4 +13,3 @@ curl -s https://repos.influxdata.com/influxdata-archive_compat.key | gpg --dearm
 echo "deb [signed-by=/etc/apt/trusted.gpg.d/influxdata-archive_compat.gpg] https://repos.influxdata.com/debian stable main" | sudo tee /etc/apt/sources.list.d/influxdata.list
 
 sudo apt install telegraf -y
-echo ""

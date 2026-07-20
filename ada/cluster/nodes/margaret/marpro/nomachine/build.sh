@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "$BASH_SOURCE[0]"
+source ada-preflight "$BASH_SOURCE"
 
-ada-log "app" "=== Building NoMachine Service ==="
+ada-log app "=== Building NoMachine Service ==="
 
-"${ADA_CLUSTER}/core/ubuntu/mods/install_nomachine.sh"
+"$ADA_CLUSTER/core/ubuntu/mods/install_nomachine.sh"

@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "$BASH_SOURCE[0]"
+source ada-preflight "$BASH_SOURCE"
 
-ada-log "mod" "=== Installing PHD2 Dependencies"
+ada-log mod "=== Installing PHD2 Dependencies"
 
 deps=(
     dphys-swapfile
@@ -29,5 +29,3 @@ sudo apt update -y
 for dep in "${deps[@]}"; do
     sudo apt install "${dep}" -y
 done
-
-echo ""

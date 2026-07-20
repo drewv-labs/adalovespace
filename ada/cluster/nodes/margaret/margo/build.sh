@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "$BASH_SOURCE[0]"
+source ada-preflight "$BASH_SOURCE"
 
-ada-log "mod" "=== Installing MarGo Stack ==="
+ada-log mod "=== Installing MarGo Stack ==="
 
 # Core VNC streaming packages
 sudo apt install -y xvfb tigervnc-standalone-server websockify novnc
@@ -24,6 +24,3 @@ fi
 
 # RB-Focus Excalibur (if package exists in your repo, otherwise skip)
 # ada-log "eh" "RB-Focus driver: check for indi-rb-focus or use INDI network server with Ekos native support"
-
-echo ""
-ada-log "yay" "=== MarGo stack installed: Xvfb + VNC + noVNC + ZWO/Gemini drivers"

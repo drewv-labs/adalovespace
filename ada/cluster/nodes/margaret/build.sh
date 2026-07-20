@@ -1,22 +1,11 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "$BASH_SOURCE[0]"
+source ada-preflight "$BASH_SOURCE"
 
-"${ADA_CLUSTER}/core/build_core.sh" ubuntu
+ada-log main "=== Building Margaret Node"
 
-ada-log "main" "=== Building Margaret Node"
+margaret="$ADA_CLUSTER/nodes/margaret"
 
-node="${ADA_CLUSTER}/nodes/margaret"
-
-"${node}/xfce/build_gui.sh"
-"${node}/kstars/build_app.sh"
-"${node}/nomachine/build_service.sh"
-
-"${ADA_CLUSTER}/core/apt_update_upgrade_slay.sh"
-
-ada-log "yay" "=== Margaret build complete and ready to reboot"
-echo -n "Reboot? [y/n] " && read yn
-if [[ "$yn" =~ ^[Yy]$ ]]; then
-    ada-log "main" "=== Rebooting"
-    sudo reboot
-fi
+"$margaret/xfce/build_gui.sh"
+"$margaret/kstars/build_app.sh"
+"$margaret/nomachine/build_service.sh"

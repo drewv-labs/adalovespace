@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "$BASH_SOURCE[0]"
+source ada-preflight "$BASH_SOURCE"
 
-ada-log "app" "=== Building KStars App ==="
+ada-log app "=== Building KStars App ==="
 
-"${ADA_CLUSTER}/core/ubuntu/mods/install_kstars.sh"
+"$ADA_CLUSTER/core/ubuntu/mods/install_kstars.sh"

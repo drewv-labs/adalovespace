@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "$BASH_SOURCE[0]"
+source ada-preflight "$BASH_SOURCE"
 
-ada-log "sys" "=== Ubuntu Base Installs"
+ada-log sys "=== Ubuntu Base Installs"
 
-"${ADA_CLUSTER}/core/debian/base_installs.sh"
+"$ADA_CLUSTER/core/debian/base_installs.sh"

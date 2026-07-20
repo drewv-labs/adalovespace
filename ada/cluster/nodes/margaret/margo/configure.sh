@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "$BASH_SOURCE[0]"
+source ada-preflight "$BASH_SOURCE"
 
 ada-log "app" "=== Building MarGo Services ==="
 
@@ -24,9 +24,9 @@ After=network.target
 
 [Service]
 Type=forking
-User=${ADAUSR_SRV}
+User=$ADAUSR_SRV
 Environment=DISPLAY=:99
-ExecStart=/usr/bin/Xvfb :99 -screen 0 ${RESOLUTION} -ac +extension GLX +render -noreset
+ExecStart=/usr/bin/Xvfb :99 -screen 0 $RESOLUTION -ac +extension GLX +render -noreset
 ExecStop=/bin/kill \$(cat /var/run/adalovespace-xvfb.pid)
 PIDFile=/var/run/adalovespace-xvfb.pid
 Restart=always
@@ -44,12 +44,12 @@ ada-log "app" "[MarGo] Xvfb unit created → http://<margaret-ip>:${WEBSOCKIFY_P
 # ==============================================================================
 # 2. x11vnc Service — Captures virtual display to VNC protocol
 # ==============================================================================
-if [[ -n "${VNC_PASSWORD}" ]]; then
+if [[ -n "$VNC_PASSWORD" ]]; then
     # Create password file
-    sudo mkdir -p /home/${ADAUSR_SRV}/.vnc
-    echo "${VNC_PASSWORD}" | x11vnc -storepasswd - /home/${ADAUSR_SRV}/.vnc/vncpass 2>/dev/null || true
-    sudo chown -R ${ADAUSR_SRV}:${ADAUSR_SRV} /home/${ADAUSR_SRV}/.vnc/
-    VNC_AUTH="-rfbauth /home/${ADAUSR_SRV}/.vnc/vncpass"
+    sudo mkdir -p /home/$ADAUSR_SRV/.vnc
+    echo "$VNC_PASSWORD" | x11vnc -storepasswd - /home/$ADAUSR_SRV/.vnc/vncpass 2>/dev/null || true
+    sudo chown -R $ADAUSR_SRV:$ADAUSR_SRV /home/$ADAUSR_SRV/.vnc/
+    VNC_AUTH="-rfbauth /home/$ADAUSR_SRV/.vnc/vncpass"
 else
     VNC_AUTH="-nopw"
 fi
@@ -62,8 +62,8 @@ Wants=adalovespace-margo-vfb.service
 
 [Service]
 Type=simple
-User=${ADAUSR_SRV}
-ExecStart=/usr/bin/x11vnc -display :99 ${VNC_AUTH} -forever -shared -rfbport ${VNC_PORT} -bg
+User=$ADAUSR_SRV
+ExecStart=/usr/bin/x11vnc -display :99 $VNC_AUTH -forever -shared -rfbport $VNC_PORT -bg
 Restart=on-failure
 RestartSec=3
 
@@ -84,8 +84,8 @@ After=adalovespace-margo-vfb.service network-online.target
 
 [Service]
 Type=simple
-User=${ADAUSR_SRV}
-ExecStart=/usr/bin/websockify --web /usr/share/novnc ${WEBSOCKIFY_PORT} localhost:${VNC_PORT}
+User=$ADAUSR_SRV
+ExecStart=/usr/bin/websockify --web /usr/share/novnc $WEBSOCKIFY_PORT localhost:$VNC_PORT
 Restart=on-failure
 RestartSec=3
 
@@ -94,12 +94,12 @@ WantedBy=multi-user.target
 EOF
 
 sudo systemctl enable adalovespace-margo-novnc.service
-ada-log "app" "[MarGo] websockify unit created"
+ada-log app "[MarGo] websockify unit created"
 
 # ==============================================================================
 # 4. Start all services (in order: Xvfb → x11vnc → websockify)
 # ==============================================================================
-ada-log "app" "=== Starting MarGo Services ==="
+ada-log app "=== Starting MarGo Services ==="
 
 sudo systemctl restart adalovespace-margo-vfb.service
 sleep 2
@@ -112,24 +112,22 @@ sleep 1
 
 # Verify all services are running
 for svc in vfb vnc novnc; do
-    if sudo systemctl is-active --quiet "adalovespace-margo-${svc}.service"; then
-        ada-log "yay" "[MarGo] ${svc} service: RUNNING"
+    if sudo systemctl is-active --quiet "adalovespace-margo-$svc.service"; then
+        ada-log yay "[MarGo] $svc service: RUNNING"
     else
-        ada-log "oof" "[MarGo] ${svc} service: FAILED to start"
+        ada-log oof "[MarGo] $svc service: FAILED to start"
         exit 1
     fi
 done
 
 echo ""
-ada-log "yay" "=== MarGo Services Built and Running ==="
-echo ""
 echo "  ┌─────────────────────────────────────────────────────────────────────"
 echo "  │ 🌟 Ada Lovespace MarGo — Light KStars Access via Browser"
 echo "  ├─────────────────────────────────────────────────────────────────────"
-echo "  │  Virtual Display :99 (${RESOLUTION})"
-echo "  │  VNC Port        : ${VNC_PORT}"
-echo "  │  noVNC Browser URL: http://<margaret-ip>:${WEBSOCKIFY_PORT}/vnc.html?autoconnect=true"
-echo "  │  Auth            : $(if [[ -n "${VNC_PASSWORD}" ]]; then echo 'Enabled'; else echo 'None (local subnet)'; fi)"
+echo "  │  Virtual Display :99 ($RESOLUTION)"
+echo "  │  VNC Port        : $VNC_PORT"
+echo "  │  noVNC Browser URL: http://<margaret-ip>:$WEBSOCKIFY_PORT/vnc.html?autoconnect=true"
+echo "  │  Auth            : $(if [[ -n "$VNC_PASSWORD" ]]; then echo 'Enabled'; else echo 'None (local subnet)'; fi)"
 echo "  │  KStars          : Must be started manually on display :99"
 echo "  └─────────────────────────────────────────────────────────────────────"
 echo ""

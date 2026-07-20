@@ -22,40 +22,15 @@ DRY_RUN=false
 CPU_COUNT=0
 NODE_NAME=""
 PID_STRESS=""
+ENV_PATTERN="ada/cluster.env"
 
-RESOLVED_REPO_ROOT="${ADA_ROOT:-}"
+CODESPACE="${ADA_CODESPACE:-/opt/adalovespace}"
 
-_resolve_repo_root() {
-    if [[ -n "${RESOLVED_REPO_ROOT}" ]]; then
-        echo "${RESOLVED_REPO_ROOT}"
-        return 0
-    fi
-
-    local _candidate="$(cd "$(dirname "$BASH_SOURCE[0]")" && pwd)"
-    while [[ "${_candidate}" != "/" ]]; do
-        if [[ -f "${_candidate}/cluster.env" ]]; then
-            RESOLVED_REPO_ROOT="${_candidate}"
-            echo "${_candidate}"
-            return 0
-        fi
-        _candidate="$(dirname "${_candidate}")"
-    done
-
-    if [[ -f "/opt/adalovespace/cluster.env" ]]; then
-        RESOLVED_REPO_ROOT="/opt/adalovespace"
-        echo "/opt/adalovespace"
-        return 0
-    fi
-
-    echo "FATAL: Could not resolve repo root." >&2
+if [ -f "$CODESPACE/$ENV_PATTERN" ]; then
+    source "$CODESPACE/$ENV_PATTERN"
+else
+    echo "OOF!: $CODESPACE/$ENV_PATTERN not found. Please check config, codespace, or set ADA_CODESPACE=/path/to/codespace ada-stress {...}"
     exit 1
-}
-
-_ADA_ROOT="$(_resolve_repo_root)"
-
-# Source logging (if available)
-if [[ -f "${_ADA_ROOT}/cluster/lib/ada-log.sh" ]]; then
-    source "${_ADA_ROOT}/cluster/lib/ada-log.sh" >/dev/null 2>&1 || true
 fi
 
 # ==============================================================================
@@ -88,13 +63,13 @@ EOF
 
 _read_temps() {
     for zone in /sys/class/thermal/thermal_zone*/; do
-        [[ -d "${zone}" ]] || continue
+        [[ -d "$zone" ]] || continue
         local type="" temp=""
         [[ -f "${zone}type" ]] && type="$(cat "${zone}type" 2>/dev/null)"
         if [[ -f "${zone}temp" ]]; then
             temp="$(awk '{printf "%.1f", $1/1000}' "${zone}temp" 2>/dev/null)"
         fi
-        [[ -n "${type}" && -n "${temp}" ]] && echo "${type}: ${temp}°C"
+        [[ -n "$type" && -n "$temp" ]] && echo "$type: ${temp}°C"
     done
 
     command -v sensors &>/dev/null && sensors 2>/dev/null | grep -i "°C" || true
@@ -104,9 +79,9 @@ _max_temp() {
     local max=0
     while IFS= read -r line; do
         local val
-        val=$(echo "${line}" | grep -oE '[0-9]+\.[0-9]+|^[0-9]+' | head -1)
-        if [[ -n "${val}" ]] && awk "BEGIN {exit !(${val} > ${max})}"; then
-            max="${val}"
+        val=$(echo "$line" | grep -oE '[0-9]+\.[0-9]+|^[0-9]+' | head -1)
+        if [[ -n "$val" ]] && awk "BEGIN {exit !($val > $max)}"; then
+            max="$val"
         fi
     done <<< "$(_read_temps)"
     echo "${max}"
@@ -114,8 +89,8 @@ _max_temp() {
 
 _setup_log() {
     local logfile_dir="/var/log/ada"
-    [[ ! -w "${logfile_dir}" ]] && logfile_dir="${ADA_LOCAL_LOGS:-/tmp/ada-stress-logs}"
-    mkdir -p "${logfile_dir}" 2>/dev/null || true
+    [[ ! -w "$logfile_dir" ]] && logfile_dir="${ADA_LOCAL_LOGS:-/tmp/ada-stress-logs}"
+    mkdir -p "$logfile_dir" 2>/dev/null || true
     LOG_FILE="${logfile_dir}/stress-test-${NODE_NAME}-$(date +%Y%m%d-%H%M%S).log"
 }
 
@@ -129,31 +104,31 @@ _monitor_loop() {
     local peak_temp="N/A"
 
     { echo ""; echo "=== Stress Test Started: $(date) ==="; \
-      echo "Nodes stressed: ${CPU_COUNT} CPUs (${NODE_NAME})"; \
-      echo "---"; } >> "${LOG_FILE}"
+      echo "Nodes stressed: $CPU_COUNT CPUs ($NODE_NAME)"; \
+      echo "---"; } >> "$LOG_FILE"
 
     local start_temps="$(_read_temps)"
-    echo "[${elapsed}s] Temperature at start: ${start_temps}" >> "${LOG_FILE}"
+    echo "[${elapsed}s] Temperature at start: $start_temps" >> "$LOG_FILE"
     peak_temp="$(_max_temp)"
-    echo "[${elapsed}s] Peak temp so far: ${peak_temp}°C" >> "${LOG_FILE}"
+    echo "[${elapsed}s] Peak temp so far: ${peak_temp}°C" >> "$LOG_FILE"
 
     while (( elapsed < STRESS_SECONDS )); do
-        sleep "${interval}"
+        sleep "$interval"
         elapsed=$((elapsed + interval))
 
         local temps cur_peak
         temps="$(_read_temps)"
         cur_peak="$(_max_temp)"
-        awk "BEGIN {exit !(${cur_peak} > ${peak_temp})}" && peak_temp="${cur_peak}"
+        awk "BEGIN {exit !($cur_peak > $peak_temp)}" && peak_temp="$cur_peak"
 
-        printf "[%-5ds] Temps: %-80s Peak: %s°C\n" "${elapsed}" "${temps}" "${peak_temp}" >> "${LOG_FILE}"
+        printf "[%-5ds] Temps: %-80s Peak: %s°C\n" "$elapsed" "$temps" "$peak_temp" >> "$LOG_FILE"
 
         (( elapsed % 60 == 0 )) && \
             ada-log "t1" "[stress] Elapsed: ${elapsed}s / ${STRESS_SECONDS}s | Peak temp: ${peak_temp}°C"
     done
 
     { echo "---"; echo "=== Stress Test Ended: $(date) ==="; \
-      echo "Peak temperature observed: ${peak_temp}°C"; echo ""; } >> "${LOG_FILE}"
+      echo "Peak temperature observed: ${peak_temp}°C"; echo ""; } >> "$LOG_FILE"
 }
 
 # ==============================================================================
@@ -172,22 +147,22 @@ main() {
             --dry-run)   DRY_RUN=true; shift ;;
             --cpus)
                 CPU_COUNT="${2:-}"
-                if [[ -z "${CPU_COUNT}" ]] || ! [[ "${CPU_COUNT}" =~ ^[0-9]+$ ]]; then
+                if [[ -z "$CPU_COUNT" ]] || ! [[ "$CPU_COUNT" =~ ^[0-9]+$ ]]; then
                     echo "ERROR: --cpus requires a positive integer" >&2; exit 1
                 fi
                 shift 2 ;;
-            -*)          echo "ERROR: Unknown option: ${1}" >&2; _usage; exit 1 ;;
+            -*)          echo "ERROR: Unknown option: $1" >&2; _usage; exit 1 ;;
             *)
-                if ! [[ "${1}" =~ ^[0-9]+$ ]]; then
+                if ! [[ "$1" =~ ^[0-9]+$ ]]; then
                     echo "ERROR: Duration must be a positive integer (minutes)" >&2; exit 1
                 fi
-                STRESS_DURATION="${1}"
+                STRESS_DURATION="$1"
                 STRESS_SECONDS=$((STRESS_DURATION * 60))
                 shift ;;
         esac
     done
 
-    if [[ "${STRESS_SECONDS}" -eq 0 ]]; then
+    if [[ "$STRESS_SECONDS" -eq 0 ]]; then
         echo "ERROR: Duration must be specified (e.g., ada-stress-test 30)" >&2
         exit 1
     fi
@@ -202,9 +177,9 @@ main() {
         echo "============================================="
         echo " Ada Lovespace — Stress Test (dry-run)"
         echo "============================================="
-        echo " Node:           ${NODE_NAME}"
-        echo " Duration:       ${STRESS_DURATION} minutes (${STRESS_SECONDS} seconds)"
-        echo " CPUs to stress: ${CPU_COUNT}"
+        echo " Node:           $NODE_NAME"
+        echo " Duration:       $STRESS_DURATION minutes ($STRESS_SECONDS seconds)"
+        echo " CPUs to stress: $CPU_COUNT"
         echo ""
 
         command -v stress-ng &>/dev/null || {
@@ -214,7 +189,7 @@ main() {
         }
 
         echo "[dry-run] Would run:"
-        echo "         stress-ng --cpu ${CPU_COUNT} --throttle 1 --timeout ${STRESS_SECONDS}s"
+        echo "         stress-ng --cpu $CPU_COUNT --throttle 1 --timeout ${STRESS_SECONDS}s"
         echo ""
         echo "[dry-run] Would monitor temperatures every 10s."
         echo "Remove --dry-run to execute."
@@ -228,10 +203,10 @@ main() {
     echo "============================================="
     echo " Ada Lovespace — Stress Test"
     echo "============================================="
-    echo " Node:           ${NODE_NAME}"
-    echo " Duration:       ${STRESS_DURATION} minutes (${STRESS_SECONDS} seconds)"
-    echo " CPUs to stress: ${CPU_COUNT}"
-    echo " Log file:       ${LOG_FILE}"
+    echo " Node:           $NODE_NAME"
+    echo " Duration:       $STRESS_DURATION minutes ($STRESS_SECONDS seconds)"
+    echo " CPUs to stress: $CPU_COUNT"
+    echo " Log file:       $LOG_FILE"
     echo ""
 
     # Trap for clean shutdown on Ctrl+C / SIGTERM
@@ -240,28 +215,30 @@ main() {
     _cleanup_and_report() {
         local rc=$?
         echo ""; ada-log "main" "[stress] Cleaning up..."
-        kill "${PID_STRESS}" 2>/dev/null || true
-        wait "${PID_STRESS}" 2>/dev/null || true
+        kill "$PID_STRESS" 2>/dev/null || true
+        wait "$PID_STRESS" 2>/dev/null || true
         kill $(jobs -p) 2>/dev/null || true
-        ada-log "yay" "[stress] Stress test completed or interrupted (exit code: ${rc})"
-        echo ""; echo "Results logged to: ${LOG_FILE}"; exit "${rc}"
+        ada-log "yay" "[stress] Stress test completed or interrupted (exit code: $rc)"
+        echo ""; echo "Results logged to: $LOG_FILE"; exit "$rc"
     }
 
     # Start temp monitor in background, then stress-ng
     _monitor_loop &
     local PID_MONITOR=$!
 
-    ada-log "main" "[stress] Starting ${CPU_COUNT} CPU worker(s) for ${STRESS_SECONDS}s..."
-    stress-ng --cpu "${CPU_COUNT}" --throttle 1 --timeout "${STRESS_SECONDS}s" &
+    ada-log "main" "[stress] Starting $CPU_COUNT CPU worker(s) for $STRESS_SECONDS seconds..."
+    stress-ng --cpu "$CPU_COUNT" --throttle 1 --timeout "$STRESS_SECONDS"s &
     PID_STRESS=$!
 
-    wait "${PID_STRESS}" || true
+    wait "$PID_STRESS" || true
     sleep 2
-    kill "${PID_MONITOR}" 2>/dev/null || true
-    wait "${PID_MONITOR}" 2>/dev/null || true
+    kill "$PID_MONITOR" 2>/dev/null || true
+    wait "$PID_MONITOR" 2>/dev/null || true
 
-    echo ""; ada-log "yay" "[stress] Stress test finished after ${STRESS_DURATION} minutes"
-    echo "Results logged to: ${LOG_FILE}"; echo ""
+    echo ""
+    ada-log yay "[stress] Stress test finished after $STRESS_DURATION minutes"
+    ada-log yay "Results logged to: $LOG_FILE"
+    echo ""
 }
 
 main "$@"

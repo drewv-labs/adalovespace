@@ -1,15 +1,15 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "$BASH_SOURCE[0]"
+source ada-preflight "$BASH_SOURCE"
 
-ada-log "sys" "=== Debian Base Installs"
+ada-log sys "=== Debian Base Installs"
 
 check_cmd() {
     if ! command -v "$1" &> /dev/null; then
-        echo "=== $1 not found, installing..."
-        "${ADA_CLUSTER}/core/debian/mods/${2}"
+        ada-log debug "=== $1 not found, installing..."
+        "$ADA_CLUSTER/core/debian/mods/$2"
     else
-        echo "=== $1 found, skipping install."
+        ada-log debug "=== $1 found, skipping install."
     fi
 }
 

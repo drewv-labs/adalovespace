@@ -1,8 +1,8 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "$BASH_SOURCE[0]"
+source ada-preflight "$BASH_SOURCE"
 
-ada-log "mod" "=== Purging Snap"
+ada-log mod "=== Purging Snap"
 
 sudo systemctl disable --now snapd.socket snapd.service
 sudo apt purge autoremove snapd

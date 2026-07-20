@@ -1,10 +1,8 @@
 #!/usr/bin/env bash
 set -euxo pipefail
-source ada-preflight "$BASH_SOURCE[0]"
+source ada-preflight "$BASH_SOURCE"
 
-cluster="${ADA_ROOT}/cluster"
+ada-log app "=== Building Telegraf Ingestion Engine ==="
 
-echo "${ADA_PLUM}=== Building Telegraf Ingestion Engine ==="
-
-"${cluster}/core/debian/mods/install_telegraf.sh"
-"${cluster}/nodes/jakebase/telegraf/config_engine.sh"
+"$ADA_CLUSTER/core/debian/mods/install_telegraf.sh"
+"$ADA_CLUSTER/nodes/jakebase/telegraf/config_engine.sh"
