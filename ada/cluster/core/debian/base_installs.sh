@@ -4,6 +4,14 @@ source ada-preflight "$BASH_SOURCE[0]"
 
 ada-log "sys" "=== Debian Base Installs"
 
-if ! command -v uv &> /dev/null; then
-    "${ADA_ROOT}/cluster/core/debian/mods/install_uv_root.sh"
-fi
+check_cmd() {
+    if ! command -v "$1" &> /dev/null; then
+        echo "=== $1 not found, installing..."
+        "${ADA_CLUSTER}/core/debian/mods/${2}"
+    else
+        echo "=== $1 found, skipping install."
+    fi
+}
+
+check_cmd uv install_uv_root.sh
+check_cmd stress-ng install_stress_ng.sh
