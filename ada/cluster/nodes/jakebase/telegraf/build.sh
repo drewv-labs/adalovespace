@@ -5,4 +5,4 @@ source ada-preflight "$BASH_SOURCE"
 ada-log app "=== Building Telegraf Ingestion Engine ==="
 
 "$ADA_CLUSTER/core/debian/mods/install_telegraf.sh"
-"$ADA_CLUSTER/nodes/jakebase/telegraf/config_engine.sh"
+"$ADA_CLUSTER/nodes/jakebase/telegraf/configure.sh"

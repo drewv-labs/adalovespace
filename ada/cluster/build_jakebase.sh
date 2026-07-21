@@ -10,18 +10,17 @@ if [ "$(pwd)" != "$GITROOT" ]; then
 fi
 
 # // CWD should be at user's adalovespace clone spot at this point
-
 # // cluster.env vars are static so can source from the git repo
 source ./ada/cluster.env
 
 # // Using git-root code to bootstrap the node codespace, which will
 # // serve as production runtime env
 _tmp_lib="./$ADA_CLUST_S/lib"
-source "$_tmp_lib/ada-selfboot.sh" "jakebase"
+source "$_tmp_lib/ada-strapper.sh" jakebase
 
 # // With self-bootstrapper setting up our desired ADA_CODEBASE
 # // switch to using the node codebase
-sudo "$ADA_CLUSTER/core/build_core.sh" "$JAKEBASE_HW"
+sudo "$ADA_CLUSTER/core/build.sh" "$JAKEBASE_HW"
 
 sudo "$ADA_CLUSTER/nodes/jakebase/build.sh"
 

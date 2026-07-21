@@ -6,6 +6,6 @@ ada-log main "=== Building Margaret Node"
 
 margaret="$ADA_CLUSTER/nodes/margaret"
 
-"$margaret/xfce/build_gui.sh"
-"$margaret/kstars/build_app.sh"
-"$margaret/nomachine/build_service.sh"
+"$margaret/xfce/build.sh"
+"$margaret/kstars/build.sh"
+"$margaret/nomachine/build.sh"

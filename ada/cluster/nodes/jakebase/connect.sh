@@ -32,10 +32,6 @@ case "$suffix_upper" in
         nfs_dir="$NFS_SHARE"
         ;;
 
-    "WHEELHOUSE")
-        nfs_dir="$NFS_WHEELHOUSE"
-        ;;
-
     *)
         ada-log oof "Unknown type: $suffix"
         exit 1

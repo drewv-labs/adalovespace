@@ -2,7 +2,7 @@
 set -euxo pipefail
 source ada-preflight "$BASH_SOURCE"
 
-ada-log "app" "=== Building MarGo Services ==="
+ada-log "app" "=== Building MarGo Services"
 
 # ==============================================================================
 # Configuration (override with env vars before calling this script)
@@ -39,7 +39,7 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable adalovespace-margo-vfb.service
 
-ada-log "app" "[MarGo] Xvfb unit created → http://<margaret-ip>:${WEBSOCKIFY_PORT}/vnc.html"
+ada-log "app" "[MarGo] Xvfb unit created → http://$MARG:${WEBSOCKIFY_PORT}/vnc.html"
 
 # ==============================================================================
 # 2. x11vnc Service — Captures virtual display to VNC protocol

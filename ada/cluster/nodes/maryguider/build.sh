@@ -6,4 +6,4 @@ ada-log main "=== Building MaryGuider Node"
 
 maryguider="$ADA_CLUSTER/nodes/maryguider"
 
-"$maryguider/phd2/build_engine.sh"
+"$maryguider/phd2/build.sh"

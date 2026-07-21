@@ -13,7 +13,6 @@ sudo mkdir -p "$NFS_ROOT"
 sudo mkdir -p "$NFS_CODE"
 sudo mkdir -p "$NFS_LOGS"
 sudo mkdir -p "$NFS_SHARE"
-sudo mkdir -p "$NFS_WHEELHOUSE"
 
 sudo ln -s "$ADA_CODESPACE" "$NFS_CODE/adalovespace"
 
