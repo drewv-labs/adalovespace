@@ -31,5 +31,3 @@ sudo "$ADA_CLUSTER/core/apt_update_upgrade_purge.sh"
 if [ "$(pwd)" != "$_CURDIR" ]; then
     cd "$_CURDIR"
 fi
-
-
