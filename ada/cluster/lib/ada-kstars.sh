@@ -1,7 +1,7 @@
 #!/usr/bin/env bash
 # Ada Lovespace — MarGo KStars Control Utility
 # Manages KStars lifecycle on Margaret (VNC + Ekos)
-# Available as "ada-kstars" after self-boot (root)
+# Available as "ada-kstars" after ada-strapper (root)
 # NODE=margaret  → only linked when running on this hostname
 #
 # Usage:

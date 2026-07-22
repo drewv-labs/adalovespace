@@ -12,11 +12,11 @@ fi
 # // Do the thing
 echo "... Attempting to Load Env Vars from ada/cluster.env..."
 source ada/cluster.env
-echo "... Attempting JakeBase Node Bootstrapper ($ADA_CLUST_S/lib/ada-strapper.sh)..."
+echo "... Attempting Margaret Node Bootstrapper ($ADA_CLUST_S/lib/ada-strapper.sh)..."
 source "$ADA_CLUST_S/lib/ada-strapper.sh" "margaret"
 
-ada-log main "=== JakeBase Node Bootstrapper Complete"
-ada-log main "=== JakeBase Node Build Start"
+ada-log main "=== Margaret Node Bootstrapper Complete"
+ada-log main "=== Margaret Node Build Start"
 
 # // With self-bootstrapper setting up our desired ADA_CODEBASE
 # // switch to using the node codebase
@@ -29,7 +29,7 @@ if [ "$(pwd)" != "$_CURDIR" ]; then
     cd "$_CURDIR"
 fi
 
-ada-log "yay" "=== JakeBase Node Build Complete"
+ada-log "yay" "=== Margaret Node Build Complete"
 echo -n "Reboot? [y/n] " && read yn
 if [[ "$yn" =~ ^[Yy]$ ]]; then
     ada-log "main" "=== Rebooting"
