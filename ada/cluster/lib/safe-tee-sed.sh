@@ -20,14 +20,17 @@ use_sudo="${4:-no}"
 # Expand glob patterns in target (e.g. /etc/postgresql/*/main/pg_hba.conf)
 if [[ "$target" == *"*"* || "$target" == *"?"* || "$target" == *"["* ]]; then
     shopt -s nullglob
-    matches=($target)
+    # Disable globbing to prevent premature expansion, then re-enable
+    set -f
+    matches=( $target )
+    set +f
     if [[ ${#matches[@]} -eq 0 ]]; then
         ada-log oof "FATAL: [safe-tee-sed] No files matched glob: $target"
         exit 1
     elif [[ ${#matches[@]} -gt 1 ]]; then
         ada-log warn "[safe-tee-sed] Multiple files matched glob '$target', using first: $matches"
     fi
-    target="$matches"
+    target="${matches[0]}"
     shopt -u nullglob
 fi
 

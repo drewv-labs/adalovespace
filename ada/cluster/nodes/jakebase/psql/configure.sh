@@ -5,14 +5,33 @@ source ada-preflight "$BASH_SOURCE"
 ada-log mod "=== Configuring JakeBase PostgreSQL Host"
 
 # Update listen_addresses to allow remote connections
-sudo sed -i "s/#listen_addresses = 'localhost'/listen_addresses = '*'/" /etc/postgresql/*/main/postgresql.conf
+PG_LISTEN="listen_addresses = '*'"
+shopt -s nullglob
+pgconf_files=(/etc/postgresql/*/main/postgresql.conf)
+shopt -u nullglob
+if [[ ${#pgconf_files[@]} -gt 0 ]]; then
+    for pgconf in "${pgconf_files[@]}"; do
+        # Try to replace the default commented localhost setting
+        sudo sed -i "s/#listen_addresses = 'localhost'/$PG_LISTEN/" "$pgconf"
+        # If no uncommented listen_addresses exists yet, uncomment any commented variant
+        if ! grep -q '^listen_addresses' "$pgconf"; then
+            sudo sed -i "/^# *listen_addresses/c\\    ${PG_LISTEN}" "$pgconf"
+        fi
+    done
+fi
 
 # Add md5 auth rule for external connections to pg_hba.conf (before peer rules)
-entry="host    all             all             0.0.0.0/0               md5"
-safe-tee-sed "/etc/postgresql/*/main/pg_hba.conf" "^$entry" "$entry" "yes"
-
-# Allow local socket connections via md5 too (so psql -U works with sudo -u postgres)
-sudo sed -i 's/^local\s\+all\s\+all\s\+peer/local    all             all                                     md5/' /etc/postgresql/*/main/pg_hba.conf
+shopt -s nullglob
+pghba_files=(/etc/postgresql/*/main/pg_hba.conf)
+shopt -u nullglob
+if [[ ${#pghba_files[@]} -gt 0 ]]; then
+    entry="host    all             all             0.0.0.0/0               md5"
+    for pghba in "${pghba_files[@]}"; do
+        safe-tee-sed "$pghba" "$entry" "$entry" "yes"
+        # Allow local socket connections via md5 too (so psql -U works with sudo -u postgres)
+        sudo sed -i 's/^local  \+all  \+all  \+peer/local    all             all                                     md5/' "$pghba"
+    done
+fi
 
 # Restart to apply pg_hba.conf and listen_addresses changes
 sudo systemctl restart postgresql

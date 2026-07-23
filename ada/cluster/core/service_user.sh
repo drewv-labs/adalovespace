@@ -8,21 +8,21 @@
 set -euo pipefail
 source ada-preflight "$BASH_SOURCE"
 
-home_dir="/home/$ADA_USER"
+home_dir="/home/$ADAUSR_SRV"
 
-ada-log sys "=== Setting up $ADA_USER service user"
+ada-log sys "=== Setting up $ADAUSR_SRV service user"
 
-ada-log mod "--> 1. Creating $ADA_USER user and group..."
+ada-log mod "--> 1. Creating $ADAUSR_SRV user and group..."
 # Create user with a valid home directory (needed for Python venvs/configs)
 # but assign /bin/bash for systemd execution context.
-if id "$ADA_USER" &>/dev/null; then
-  ada-log debug "User $ADA_USER already exists. Skipping creation."
+if id "$ADAUSR_SRV" &>/dev/null; then
+  ada-log debug "User $ADAUSR_SRV already exists. Skipping creation."
 else
-  useradd --create-home --home-dir "$home_dir" --shell /bin/bash "$ADA_USER"
-  ada-log debug "Created user: $ADA_USER"
+  useradd --create-home --home-dir "$home_dir" --shell /bin/bash "$ADAUSR_SRV"
+  ada-log debug "Created user: $ADAUSR_SRV"
 fi
 
-ada-log mod "--> 2. Assigning $ADA_USER to hardware groups..."
+ada-log mod "--> 2. Assigning $ADAUSR_SRV to hardware groups..."
 # Standard Debian hardware groups for astrophotography & edge computing
 # (serial ports, USB cameras, GPIO pins, video devices, audio/I2C/SPI if present)
 hardware_groups="dialout,video,plugdev,tty"
@@ -34,16 +34,16 @@ for opt_group in gpio i2c spi audio input; do
   fi
 done
 
-usermod -a -G "$hardware_groups" "$ADA_USER"
-ada-log debug "Assigned $ADA_USER to groups: $hardware_groups"
+usermod -a -G "$hardware_groups" "$ADAUSR_SRV"
+ada-log debug "Assigned $ADAUSR_SRV to groups: $hardware_groups"
 
 ada-log mod "--> 3. Configuring collaborative group permissions..."
 # Add the admin user to the 'ada' group so you can manage files
-if id "$ADA_ADMN" &>/dev/null; then
-  usermod -a -G "$ADA_USER" "$ADA_ADMN"
-  ada-log debug "Added $ADA_ADMN to the '$ADA_USER' group for shared workspace access."
+if id "$ADAUSR_ADM" &>/dev/null; then
+  usermod -a -G "$ADAUSR_SRV" "$ADAUSR_ADM"
+  ada-log debug "Added $ADAUSR_ADM to the '$ADAUSR_SRV' group for shared workspace access."
 else
-  ada-log warn "Warning: Admin user '$ADA_ADMN' not found. Skipping group join."
+  ada-log warn "Warning: Admin user '$ADAUSR_ADM' not found. Skipping group join."
 fi
 
 ada-log mod "--> 4. Provisioning directory structure and applying SetGID magic..."
@@ -51,7 +51,7 @@ ada-log mod "--> 4. Provisioning directory structure and applying SetGID magic..
 mkdir -p "$ADA_LOCAL_LOGS"
 
 # Set ownership: root owner, 'ada' group
-chown -R root:"$ADA_USER" "$ADA_ROOT" "$ADA_LOCAL_LOGS"
+chown -R root:"$ADAUSR_SRV" "$ADA_ROOT" "$ADA_LOCAL_LOGS"
 
 # Set permissions: 2775 (rwxrwsr-x)
 # The '2' is the SetGID bit: any new file created in these folders automatically
@@ -59,5 +59,5 @@ chown -R root:"$ADA_USER" "$ADA_ROOT" "$ADA_LOCAL_LOGS"
 chmod -R 2775 "$ADA_ROOT" "$ADA_LOCAL_LOGS"
 
 # Ensure standard secure permissions on the service user's home directory
-chown -R "$ADA_USER:$ADA_USER" "$home_dir"
+chown -R "$ADAUSR_SRV:$ADAUSR_SRV" "$home_dir"
 chmod 750 "$home_dir"
