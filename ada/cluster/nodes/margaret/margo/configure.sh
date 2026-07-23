@@ -39,7 +39,7 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable adalovespace-margo-vfb.service
 
-ada-log "app" "[MarGo] Xvfb unit created → http://$MARG:${WEBSOCKIFY_PORT}/vnc.html"
+ada-log "app" "[MarGo] Xvfb unit created → http://$MARGARET_IP:${WEBSOCKIFY_PORT}/vnc.html"
 
 # ==============================================================================
 # 2. x11vnc Service — Captures virtual display to VNC protocol

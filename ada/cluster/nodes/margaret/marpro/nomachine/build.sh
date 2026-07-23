@@ -4,4 +4,4 @@ source ada-preflight "$BASH_SOURCE"
 
 ada-log app "=== Building NoMachine Service ==="
 
-"$ADA_CLUSTER/core/ubuntu/mods/install_nomachine.sh"
+"$ADA_CLUSTER/core/debian/mods/install_nomachine.sh"

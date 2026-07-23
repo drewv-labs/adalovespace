@@ -5,7 +5,7 @@ source ada-preflight "$BASH_SOURCE"
 ada-log mod "=== Installing MarGo Stack ==="
 
 # Core VNC streaming packages
-sudo apt install -y xvfb tigervnc-standalone-server websockify novnc
+sudo apt install -y xvfb tigervnc-standalone-server websockify novnc x11vnc
 
 # INDI full package (base telescope/camera drivers)
 if ! dpkg -l | grep -q "indi-full"; then
