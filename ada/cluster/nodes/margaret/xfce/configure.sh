@@ -2,7 +2,7 @@
 set -euxo pipefail
 source ada-preflight "$BASH_SOURCE"
 
-ada-log mod "=== Configuring Passwordless Login for User=$ADAUSR_ADM"
+ada-log app "=== Configuring Passwordless Login for MarPro-User=$ADAUSR_ADM"
 
 sudo groupadd -r nopasswdlogin
 sudo gpasswd -a "$ADAUSR_ADM" nopasswdlogin
@@ -14,4 +14,4 @@ sudo tee -a /etc/lightdm/lightdm.conf << EOF
     user-session=xfce
 EOF
 
-ada-log yay "=== Passwordless Login Configured for User=$ADAUSR_ADM\n"
+ada-log yay "=== Passwordless Login Configured for MarPro-User=$ADAUSR_ADM"

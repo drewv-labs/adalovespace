@@ -2,17 +2,15 @@
 set -euxo pipefail
 source ada-preflight "$BASH_SOURCE"
 
-ada-log "app" "=== Building MarGo Services"
+ada-log app "=== Configuring MarGo Stack (VNC)"
 
 # ==============================================================================
 # Configuration (override with env vars before calling this script)
 # ==============================================================================
-VNC_PORT="${MARGO_VNC_PORT:-5900}"
-WEBSOCKIFY_PORT="${MARGO_WEBSOCKIFY_PORT:-6080}"
-RESOLUTION="${MARGO_RESOLUTION:-1920x1080x24}"
-
-# VNC password (leave empty for local-only no-auth mode)
-VNC_PASSWORD="${MARGO_VNC_PASSWORD:-}"
+VNC_PORT="${MARGO_VNC_PORT:-$VNC_PORT}"
+VNC_PASSWORD="${MARGO_VNC_PASSWORD:-$VNC_PASSWORD}"
+WEBSOCKIFY_PORT="${MARGO_WEBSOCKIFY_PORT:-$VNC_WEBSOCKIFY_PORT}"
+RESOLUTION="${MARGO_RESOLUTION:-$VNC_RESOLUTION}"
 
 # ==============================================================================
 # 1. Xvfb Service — Virtual Display (where KStars runs, invisible to user)
@@ -39,7 +37,7 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable adalovespace-margo-vfb.service
 
-ada-log "app" "[MarGo] Xvfb unit created → http://$MARGARET_IP:${WEBSOCKIFY_PORT}/vnc.html"
+ada-log app "[MarGo] Xvfb unit created → http://$MARGARET_IP:${WEBSOCKIFY_PORT}/vnc.html"
 
 # ==============================================================================
 # 2. x11vnc Service — Captures virtual display to VNC protocol
@@ -72,7 +70,7 @@ WantedBy=multi-user.target
 EOF
 
 sudo systemctl enable adalovespace-margo-vnc.service
-ada-log "app" "[MarGo] x11vnc unit created"
+ada-log app "[MarGo] x11vnc unit created"
 
 # ==============================================================================
 # 3. websockify Service — Bridges VNC → WebSocket for noVNC viewer
@@ -99,7 +97,7 @@ ada-log app "[MarGo] websockify unit created"
 # ==============================================================================
 # 4. Start all services (in order: Xvfb → x11vnc → websockify)
 # ==============================================================================
-ada-log app "=== Starting MarGo Services ==="
+ada-log app "=== Starting MarGo Services"
 
 sudo systemctl restart adalovespace-margo-vfb.service
 sleep 2

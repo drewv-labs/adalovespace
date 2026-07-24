@@ -12,8 +12,9 @@ fi
 # // Do the thing — load env and bootstrap first
 echo "... Attempting to Load Env Vars from ada/cluster.env..."
 source ada/cluster.env
+
 echo "... Attempting Margaret Node Bootstrapper ($ADA_CLUST_S/lib/ada-strapper.sh)..."
-source "$ADA_CLUST_S/lib/ada-strapper.sh" "margaret"
+source "$ADA_CLUST_S/lib/ada-strapper.sh" margaret
 
 ada-log main "=== Margaret Node Build Start"
 

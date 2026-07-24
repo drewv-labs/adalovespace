@@ -2,25 +2,7 @@
 set -euxo pipefail
 source ada-preflight "$BASH_SOURCE"
 
-ada-log mod "=== Installing MarGo Stack ==="
+ada-log main "=== Building MarGo Stack (VNC)"
 
-# Core VNC streaming packages
-sudo apt install -y xvfb tigervnc-standalone-server websockify novnc x11vnc
-
-# INDI full package (base telescope/camera drivers)
-if ! dpkg -l | grep -q "indi-full"; then
-    sudo apt install -y indi-full
-fi
-
-# ZWO ASI camera driver (ASI2600MC Duo, EFW, EAF all use this)
-if ! dpkg -l | grep -q "indi-zwo"; then
-    sudo apt install -y indi-zwo
-fi
-
-# iOptron Gemini/AM5 mount driver (EQMOD protocol compatible)
-if ! dpkg -l | grep -q "indi-gemini"; then
-    sudo apt install -y indi-gemini
-fi
-
-# RB-Focus Excalibur (if package exists in your repo, otherwise skip)
-# ada-log "eh" "RB-Focus driver: check for indi-rb-focus or use INDI network server with Ekos native support"
+"$ADA_CLUSTER/core/debian/mods/install_vnc.sh"
+"$ADA_CLUSTER/nodes/margaret/margo/configure.sh"

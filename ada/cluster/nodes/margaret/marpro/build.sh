@@ -2,12 +2,11 @@
 set -euxo pipefail
 source ada-preflight "$BASH_SOURCE"
 
-ada-log main "=== Building MarPro Stack (Ubuntu + XFCE + LightDM + NoMachine + KStars)"
+ada-log main "=== Building MarPro Stack (XFCE + LightDM + NoMachine)"
 
-marpro="$ADA_CLUSTER/nodes/margaret/marpro"
+margaret="$ADA_CLUSTER/nodes/margaret/marpro"
 
-"$marpro/xfce/build.sh"
-"$ADA_CLUSTER/core/ubuntu/mods/install_kstars.sh"
-"$marpro/nomachine/build.sh"
+"$margaret/xfce/build.sh"
+"$margaret/nomachine/build.sh"
 
 ada-log yay "=== MarPro Build Complete"
