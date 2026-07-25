@@ -95,14 +95,31 @@ A 2+ (no factor constraint) scope cluster using color cameras with the same mult
 
 With enough scope nodes, private citizens could run their own self-hosted Vera Rubin–style *"All Sky Scan"* projects: as the cluster frames and slews around the sky as an aggregated panelled plan with high total integration time vs. real imaging time ratio. Each scope hard-focuses the same pane all night, stitching together a full-session all-sky mosaic with `session_time × N_nodes` of total integration time.
 
----
-
 ## 📂 Repository Structure
 The repository is organized into the following directories:
 | Directory | Purpose |
 |-----------|---------|
-| `ada/cluster/` | Edge cluster node provisioning scripts and configs |
-| `knowbase/` | Documentation, architecture diagrams, guides |
+| `ada/`  | Main codebase source dir |  
+| `ada/cluster.env` | Edge cluster environment variables  |  
+| `ada/cluster/` | Edge cluster node provisioning scripts and configs |  
+| `knowbase/` | Documentation, architecture diagrams, guides |  
+
+## JakeBase Call Graph
+```
+build_jakebase.sh
+  └─ core/build.sh rpi
+       ├─ prompt_ps1.sh
+       ├─ service_user.sh
+       ├─ rpi/sys_tuner.sh (delegates to debian/sys_tuner.sh + rpi purge_rpi_connect)
+       └─ rpi/base_installs.sh (delegates to debian/base_installs.sh)
+  └─ jakebase/build.sh
+       ├─ nfs/build.sh → install_nfs_kernel_server.sh + configure.sh
+       ├─ psql/build.sh → install_postgresql.sh + configure.sh
+       ├─ mqtt/build.sh → install_mosquitto_broker.sh + configure.sh
+       ├─ ntfy/build.sh → install_ntfy.sh
+       └─ telegraf/build.sh → install_telegraf.sh + configure.sh
+```
+
 
 ## ⚙️ Drew's Gear
 
