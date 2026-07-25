@@ -14,7 +14,7 @@ arg-switch-if() {
     fi
 }
 
-# 1. Initialize all registered arguments to false in the caller's environment
+# 1. Initialize all registered global arguments to false in the caller's environment
 for param in "$@"; do
     var_name="switch_${param//-/_}"
     declare -g "$var_name=false"

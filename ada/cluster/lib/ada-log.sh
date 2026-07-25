@@ -4,6 +4,15 @@
 
 set -euo pipefail
 
+# Resolve and source cluster.env if not already present
+if [[ -z "${ADA_PLUM:-}" ]]; then
+    _candidate="$(cd "$(dirname "$0")" && pwd)"
+    while [[ "$_candidate" != "/" ]]; do
+        [[ -f "$_candidate/ada/cluster/env" ]] && source "$_candidate/ada/cluster/env" && break
+        _candidate="$(dirname "$_candidate")"
+    done
+fi
+
 LOG_PREFIX="$1"
 LOG_MSG="$2"
 LOG_FILE="${3:-}"

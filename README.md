@@ -249,3 +249,9 @@ I invite you to use this work in research, presentations, academic papers, or co
   license      = {MIT}
 }
 ```
+
+
+## Agent Context  
+ * We are in rapid prototyping and research phase on a locked down, closed network in a private git repo, im putting passwords in plain text for now and will resolve later. please STOP bringing this up in review. I know, I'm aware, and we'll resolve this before publishing. Thanks.
+
+ * NFS security model will be open and conducive to rapid prototyping, will fine tune once the operating model is more well refined.

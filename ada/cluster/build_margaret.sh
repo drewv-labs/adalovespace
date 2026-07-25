@@ -13,10 +13,7 @@ if [ "$(pwd)" != "$GITROOT" ]; then
 fi
 
 # // Do the thing — load env and bootstrap first
-echo "... Attempting to Load Env Vars from ada/cluster.env..."
 source ada/cluster.env
-
-echo "... Attempting Margaret Node Bootstrapper ($ADA_CLUST_S/lib/ada-strapper.sh)..."
 source "$ADA_CLUST_S/lib/ada-strapper.sh" margaret
 
 ada-log main "=== Margaret Node Build Start"
@@ -40,9 +37,12 @@ if [ "$(pwd)" != "$_CURDIR" ]; then
     cd "$_CURDIR"
 fi
 
-ada-log "yay" "=== Margaret Node Build Complete"
-echo -n "Reboot? [y/n] " && read yn
-if [[ "$yn" =~ ^[Yy]$ ]]; then
-    ada-log "main" "=== Rebooting"
-    sudo reboot
+ada-log yay "=== Margaret Node Build Complete"
+if [[ -t 0 ]]; then
+    echo -n "Reboot? [y/N] " && read -r -t 30 yn
+    if [[ "${yn,,}" == y ]]; then
+        sudo reboot
+    fi
+else
+    ada-log main "Non-interactive mode: skipping reboot"
 fi

@@ -70,7 +70,10 @@ _setup_codespace_from_local() {
 
 _setup_codespace_from_remote() {
     if [[ ! -d "${NFS_ROOT:-}" ]]; then
-        "$ADA_CLUSTER/nodes/jakebase/connect.sh" root
+        if ! sudo "$ADA_CLUSTER/nodes/jakebase/connect.sh" root; then
+            ada-log oof "FATAL: Could not connect to JakeBase NFS. Is the node reachable?"
+            return 1
+        fi
     fi
 
     if [[ ! -L "${ADA_CODESPACE:-}" ]] && [[ ! -d "${ADA_CODESPACE:-}" ]]; then

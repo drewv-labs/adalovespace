@@ -39,7 +39,7 @@ if [ ! -f "$target" ]; then
     exit 1
 fi
 
-[ "$use_sudo" == "yes" ] && sudo_cmd="sudo" || sudo_cmd=""
+[[ "$use_sudo" = "yes" ]] && sudo_cmd="sudo" || sudo_cmd=""
 
 # Function to find a safe delimiter for sed
 find_safe_delimiter() {

@@ -7,3 +7,4 @@ cluster.conf
 .out
 .ignore
 .staging
+.secrets

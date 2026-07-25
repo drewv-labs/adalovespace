@@ -3,7 +3,7 @@ set -euo pipefail
 
 # Ada Lovespace — Full Load Stress Test Utility
 # Runs sustained CPU stress for thermal management validation.
-# Available as "ada-stress" after linking to /usr/local/bin.
+# Available as "ada-stresser" after linking to /usr/local/bin.
 #
 # Usage:
 #   ada-stress-test 30            # Run 30-minute stress test
@@ -30,7 +30,7 @@ CODESPACE="${ADA_CODESPACE:-/opt/adalovespace}"
 if [ -f "$CODESPACE/$ENV_PATTERN" ]; then
     source "$CODESPACE/$ENV_PATTERN"
 else
-    echo "OOF!: $CODESPACE/$ENV_PATTERN not found. Please check config, codespace, or set ADA_CODESPACE=/path/to/codespace ada-stress {...}"
+    echo "OOF!: $CODESPACE/$ENV_PATTERN not found. Please check config, codespace, or set ADA_CODESPACE=/path/to/codespace ada-stresser {...}"
     exit 1
 fi
 
@@ -231,7 +231,7 @@ main() {
     local PID_MONITOR=$!
 
     ada-log "main" "[stress] Starting $CPU_COUNT CPU worker(s) for $STRESS_SECONDS seconds..."
-    stress-ng --cpu "$CPU_COUNT" --throttle 1 --timeout "$STRESS_SECONDS"s &
+    stress-ng --cpu "$CPU_COUNT" --timeout "$STRESS_SECONDS"s &
     PID_STRESS=$!
 
     wait "$PID_STRESS" || true
