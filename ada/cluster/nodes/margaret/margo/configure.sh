@@ -5,7 +5,7 @@ source ada-preflight "$BASH_SOURCE"
 # // Tracer — toggle with ADA_TRACE=1
 source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
 
-ada-log app "=== Configuring MarGo Stack (VNC)"
+ada-logger app "=== Configuring MarGo Stack (VNC)"
 
 # ==============================================================================
 # Configuration (override with env vars before calling this script)
@@ -40,7 +40,7 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable adalovespace-margo-vfb.service
 
-ada-log app "[MarGo] Xvfb unit created → http://$MARGARET_IP:${WEBSOCKIFY_PORT}/vnc.html"
+ada-logger app "[MarGo] Xvfb unit created → http://$MARGARET_IP:${WEBSOCKIFY_PORT}/vnc.html"
 
 # ==============================================================================
 # 2. x11vnc Service — Captures virtual display to VNC protocol
@@ -73,7 +73,7 @@ WantedBy=multi-user.target
 EOF
 
 sudo systemctl enable adalovespace-margo-vnc.service
-ada-log app "[MarGo] x11vnc unit created"
+ada-logger app "[MarGo] x11vnc unit created"
 
 # ==============================================================================
 # 3. websockify Service — Bridges VNC → WebSocket for noVNC viewer
@@ -95,12 +95,12 @@ WantedBy=multi-user.target
 EOF
 
 sudo systemctl enable adalovespace-margo-novnc.service
-ada-log app "[MarGo] websockify unit created"
+ada-logger app "[MarGo] websockify unit created"
 
 # ==============================================================================
 # 4. Start all services (in order: Xvfb → x11vnc → websockify)
 # ==============================================================================
-ada-log app "=== Starting MarGo Services"
+ada-logger app "=== Starting MarGo Services"
 
 sudo systemctl restart adalovespace-margo-vfb.service
 sleep 2
@@ -114,9 +114,9 @@ sleep 1
 # Verify all services are running
 for svc in vfb vnc novnc; do
     if sudo systemctl is-active --quiet "adalovespace-margo-$svc.service"; then
-        ada-log yay "[MarGo] $svc service: RUNNING"
+        ada-logger yay "[MarGo] $svc service: RUNNING"
     else
-        ada-log oof "[MarGo] $svc service: FAILED to start"
+        ada-logger oof "[MarGo] $svc service: FAILED to start"
         exit 1
     fi
 done

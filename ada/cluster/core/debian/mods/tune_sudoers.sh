@@ -7,7 +7,7 @@ source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
 
 sudoers_file="/etc/sudoers.d/010_${ADAUSR_ADM}_nopasswd"
 
-ada-log mod "=== Configuring passwordless sudo for $ADAUSR_ADM"
+ada-logger mod "=== Configuring passwordless sudo for $ADAUSR_ADM"
 
 # 1. Write the rule atomically into the drop-in directory
 echo "$ADAUSR_ADM ALL=(ALL) NOPASSWD: ALL" | sudo tee "$sudoers_file" > /dev/null
@@ -17,7 +17,7 @@ sudo chmod 0440 "$sudoers_file"
 
 # 3. Validate the syntax safely before completing the build
 if ! sudo visudo -cf "$sudoers_file"; then
-    ada-log oof "Malformed sudoers syntax detected! Removing file to prevent system lockout."
+    ada-logger oof "Malformed sudoers syntax detected! Removing file to prevent system lockout."
     sudo rm -f "$sudoers_file"
     exit 1
 fi

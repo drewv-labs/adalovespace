@@ -47,8 +47,8 @@ _resolve_repo_root() {
 _ADA_ROOT="$(_resolve_repo_root)"
 
 # Source logging (if available)
-if [[ -f "$_ADA_ROOT/cluster/lib/ada-log.sh" ]]; then
-    source "$_ADA_ROOT/cluster/lib/ada-log.sh" >/dev/null 2>&1 || true
+if [[ -f "$_ADA_ROOT/cluster/lib/ada-logger.sh" ]]; then
+    source "$_ADA_ROOT/cluster/lib/ada-logger.sh" >/dev/null 2>&1 || true
 fi
 
 # // Tracer — toggle with ADA_TRACE=1
@@ -58,7 +58,7 @@ fi
 
 _start_vfb() {
     if ! systemctl is-active --quiet adalovespace-margo-vfb.service 2>/dev/null; then
-        ada-log main "[kstars] Starting Xvfb display :99..."
+        ada-logger main "[kstars] Starting Xvfb display :99..."
         sudo systemctl start adalovespace-margo-vfb.service
         sleep 2
     fi
@@ -66,7 +66,7 @@ _start_vfb() {
 
 _start_kstars_session() {
     if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
-        ada-log warn "[kstars] Session '$SESSION_NAME' already running"
+        ada-logger warn "[kstars] Session '$SESSION_NAME' already running"
         echo "   Reconnect: tmux attach -t $SESSION_NAME"
         return 0
     fi
@@ -74,7 +74,7 @@ _start_kstars_session() {
     # Ensure VFB is up first
     _start_vfb
 
-    ada-log main "[kstars] Starting KStars on display $DISPLAY_NUM..."
+    ada-logger main "[kstars] Starting KStars on display $DISPLAY_NUM..."
 
     # Launch KStars in a new detached tmux session
     DISPLAY="$DISPLAY_NUM" kstars --nosplash &
@@ -82,24 +82,24 @@ _start_kstars_session() {
     sleep 3
 
     if pgrep -x kstars &>/dev/null; then
-        ada-log yay "[kstars] Started on display $DISPLAY_NUM\n"
-        ada-log yay " <3 Browser view: http://<margaret-ip>:$WEBSOCKIFY_PORT/vnc.html?autoconnect=true\n"
+        ada-logger yay "[kstars] Started on display $DISPLAY_NUM\n"
+        ada-logger yay " <3 Browser view: http://<margaret-ip>:$WEBSOCKIFY_PORT/vnc.html?autoconnect=true\n"
     else
-        ada-log oof "[kstars] Failed to start — check Xvfb is running"
+        ada-logger oof "[kstars] Failed to start — check Xvfb is running"
         return 1
     fi
 }
 
 _stop_kstars_session() {
     if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
-        ada-log main "[kstars] Stopping KStars session..."
+        ada-logger main "[kstars] Stopping KStars session..."
         tmux kill-session -t "$SESSION_NAME"
     fi
 
     # Also kill any lingering kstars processes on display :99
     pkill -f "DISPLAY=$DISPLAY_NUM.*kstars" 2>/dev/null || true
 
-    ada-log yay "[kstars] Stopped"
+    ada-logger yay "[kstars] Stopped"
 }
 
 _status_check() {
@@ -162,23 +162,23 @@ _status_check() {
     echo "  └─────────────────────────────────────────────────────────────────┘"
     echo ""
 
-    ada-log main "[kstars] Hardware Detection:"
+    ada-logger main "[kstars] Hardware Detection:"
     lsusb | grep -i "03c3\|zwo\|asi" &>/dev/null && \
-        ada-log yay "  ✓ ZWO ASI camera detected (ASI2600MC Duo likely)" || \
-        ada-log error "  ✗ No ZWO camera found — check USB connection"
+        ada-logger yay "  ✓ ZWO ASI camera detected (ASI2600MC Duo likely)" || \
+        ada-logger error "  ✗ No ZWO camera found — check USB connection"
 
     lsusb | grep -i "ioptron\|eqmod\|gemini" &>/dev/null && \
-        ada-log yay "  ✓ Mount detected (EQMOD/Gemini protocol)" || \
-        ada-log error "  ✗ No mount found — check USB/serial connection"
+        ada-logger yay "  ✓ Mount detected (EQMOD/Gemini protocol)" || \
+        ada-logger error "  ✗ No mount found — check USB/serial connection"
 
     echo ""
-    ada-log main "[kstars] Browser access:"
+    ada-logger main "[kstars] Browser access:"
     echo "  http://$(hostname -I | awk '{print $1}'):${WEBSOCKIFY_PORT}/vnc.html?autoconnect=true"
     echo ""
 }
 
 _reboot_display() {
-    ada-log main "[kstars] Rebooting virtual display :99 (this will drop KStars)..."
+    ada-logger main "[kstars] Rebooting virtual display :99 (this will drop KStars)..."
 
     # Stop KStars first
     if tmux has-session -t "$SESSION_NAME" 2>/dev/null; then
@@ -190,7 +190,7 @@ _reboot_display() {
     sudo systemctl restart adalovespace-margo-vfb.service
     sleep 2
 
-    ada-log yay "[kstars] Display :99 rebooted. KStars needs to be restarted: ada-kstars --start"
+    ada-logger yay "[kstars] Display :99 rebooted. KStars needs to be restarted: ada-kstars --start"
 }
 
 # ==============================================================================

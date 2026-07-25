@@ -6,7 +6,7 @@ source ada-preflight "$BASH_SOURCE"
 # // Tracer — toggle with ADA_TRACE=1
 source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
 
-ada-log sys "=== Setting up Ada's Custom Prompt"
+ada-logger sys "=== Setting up Ada's Custom Prompt"
 
 target=/etc/bash.bashrc
 pattern="export PS1="

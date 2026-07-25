@@ -5,7 +5,7 @@ source ada-preflight "$BASH_SOURCE"
 # // Tracer — toggle with ADA_TRACE=1
 source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
 
-ada-log mod "=== Configuring PHD2 Guiding Engine"
+ada-logger mod "=== Configuring PHD2 Guiding Engine"
 
 sudo tee /etc/systemd/system/maryguider-phd2.service <<EOF
 [Unit]
@@ -25,5 +25,5 @@ WantedBy=multi-user.target
 
 EOF
 
-ada-log yay "=== PHD2 Guiding Engine Configured Successfully"
+ada-logger yay "=== PHD2 Guiding Engine Configured Successfully"
 echo ""

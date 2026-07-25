@@ -25,17 +25,17 @@ if [[ "$target" == *"*"* || "$target" == *"?"* || "$target" == *"["* ]]; then
     matches=( $target )
     set +f
     if [[ ${#matches[@]} -eq 0 ]]; then
-        ada-log oof "FATAL: [safe-tee-sed] No files matched glob: $target"
+        ada-logger oof "FATAL: [safe-tee-sed] No files matched glob: $target"
         exit 1
     elif [[ ${#matches[@]} -gt 1 ]]; then
-        ada-log warn "[safe-tee-sed] Multiple files matched glob '$target', using first: $matches"
+        ada-logger warn "[safe-tee-sed] Multiple files matched glob '$target', using first: $matches"
     fi
     target="${matches[0]}"
     shopt -u nullglob
 fi
 
 if [ ! -f "$target" ]; then
-    ada-log oof "FATAL: [safe-tee-sed] Target file not found: $target"
+    ada-logger oof "FATAL: [safe-tee-sed] Target file not found: $target"
     exit 1
 fi
 
@@ -66,12 +66,12 @@ safe_delim=$(find_safe_delimiter "$pattern" "$data")
 
 if grep -qF -- "$pattern" "$target"; then
     if ! "$sudo_cmd" sed -i "$safe_delim$pattern$safe_delim"c\\ "$target"; then
-        ada-log oof "FATAL: [safe-tee-sed] sed failed for pattern '$pattern' in $target"
+        ada-logger oof "FATAL: [safe-tee-sed] sed failed for pattern '$pattern' in $target"
         exit 1
     fi
 else
     if ! printf '%s\n' "$data" | "$sudo_cmd" tee -a "$target" >/dev/null; then
-        ada-log oof "FATAL: [safe-tee-sed] tee failed for $target"
+        ada-logger oof "FATAL: [safe-tee-sed] tee failed for $target"
         exit 1
     fi
 fi

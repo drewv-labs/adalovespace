@@ -16,7 +16,7 @@ fi
 source ada/cluster.env
 source "$ADA_CLUST_S/lib/ada-strapper.sh" margaret
 
-ada-log main "=== Margaret Node Build Start"
+ada-logger main "=== Margaret Node Build Start"
 
 # // With self-bootstrapper setting up our desired ADA_CODEBASE
 # // switch to using the node codebase
@@ -37,12 +37,12 @@ if [ "$(pwd)" != "$_CURDIR" ]; then
     cd "$_CURDIR"
 fi
 
-ada-log yay "=== Margaret Node Build Complete"
+ada-logger yay "=== Margaret Node Build Complete"
 if [[ -t 0 ]]; then
     echo -n "Reboot? [y/N] " && read -r -t 30 yn
     if [[ "${yn,,}" == y ]]; then
         sudo reboot
     fi
 else
-    ada-log main "Non-interactive mode: skipping reboot"
+    ada-logger main "Non-interactive mode: skipping reboot"
 fi

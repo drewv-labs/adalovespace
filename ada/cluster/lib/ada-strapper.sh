@@ -35,7 +35,7 @@ while [[ "$_strapper_candidate" != "/" ]]; do
 done
 
 if [[ ! -f "$_strapper_candidate/$_cluster_env" ]]; then
-    ada-log oof "FATAL: [ada-strapper] Could not locate cluster.env from $BASH_SOURCE"
+    ada-logger oof "FATAL: [ada-strapper] Could not locate cluster.env from $BASH_SOURCE"
     return 1
 fi
 
@@ -71,7 +71,7 @@ _setup_codespace_from_local() {
 _setup_codespace_from_remote() {
     if [[ ! -d "${NFS_ROOT:-}" ]]; then
         if ! sudo "$ADA_CLUSTER/nodes/jakebase/connect.sh" root; then
-            ada-log oof "FATAL: Could not connect to JakeBase NFS. Is the node reachable?"
+            ada-logger oof "FATAL: Could not connect to JakeBase NFS. Is the node reachable?"
             return 1
         fi
     fi
@@ -95,12 +95,12 @@ _setup_libs() {
 
     for macro in "$lib_dir"/*.sh; do
         [ -f "$macro" ] || continue
-        local name="${macro##*/}"             # "ada-log.sh"
+        local name="${macro##*/}"
         local macrosrc="$lib_dir/$macro"
-        local base="${name%.sh}"              # "ada-log" (strip .sh)
+        local base="${name%.sh}"
         local target="$target_dir/$base"
         sudo ln -sf "$macrosrc" "$target" && sudo chmod +x "$target"
-        ada-log yay "[ada-strapper] Installed $target from $macrosrc"
+        ada-logger yay "[ada-strapper] Installed $target from $macrosrc"
     done
 }
 

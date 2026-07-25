@@ -13,7 +13,7 @@ source arg-switches \
     keep_unattended_upgrades \
     keep_rpi_connect
 
-ada-log sys "=== RaspberryPi System Tuner"
+ada-logger sys "=== RaspberryPi System Tuner"
 
 "$ADA_CLUSTER/core/debian/sys_tuner.sh" "$@"
 

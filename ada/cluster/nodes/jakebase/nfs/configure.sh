@@ -6,11 +6,11 @@ source ada-preflight "$BASH_SOURCE"
 source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
 
 if [[ ! -e "$ADA_CODESPACE" ]]; then
-    ada-log oof "FATAL: '$ADA_CODESPACE' does not exist"
+    ada-logger oof "FATAL: '$ADA_CODESPACE' does not exist"
     exit 1
 fi
 
-ada-log mod "=== Configuring JakeBase NFS Host"
+ada-logger mod "=== Configuring JakeBase NFS Host"
 
 sudo mkdir -p "$NFS_ROOT"
 sudo mkdir -p "$NFS_CODE"

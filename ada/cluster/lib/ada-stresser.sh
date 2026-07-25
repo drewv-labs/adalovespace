@@ -128,7 +128,7 @@ _monitor_loop() {
         printf "[%-5ds] Temps: %-80s Peak: %s°C\n" "$elapsed" "$temps" "$peak_temp" >> "$LOG_FILE"
 
         (( elapsed % 60 == 0 )) && \
-            ada-log "t1" "[stress] Elapsed: ${elapsed}s / ${STRESS_SECONDS}s | Peak temp: ${peak_temp}°C"
+            ada-logger "t1" "[stress] Elapsed: ${elapsed}s / ${STRESS_SECONDS}s | Peak temp: ${peak_temp}°C"
     done
 
     { echo "---"; echo "=== Stress Test Ended: $(date) ==="; \
@@ -218,11 +218,11 @@ main() {
 
     _cleanup_and_report() {
         local rc=$?
-        echo ""; ada-log "main" "[stress] Cleaning up..."
+        echo ""; ada-logger "main" "[stress] Cleaning up..."
         kill "$PID_STRESS" 2>/dev/null || true
         wait "$PID_STRESS" 2>/dev/null || true
         kill $(jobs -p) 2>/dev/null || true
-        ada-log "yay" "[stress] Stress test completed or interrupted (exit code: $rc)"
+        ada-logger "yay" "[stress] Stress test completed or interrupted (exit code: $rc)"
         echo ""; echo "Results logged to: $LOG_FILE"; exit "$rc"
     }
 
@@ -230,7 +230,7 @@ main() {
     _monitor_loop &
     local PID_MONITOR=$!
 
-    ada-log "main" "[stress] Starting $CPU_COUNT CPU worker(s) for $STRESS_SECONDS seconds..."
+    ada-logger "main" "[stress] Starting $CPU_COUNT CPU worker(s) for $STRESS_SECONDS seconds..."
     stress-ng --cpu "$CPU_COUNT" --timeout "$STRESS_SECONDS"s &
     PID_STRESS=$!
 
@@ -240,8 +240,8 @@ main() {
     wait "$PID_MONITOR" 2>/dev/null || true
 
     echo ""
-    ada-log yay "[stress] Stress test finished after $STRESS_DURATION minutes"
-    ada-log yay "Results logged to: $LOG_FILE"
+    ada-logger yay "[stress] Stress test finished after $STRESS_DURATION minutes"
+    ada-logger yay "Results logged to: $LOG_FILE"
     echo ""
 }
 

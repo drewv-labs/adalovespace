@@ -5,6 +5,6 @@ source ada-preflight "$BASH_SOURCE"
 # // Tracer — toggle with ADA_TRACE=1
 source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
 
-ada-log mod "=== Installing NFS Common"
+ada-logger mod "=== Installing NFS Common"
 
 sudo apt install nfs-common -y

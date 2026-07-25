@@ -16,7 +16,7 @@ source arg-switches \
     keep_unattended_upgrades
 
 
-ada-log sys "=== Debian System Tuner"
+ada-logger sys "=== Debian System Tuner"
 
 # // Tunes
 debmods="$ADA_CLUSTER/core/debian/mods"

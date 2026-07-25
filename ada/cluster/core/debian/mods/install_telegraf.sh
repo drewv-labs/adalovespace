@@ -5,7 +5,7 @@ source ada-preflight "$BASH_SOURCE"
 # // Tracer — toggle with ADA_TRACE=1
 source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
 
-ada-log mod "=== Installing Telegraf"
+ada-logger mod "=== Installing Telegraf"
 
 # Debian Bookworm includes Telegraf in its default apt mirrors,
 # the upstream InfluxData repository contains critical

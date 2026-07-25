@@ -11,11 +11,11 @@ shift 2>/dev/null || true
 
 available_variants=$(ls -d "$ADA_CLUSTER/core/*" | xargs -n 1 basename | grep -v '^ada$' | tr '\n' ' ')
 if [[ ! " $available_variants " =~ " $variant " ]]; then
-    ada-log "oof" "=== Invalid variant: $variant. Available variants are: $available_variants"
+    ada-logger "oof" "=== Invalid variant: $variant. Available variants are: $available_variants"
     exit 1
 fi
 
-ada-log main "=== Building $variant Core"
+ada-logger main "=== Building $variant Core"
 
 "$ADA_CLUSTER/core/prompt_ps1.sh"
 "$ADA_CLUSTER/core/service_user.sh"

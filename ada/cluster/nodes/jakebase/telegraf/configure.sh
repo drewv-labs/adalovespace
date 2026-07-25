@@ -7,7 +7,7 @@ source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
 
 target_conf=/etc/telegraf/telegraf.conf
 
-ada-log mod "=== Generating Dynamic Telegraf Schema Mappings ==="
+ada-logger mod "=== Generating Dynamic Telegraf Schema Mappings ==="
 
 # Group the initialization core and template generation into a single execution stream
 {

@@ -5,7 +5,7 @@ source ada-preflight "$BASH_SOURCE"
 # // Tracer — toggle with ADA_TRACE=1
 source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
 
-ada-log app "=== Configuring Passwordless Login for MarPro-User=$ADAUSR_ADM"
+ada-logger app "=== Configuring Passwordless Login for MarPro-User=$ADAUSR_ADM"
 
 sudo groupadd -r nopasswdlogin
 sudo gpasswd -a "$ADAUSR_ADM" nopasswdlogin
@@ -17,4 +17,4 @@ sudo tee -a /etc/lightdm/lightdm.conf << EOF
     user-session=xfce
 EOF
 
-ada-log yay "=== Passwordless Login Configured for MarPro-User=$ADAUSR_ADM"
+ada-logger yay "=== Passwordless Login Configured for MarPro-User=$ADAUSR_ADM"

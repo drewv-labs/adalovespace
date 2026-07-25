@@ -7,7 +7,7 @@ source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
 
 # Check if the script received an argument
 if [ $# -eq 0 ]; then
-    ada-log oof "Expecting NFS mode arg; e.g. 'root', 'share', 'code', 'wheelhouse'"
+    ada-logger oof "Expecting NFS mode arg; e.g. 'root', 'share', 'code', 'wheelhouse'"
     exit 1
 fi
 
@@ -36,12 +36,12 @@ case "$suffix_upper" in
         ;;
 
     *)
-        ada-log oof "Unknown type: $suffix"
+        ada-logger oof "Unknown type: $suffix"
         exit 1
         ;;
 esac
 
-ada-log app "=== Connecting JakeBase NFS as Client"
+ada-logger app "=== Connecting JakeBase NFS as Client"
 
 sudo mkdir -p "$nfs_dir"
 safe-tee-sed /etc/fstab "^$nfs_dir" "$NFS_HOST:$nfs_dir $nfs_dir nfs rw,sync,no_subtree_check,all_squash,insecure 0 0" yes
