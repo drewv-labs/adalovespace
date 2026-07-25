@@ -2,6 +2,9 @@
 set -euxo pipefail
 source ada-preflight "$BASH_SOURCE"
 
+# // Tracer — toggle with ADA_TRACE=1
+source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
+
 # Check if the script received an argument
 if [ $# -eq 0 ]; then
     ada-log oof "Expecting NFS mode arg; e.g. 'root', 'share', 'code', 'wheelhouse'"

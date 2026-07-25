@@ -2,6 +2,9 @@
 set -euxo pipefail
 source ada-preflight "$BASH_SOURCE"
 
+# // Tracer — toggle with ADA_TRACE=1
+source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
+
 sudoers_file="/etc/sudoers.d/010_${ADAUSR_ADM}_nopasswd"
 
 ada-log mod "=== Configuring passwordless sudo for $ADAUSR_ADM"

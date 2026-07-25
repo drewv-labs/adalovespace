@@ -50,6 +50,11 @@ if [[ -f "$_ADA_ROOT/cluster/lib/ada-log.sh" ]]; then
     source "$_ADA_ROOT/cluster/lib/ada-log.sh" >/dev/null 2>&1 || true
 fi
 
+# // Tracer — toggle with ADA_TRACE=1
+if [[ -f "$_ADA_ROOT/cluster/lib/ada-tracer.sh" ]]; then
+    source "$_ADA_ROOT/cluster/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
+fi
+
 _start_vfb() {
     if ! systemctl is-active --quiet adalovespace-margo-vfb.service 2>/dev/null; then
         ada-log main "[kstars] Starting Xvfb display :99..."

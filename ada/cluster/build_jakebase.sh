@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# // Tracer — toggle with ADA_TRACE=1
+source "./$ADA_CLUST_S/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
+
 # // light weight working dir manager
 DFLT_GITROOT="$HOME/adalovespace"
 GITROOT="${ALT_GIT_ROOT:-$DFLT_GITROOT}"
