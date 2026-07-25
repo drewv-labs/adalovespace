@@ -10,6 +10,7 @@
 # Usage: source ada-strapper margaret local
 # # This will install margaret from local git repo
 
+set -euo pipefail
 
 [ -n "${_ADA_STRAPPER_LOADED:-}" ] && return 0
 

@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
 # safe-tee-sed — Idempotent config update via sed replace or tee append.
 #
 # Usage:
@@ -9,8 +11,6 @@
 #   safe-tee-sed /etc/exports "^/mnt/data" "/mnt/data *(rw,sync)" yes
 #
 # Exit codes: 0 = success, 1 = failure (target missing or command failed)
-
-set -euxo pipefail
 
 target="${1:?usage: safe-tee-sed TARGET PATTERN DATA [SUDO]}"
 pattern="${2:?usage: safe-tee-sed TARGET PATTERN DATA [SUDO]}"

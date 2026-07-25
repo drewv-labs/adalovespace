@@ -12,6 +12,7 @@
 
 set -euo pipefail
 
+
 SESSION_NAME="adalovespace-kstars"
 DISPLAY_NUM=":99"
 VNC_PORT="${MARGO_VNC_PORT:-5900}"

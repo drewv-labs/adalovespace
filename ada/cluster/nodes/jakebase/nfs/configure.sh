@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euxo pipefail
+set -euo pipefail
 source ada-preflight "$BASH_SOURCE"
 
 # // Tracer — toggle with ADA_TRACE=1

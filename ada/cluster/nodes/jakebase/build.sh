@@ -1,7 +1,8 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
 # Self-Bootstrap + build for JakeBase node.
 # Run as root from a fresh checkout: sudo ./cluster/nodes/jakebase/build_node.sh
-set -euo pipefail
 
 source ada-preflight "$BASH_SOURCE"
 

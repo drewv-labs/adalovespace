@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
 # AdaLovespace Tracer — Toggle `set -x` project-wide via ADA_TRACE=1
 # Usage: source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
 #   or : ada-tracer "${ADA_TRACE:-0}"

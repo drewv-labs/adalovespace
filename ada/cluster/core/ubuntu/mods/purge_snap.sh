@@ -1,5 +1,6 @@
 #!/usr/bin/env bash
-set -euxo pipefail
+
+set -euo pipefail
 source ada-preflight "$BASH_SOURCE"
 
 # // Tracer — toggle with ADA_TRACE=1
@@ -10,5 +11,3 @@ ada-log mod "=== Purging Snap"
 sudo systemctl disable --now snapd.socket snapd.service
 sudo apt purge autoremove snapd
 sudo apt-mark hold snapd
-
-echo ""

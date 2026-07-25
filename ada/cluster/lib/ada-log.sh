@@ -2,6 +2,8 @@
 # AdaLovespace Central Logging Utility
 # Usage: ada-log <prefix> <message> [log_file]
 
+set -euo pipefail
+
 LOG_PREFIX="$1"
 LOG_MSG="$2"
 LOG_FILE="${3:-}"

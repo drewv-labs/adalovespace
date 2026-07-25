@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
 # Reusable argument parser for mod scripts.
 # Usage inside mod: source arg-switches param1 param2 param3
 # Expects parameters without dashes (e.g., 'keep-wifi', not '--keep-wifi').

@@ -2,7 +2,7 @@
 # This script disables various services and
 # tweaks settings to optimize power usage on a Debian-based system.
 
-set -euxo pipefail
+set -euo pipefail
 source ada-preflight "$BASH_SOURCE"
 
 # // Tracer — toggle with ADA_TRACE=1

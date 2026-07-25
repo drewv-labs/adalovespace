@@ -5,6 +5,8 @@
 #
 # Checks root, resolves ADA_ROOT, sources cluster.env.
 
+set -euo pipefail
+
 [ -n "${_ADA_PREFLIGHT_LOADED:-}" ] && return 0
 
 _check_root() {

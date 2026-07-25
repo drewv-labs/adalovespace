@@ -1,4 +1,6 @@
 #!/usr/bin/env bash
+set -euo pipefail
+
 # Ada Lovespace — Full Load Stress Test Utility
 # Runs sustained CPU stress for thermal management validation.
 # Available as "ada-stress" after linking to /usr/local/bin.
@@ -10,7 +12,6 @@
 #
 # Dependency: stress-ng (installed by build/core/debian/base_installs.sh)
 
-set -euo pipefail
 
 # ==============================================================================
 # Globals & Defaults
