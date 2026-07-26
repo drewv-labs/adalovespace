@@ -163,6 +163,31 @@ TDP values are included per-node to support system debriefing analyses — cross
   - TDP: ~2W
   - Cooling: Passive (no fan; low sustained load)
 
+#### `OTA Automation & Notable Features`  
+- **Primary Camera - ASI2600MC Duo** 
+  - **sensor:** IMX571 (APS-C) 
+  - Sensor Size: 23.5mm x 15.7mm (APS-C)
+  - Resolution: 6248 x 4176
+  - Pixel Size: 3.76um x 3.76um
+  - Quantum Efficiency (QE): 80%
+  - Readout Noise: 0.9e-4.2e
+  - Full Well Capacity: 50Ke – Over 73Ke (Extended Full Well Mode)
+  - Dynamic Range: 16bit
+  - Frame Rate: 15 FPS (RAW8)
+- **Guide Camera - ASI2600MC Duo**   
+  - **sensor:** SC2210
+  - Pixel Size: 4.0μm x 4.0μm
+  - Quantum Efficiency (QE): Reaches a peak value of 92% at the 500nm wavelength.
+  - Readout Noise: Extremely 0.6e to 3.2e
+  - Full Well Capacity: 8780e
+  - Dynamic Range: Supported by a 12-bit Analog to Digital Converter (ADC).
+  - Frame Rate: Capable of up to 16.9 frames per second (fps) at full resolution.
+- **Focuser:** ZWO EAF (1st Gen)
+- **Filter Wheel:** ZWO Electronic Filter Wheel (2025 Edition)- 5x2"
+- **Camera Rotator:** 
+- **focuser:** 
+- **focuser:** 
+
 ### 🧠 `AdaStack` | The Edge AstroLab 
 
 <img src=".github/images/adastack-demo.png" alt="AdaStack demo" width="300">
