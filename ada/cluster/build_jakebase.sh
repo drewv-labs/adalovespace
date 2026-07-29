@@ -3,13 +3,13 @@
 # Name: build_jakebase.sh
 # Version: 1.0.0
 # Description: Bootstrapper for setting up Jakebase production environment
-# Author: [Your Name]
+# Author: Drew Vandagriff
 # ==============================================================
 
 set -euo pipefail
 
 # Trap for error handling
-trap 'echo "ERROR: Script failed at line $LINENO"' ERR
+trap 'echo "ERROR: Script failed at line $LINENO"; rollback_environment' ERR
 
 ADA_CLUST_S="${ADA_CLUST_S:-"ada/cluster"}"
 
@@ -66,6 +66,34 @@ for script in "${required_scripts[@]}"; do
     fi
 done
 
+# // Backup environment before starting the build process
+backup_environment() {
+    ada-logger main "Creating backup of current environment..."
+    BACKUP_DIR="/tmp/jakebase_backup_$(date +%s)"
+    mkdir -p "$BACKUP_DIR"
+    cp -r "$GITROOT" "$BACKUP_DIR"
+}
+
+# // Restore environment if needed
+rollback_environment() {
+    ada-logger oof "Restoring environment from backup..."
+    rm -rf "$GITROOT"
+    mv "$BACKUP_DIR" "$GITROOT"
+}
+
+# // Run tests
+run_tests() {
+    cd /Users/drew/workspace/github.com/dvandagriff/adalovespace/tests
+    ./run_tests.sh
+    if [ $? -ne 0 ]; then
+        ada-logger oof "ERROR: Tests failed. Rolling back environment."
+        rollback_environment
+        exit 1
+    fi
+}
+
+# Backup environment before starting the build process
+backup_environment
 
 # // Using git-root code to bootstrap the node codespace, which will
 # // serve as production runtime env
@@ -73,11 +101,17 @@ set -a
 source "./$ADA_CLUST_S/lib/ada-strapper.sh" jakebase
 set +a
 
-# // With self-bootstrapper setting up our desired ADA_CODEBASE
-# // switch to using the node codebase
+# Run core build script and tests
 sudo "$ADA_CLUSTER/core/build.sh" "$JAKEBASE_HW"
+run_tests
+
+# Run JakeBase node build script and tests
 sudo "$ADA_CLUSTER/nodes/jakebase/build.sh"
+run_tests
+
+# Run APT update/upgrade/purge script and tests
 sudo "$ADA_CLUSTER/core/apt_update_upgrade_purge.sh"
+run_tests
 
 # // restore orig working dir
 if [ "$(pwd)" != "$_CURDIR" ]; then
