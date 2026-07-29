@@ -176,12 +176,13 @@ TDP values are included per-node to support system debriefing analyses — cross
   - Frame Rate: 15 FPS (RAW8)
 - **Guide Camera - ASI2600MC Duo**   
   - **sensor:** SC2210
+  - Sensor Size: 
   - Pixel Size: 4.0μm x 4.0μm
   - Quantum Efficiency (QE): Reaches a peak value of 92% at the 500nm wavelength.
   - Readout Noise: Extremely 0.6e to 3.2e
   - Full Well Capacity: 8780e
   - Dynamic Range: Supported by a 12-bit Analog to Digital Converter (ADC).
-  - Frame Rate: Capable of up to 16.9 frames per second (fps) at full resolution.
+  - Frame Rate: 14 FPS
 - **Focuser:** ZWO EAF (1st Gen)
 - **Filter Wheel:** ZWO Electronic Filter Wheel (2025 Edition)- 5x2"
 - **Camera Rotator:** 
