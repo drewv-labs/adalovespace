@@ -1,6 +1,6 @@
 #!/usr/bin/env bash
 # ================================================================
-# Name: build_carolinvev.sh
+# Name: build_carolinev.sh
 # Version: 1.0.0
 # Description: Bootstrapper for setting up Caroline-V node
 # Author: Drew Vandagriff
@@ -9,7 +9,7 @@
 set -euo pipefail
 
 # Trap for error handling
-trap 'echo "ERROR: Script failed at line $LINENO"; rollback_environment' ERR
+trap 'echo "ERROR: Script failed at line $LINENO"' ERR
 
 ADA_CLUST_S="${ADA_CLUST_S:-"ada/cluster"}"
 

@@ -9,7 +9,7 @@
 set -euo pipefail
 
 # Trap for error handling
-trap 'echo "ERROR: Script failed at line $LINENO"; rollback_environment' ERR
+trap 'echo "ERROR: Script failed at line $LINENO"' ERR
 
 ADA_CLUST_S="${ADA_CLUST_S:-"ada/cluster"}"
 
