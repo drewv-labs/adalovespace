@@ -7,4 +7,4 @@ source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
 
 ada-logger mod "=== Installing stress-ng"
 
-sudo apt-get install stress-ng -y
+sudo apt install stress-ng -y
