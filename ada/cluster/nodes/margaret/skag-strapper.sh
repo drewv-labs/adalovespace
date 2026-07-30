@@ -1,5 +1,5 @@
 #!/usr/bin/env bash
-set -euxo pipefail
+# set -euxo pipefail
 
 ## // tune_sudoers
 # 1. Write the rule atomically into the drop-in directory
