@@ -55,7 +55,7 @@ fi
 required_scripts=(
     "$ADA_CLUSTER/core/node_strapper.sh"
     "$ADA_CLUSTER/core/build.sh"
-    "$ADA_CLUSTER/nodes/MaryGuider/build.sh"
+    "$ADA_CLUSTER/nodes/maryguider/build.sh"
     "$ADA_CLUSTER/core/apt_update_upgrade_purge.sh"
 )
 for script in "${required_scripts[@]}"; do
@@ -68,11 +68,11 @@ done
 # // Using git-root code to bootstrap the node codespace, which will
 # // serve as production runtime env
 set -a
-source "./$ADA_CLUST_S/core/node_strapper.sh" "MaryGuider"
+source "./$ADA_CLUST_S/core/node_strapper.sh" "maryguider"
 set +a
 
 sudo "$ADA_CLUSTER/core/build.sh" "$MARYGUID_CV"
-sudo "$ADA_CLUSTER/nodes/MaryGuider/build.sh"
+sudo "$ADA_CLUSTER/nodes/maryguider/build.sh"
 sudo "$ADA_CLUSTER/core/apt_update_upgrade_purge.sh"
 
 # // restore orig working dir
