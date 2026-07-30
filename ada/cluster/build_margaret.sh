@@ -1,5 +1,17 @@
 #!/usr/bin/env bash
+# ================================================================
+# Name: build_margaret.sh
+# Version: 1.0.0
+# Description: Bootstrapper for setting up Margaret production environment
+# Author: Drew Vandagriff
+# ==============================================================
+
 set -euo pipefail
+
+# Trap for error handling
+trap 'echo "ERROR: Script failed at line $LINENO"; rollback_environment' ERR
+
+ADA_CLUST_S="${ADA_CLUST_S:-"ada/cluster"}"
 
 # // Tracer — toggle with ADA_TRACE=1
 source "$ADA_CLUST_S/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
@@ -13,14 +25,52 @@ if [ "$(pwd)" != "$GITROOT" ]; then
 fi
 
 # // Do the thing — load env and bootstrap first
-source ada/cluster.env
-source "$ADA_CLUST_S/lib/ada-strapper.sh" margaret
+source ./ada/cluster.env
 
-ada-logger main "=== Margaret Node Build Start"
+# Validate required environment variables
+required_vars=(
+    "ADA_CODESPACE"
+    "ADA_CLUST_S"
+    "ADA_CLUSTER"
+    "MARGARET_CV"
+)
+for var in "${required_vars[@]}"; do
+    if [ -z "${!var}" ]; then
+        ada-logger oof "ERROR: $var environment variable is not set"
+        exit 1
+    fi
+done
 
-# // With self-bootstrapper setting up our desired ADA_CODEBASE
-# // switch to using the node codebase
-sudo "$ADA_CLUSTER/core/build.sh" "$MARGARET_HW"
+if [ ! -d "$ADA_CLUSTER" ]; then
+    if [ ! -d "$ADA_CODESPACE" ]; then
+        ada-logger oof "ERROR: $ADA_CODESPACE not found"
+        exit 1
+    fi
+    ada-logger oof "ERROR: $ADA_CLUSTER not found, but $ADA_CODESPACE appears to be available"
+    exit 1
+fi
+
+# Validate required scripts
+required_scripts=(
+    "$ADA_CLUSTER/core/node_strapper.sh"
+    "$ADA_CLUSTER/core/build.sh"
+    "$ADA_CLUSTER/nodes/margaret/build.sh"
+    "$ADA_CLUSTER/core/apt_update_upgrade_purge.sh"
+)
+for script in "${required_scripts[@]}"; do
+    if [ ! -f "$script" ]; then
+        ada-logger oof "ERROR: $script not found"
+        exit 1
+    fi
+done
+# // Using git-root code to bootstrap the node codespace, which will
+# // serve as production runtime env
+set -a
+source "./$ADA_CLUST_S/core/node_strapper.sh" jakebase
+set +a
+
+
+sudo "$ADA_CLUSTER/core/build.sh" "$MARGARET_CV"
 
 # // Accept variant args and forward to margaret/build.sh
 if [ $# -gt 0 ]; then
@@ -29,7 +79,6 @@ else
     sudo "$ADA_CLUSTER/nodes/margaret/build.sh"
 fi
 
-# // Full system cleanup as final step before reboot
 sudo "$ADA_CLUSTER/core/apt_update_upgrade_purge.sh"
 
 # // restore orig working dir
@@ -37,7 +86,6 @@ if [ "$(pwd)" != "$_CURDIR" ]; then
     cd "$_CURDIR"
 fi
 
-ada-logger yay "=== Margaret Node Build Complete"
 if [[ -t 0 ]]; then
     echo -n "Reboot? [y/N] " && read -r -t 30 yn
     if [[ "${yn,,}" == y ]]; then
@@ -45,4 +93,5 @@ if [[ -t 0 ]]; then
     fi
 else
     ada-logger main "Non-interactive mode: skipping reboot"
+    ada-logger yay "Margaret build complete, clear skies!"
 fi

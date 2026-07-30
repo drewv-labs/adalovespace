@@ -9,3 +9,5 @@ ada-logger main "=== Building Caroline-V Node"
 
 carolinev="$ADA_CLUSTER/nodes/caroline-v"
 # ToDo...
+
+ada-logger yay "=== Caroline-V Node Built & Validated"

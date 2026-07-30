@@ -32,10 +32,10 @@ source ./ada/cluster.env
 # // before start
 # Validate required environment variables
 required_vars=(
-    "ADA_CODESPACE",
-    "ADA_CLUST_S",
-    "ADA_CLUSTER",
-    "JAKEBASE_HW"
+    "ADA_CODESPACE"
+    "ADA_CLUST_S"
+    "ADA_CLUSTER"
+    "JAKEBASE_CV"
 )
 for var in "${required_vars[@]}"; do
     if [ -z "${!var}" ]; then
@@ -49,12 +49,13 @@ if [ ! -d "$ADA_CLUSTER" ]; then
         ada-logger oof "ERROR: $ADA_CODESPACE not found"
         exit 1
     fi
-    ada-logger oof "ERROR: $ADA_CLUSTER not found, but $ADA_CODESPACE is appears to be available"
+    ada-logger oof "ERROR: $ADA_CLUSTER not found, but $ADA_CODESPACE appears to be available"
     exit 1
 fi
 
 # Validate required scripts
 required_scripts=(
+    "$ADA_CLUSTER/core/node_strapper.sh"
     "$ADA_CLUSTER/core/build.sh"
     "$ADA_CLUSTER/nodes/jakebase/build.sh"
     "$ADA_CLUSTER/core/apt_update_upgrade_purge.sh"
@@ -66,56 +67,27 @@ for script in "${required_scripts[@]}"; do
     fi
 done
 
-# // Backup environment before starting the build process
-backup_environment() {
-    ada-logger main "Creating backup of current environment..."
-    BACKUP_DIR="/tmp/jakebase_backup_$(date +%s)"
-    mkdir -p "$BACKUP_DIR"
-    cp -r "$GITROOT" "$BACKUP_DIR"
-}
-
-# // Restore environment if needed
-rollback_environment() {
-    ada-logger oof "Restoring environment from backup..."
-    rm -rf "$GITROOT"
-    mv "$BACKUP_DIR" "$GITROOT"
-}
-
-# // Run tests
-run_tests() {
-    cd /Users/drew/workspace/github.com/dvandagriff/adalovespace/tests
-    ./run_tests.sh
-    if [ $? -ne 0 ]; then
-        ada-logger oof "ERROR: Tests failed. Rolling back environment."
-        rollback_environment
-        exit 1
-    fi
-}
-
-# Backup environment before starting the build process
-backup_environment
-
 # // Using git-root code to bootstrap the node codespace, which will
 # // serve as production runtime env
 set -a
-source "./$ADA_CLUST_S/lib/ada-strapper.sh" jakebase
+source "./$ADA_CLUST_S/core/node_strapper.sh" jakebase
 set +a
 
-# Run core build script and tests
-sudo "$ADA_CLUSTER/core/build.sh" "$JAKEBASE_HW"
-run_tests
-
-# Run JakeBase node build script and tests
+sudo "$ADA_CLUSTER/core/build.sh" "$JAKEBASE_CV"
 sudo "$ADA_CLUSTER/nodes/jakebase/build.sh"
-run_tests
-
-# Run APT update/upgrade/purge script and tests
 sudo "$ADA_CLUSTER/core/apt_update_upgrade_purge.sh"
-run_tests
 
 # // restore orig working dir
 if [ "$(pwd)" != "$_CURDIR" ]; then
     cd "$_CURDIR"
 fi
 
-ada-logger main "JakeBase setup complete."
+if [[ -t 0 ]]; then
+    echo -n "Reboot? [y/N] " && read -r -t 30 yn
+    if [[ "${yn,,}" == y ]]; then
+        sudo reboot
+    fi
+else
+    ada-logger main "Non-interactive mode: skipping reboot"
+    ada-logger yay "JakeBase build complete, clear skies!"
+fi

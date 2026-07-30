@@ -1,18 +1,18 @@
 #!/usr/bin/env bash
 # AdaLovespace Strapper — resolve source from filesystem, bootstrap symlinks
 #
-# Usage: source ada-strapper jakebase
+# Usage: source node_strapper.sh jakebase
 # # This will install jakebase from local git repo
 #
-# Usage: source ada-strapper margaret
+# Usage: source node_strapper.sh margaret
 # # This will install margaret from jakebase nfs
 #
-# Usage: source ada-strapper margaret local
+# Usage: source node_strapper.sh margaret local
 # # This will install margaret from local git repo
 
 set -euo pipefail
 
-[ -n "${_ADA_STRAPPER_LOADED:-}" ] && return 0
+[ -n "${_NODE_STRAPPER_LOADED:-}" ] && return 0
 
 # Resolve local build flag for non-jakebase nodes
 # flag is irrelevant for jakebase nodes
@@ -21,7 +21,7 @@ if [[ "${2:-}" == "local" ]]; then
     _is_local_build=true
 fi
 
-_strapper_node="${1:?usage: source ada-strapper.sh <node_name> [local:-]}"
+_strapper_node="${1:?usage: source node_strapper.sh <node_name> [local:-]}"
 _strapper_dir="$(cd "$(dirname "$BASH_SOURCE")" && pwd)"
 _cluster_env="ada/cluster.env"
 # Resolve the actual repo root by walking up from this script's location.
@@ -35,7 +35,7 @@ while [[ "$_strapper_candidate" != "/" ]]; do
 done
 
 if [[ ! -f "$_strapper_candidate/$_cluster_env" ]]; then
-    ada-logger oof "FATAL: [ada-strapper] Could not locate cluster.env from $BASH_SOURCE"
+    ada-logger oof "FATAL: [node-strapper] Could not locate cluster.env from $BASH_SOURCE"
     return 1
 fi
 
@@ -63,7 +63,7 @@ _setup_codespace_from_local() {
     fi
 
     if [[ ! -L "${ADA_CODESPACE:-}" ]] && [[ ! -d "${ADA_CODESPACE:-}" ]]; then
-        ada yay "[ada-strapper] Creating codespace symlink: $source_path -> $ADA_CODESPACE"
+        ada yay "[node-strapper] Creating codespace symlink: $source_path -> $ADA_CODESPACE"
         sudo ln -sf "$source_path" "$ADA_CODESPACE"
     fi
 }
@@ -77,7 +77,7 @@ _setup_codespace_from_remote() {
     fi
 
     if [[ ! -L "${ADA_CODESPACE:-}" ]] && [[ ! -d "${ADA_CODESPACE:-}" ]]; then
-        ada yay "[ada-strapper] Creating codespace symlink: $NFS_ROOT -> $ADA_CODESPACE"
+        ada yay "[node-strapper] Creating codespace symlink: $NFS_ROOT -> $ADA_CODESPACE"
         sudo ln -sf "$NFS_ROOT" "$ADA_CODESPACE"
     fi
 }
@@ -100,8 +100,25 @@ _setup_libs() {
         local base="${name%.sh}"
         local target="$target_dir/$base"
         sudo ln -sf "$macrosrc" "$target" && sudo chmod +x "$target"
-        ada-logger yay "[ada-strapper] Installed $target from $macrosrc"
+        ada-logger yay "[node-strapper] Installed $target from $macrosrc"
     done
+}
+
+_validate_node_strapper() {
+    integrity_checks=(
+        "if [ $(which ada-logger | wc -l) -gt 0 ]; then return 0; else return 1; fi"
+        "if [ $(which ada-preflight | wc -l) -gt 0 ]; then return 0; else return 1; fi"
+        "if [ $(which ada-stresser | wc -l) -gt 0 ]; then return 0; else return 1; fi"
+        "if [ $(which ada-tracer | wc -l) -gt 0 ]; then return 0; else return 1; fi"
+        "if [ $(which arg-switches | wc -l) -gt 0 ]; then return 0; else return 1; fi"
+        "if [ $(which safe-tee-sed | wc -l) -gt 0 ]; then return 0; else return 1; fi"
+    )
+    if [ $(which ada-tegrity | wc -l) -eq 0 ]; then
+        echo "ada-tegrity not found"
+        exit 1
+    else
+        ada-tegrity "${integrity_checks[@]}"
+    fi
 }
 
 # Only run setup steps when executing as root (the expected use case)
@@ -125,6 +142,6 @@ if [[ "$_strapper_is_root" == true ]]; then
 
     _setup_libs
 fi
-
-_ADA_STRAPPER_LOADED=1
-export ADA_STRAPPER_NODE="$_strapper_node"
+_validate_node_strapper
+_NODE_STRAPPER_LOADED=1
+export _STRAPPER_NODE="$_strapper_node"

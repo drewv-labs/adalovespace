@@ -22,3 +22,7 @@ ada-logger main "=== Building $variant Core"
 
 "$ADA_CLUSTER/core/$variant/sys_tuner.sh" "$@"
 "$ADA_CLUSTER/core/$variant/base_installs.sh"
+
+"$ADA_CLUSTER/core/validate.sh"
+
+ada-logger yay "=== $variant Core Built & Validated"

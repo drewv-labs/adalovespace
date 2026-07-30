@@ -18,3 +18,7 @@ jakebase="$ADA_CLUSTER/nodes/jakebase"
 "$jakebase/mqtt/build.sh"
 "$jakebase/ntfy/build.sh"
 "$jakebase/telegraf/build.sh"
+
+"$jakebase/validate.sh"
+
+ada-logger yay "=== JakeBase Node Built & Validated"

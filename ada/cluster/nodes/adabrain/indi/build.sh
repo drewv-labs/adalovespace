@@ -8,3 +8,5 @@ source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
 ada-logger app "=== Building INDI Web Server"
 
 "$ADA_CLUSTER/core/debian/mods/install_indi.sh"
+
+ada-logger yay "=== INDI Web Server Built"

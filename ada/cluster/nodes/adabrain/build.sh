@@ -10,3 +10,6 @@ ada-logger main "=== Building AdaBrain Node"
 adabrain="$ADA_CLUSTER/nodes/adabrain"
 
 "$adabrain/indi/build.sh"
+"$adabrain/validate.sh"
+
+ada-logger yay "=== AdaBrain Node Built & Validated"
