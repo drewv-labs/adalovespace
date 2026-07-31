@@ -125,12 +125,10 @@ Description=Ada Lovespace MarGo Virtual Framebuffer
 After=network.target
 
 [Service]
-Type=forking
+Type=simple
 User=$skag_usr
 Environment=DISPLAY=:99
 ExecStart=/usr/bin/Xvfb :99 -screen 0 $VNC_RESOLUTION -ac +extension GLX +render -noreset
-ExecStop=/bin/kill \$(cat /var/run/adalovespace-xvfb.pid)
-PIDFile=/var/run/adalovespace-xvfb.pid
 Restart=always
 RestartSec=3
 
