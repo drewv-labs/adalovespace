@@ -4,6 +4,11 @@
 # ==============================================================================
 # Configuration (override with env vars before calling this script)
 # ==============================================================================
+NM_V_MAJOR="9"
+NM_V_MINOR="7"
+NM_V_PATCH="3"
+NM_V_BUILD="1"
+
 VNC_PORT="5900"
 VNC_PASSWORD="BigBird420"
 VNC_WEBSOCKIFY_PORT="6080"
@@ -56,11 +61,13 @@ curl -LsSf https://astral.sh/uv/install.sh | sudo env UV_INSTALL_DIR="/usr/local
 sudo apt install stress-ng -y
 
 ## // margaret node build
-sudo apt install indi-full -y
-sudo apt-add-repository ppa:mutlaqja/ppa
-sudo apt update -y && sudo apt install kstars-bleeding -y
+sudo add-apt-repository ppa:mutlaqja/ppa
+sudo apt update -y
+sudo apt install indi-full kstars-bleeding -y
 
-# -{ marpro }- Full Desktop Experience (XCFE+LightDM+NX)
+# ==============================================================================
+# -{ MarPro }- Full Desktop Experience (XCFE+LightDM+NX)
+# ==============================================================================
 sudo apt install xorg xserver-xorg dbus-x11 -y
 sudo apt install xfce4 xfce4-goodies lightdm -y
 sudo apt purge xfce4-power-manager -y
@@ -77,10 +84,15 @@ EOF
 
 sudo systemctl restart lightdm
 
+# ==============================================================================
+# NoMachine Setup
+# ==============================================================================
 wget https://download.nomachine.com/download/${v_majmin}/Linux/nomachine_${v_full}_amd64.deb
 sudo dpkg -i nomachine_${v_full}_amd64.deb
 
-# - margo
+# ==============================================================================
+# -{ MarGo }- Lightweight VNC Kstars Experience
+# ==============================================================================
 sudo apt install -y \
     xvfb \
     tigervnc-standalone-server \
