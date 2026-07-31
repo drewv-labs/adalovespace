@@ -1,93 +1,125 @@
 #!/usr/bin/env bash
-# ================================================================
-# Name: build_adabrain.sh
-# Version: 1.0.0
-# Description: Bootstrapper for setting up AdaBrain node
-# Author: Drew Vandagriff
-# ==============================================================
+# ==============================================================================
+# AdaBrain - Headless INDI Edge Node Protocol
+# Target OS: Raspberry Pi OS Lite (64-bit)
+# Python Engine: uv (Astral)
+# ==============================================================================
+set -euxo pipefail
 
-set -euo pipefail
-
-# Trap for error handling
-trap 'echo "ERROR: Script failed at line $LINENO"' ERR
-
-ADA_CLUST_S="${ADA_CLUST_S:-"ada/cluster"}"
-
-# // Tracer — toggle with ADA_TRACE=1
-source "./$ADA_CLUST_S/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
-
-# // light weight working dir manager
-DFLT_GITROOT="$HOME/adalovespace"
-GITROOT="${ALT_GIT_ROOT:-$DFLT_GITROOT}"
-if [ "$(pwd)" != "$GITROOT" ]; then
-    _CURDIR="$(pwd)"
-    cd "$GITROOT"
-fi
-
-# // CWD should be at user's adalovespace clone spot at this point
-# // cluster.env vars are static so can source from the git repo
+# ==============================================================================
+# Configuration
+# ==============================================================================
 source ./ada/cluster.env
 
-# // Wanna do validation first before running ada-strapper.sh to catch issues
-# // before start
-# Validate required environment variables
-required_vars=(
-    "ADA_CODESPACE"
-    "ADA_CLUST_S"
-    "ADA_CLUSTER"
-    "ADABRAIN_CV"
-)
-for var in "${required_vars[@]}"; do
-    if [ -z "${!var}" ]; then
-        ada-logger oof "ERROR: $var environment variable is not set"
-        exit 1
-    fi
-done
+## // tune_sudoers
+# 1. Write the rule atomically into the drop-in directory
+# ada_usr="drew"
+sudoers_file="/etc/sudoers.d/010_${USER}_nopasswd"
+echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee "$sudoers_file" > /dev/null
 
-if [ ! -d "$ADA_CLUSTER" ]; then
-    if [ ! -d "$ADA_CODESPACE" ]; then
-        ada-logger oof "ERROR: $ADA_CODESPACE not found"
-        exit 1
-    fi
-    ada-logger oof "ERROR: $ADA_CLUSTER not found, but $ADA_CODESPACE appears to be available"
+# 2. Enforce strict permissions (Must be 0440 or sudo will reject it)
+sudo chmod 0440 "$sudoers_file"
+
+# 3. Validate the syntax safely before completing the build
+if ! sudo visudo -cf "$sudoers_file"; then
+    echo "Malformed sudoers syntax detected! Removing file to prevent system lockout."
+    sudo rm -f "$sudoers_file"
     exit 1
 fi
 
-# Validate required scripts
-required_scripts=(
-    "$ADA_CLUSTER/core/node_strapper.sh"
-    "$ADA_CLUSTER/core/build.sh"
-    "$ADA_CLUSTER/nodes/adabrain/build.sh"
-    "$ADA_CLUSTER/core/apt_update_upgrade_purge.sh"
-)
-for script in "${required_scripts[@]}"; do
-    if [ ! -f "$script" ]; then
-        ada-logger oof "ERROR: $script not found"
-        exit 1
-    fi
-done
+## // sys_tuner
+set +e
+sudo systemctl disable --now apt-daily-upgrade.timer
+sudo systemctl disable --now apt-daily.timer
+sudo systemctl disable --now bluetooth.service
+sudo systemctl disable --now ModemManager.service
+sudo systemctl disable --now multipathd.service multipathd.socket
+sudo systemctl disable --now unattended-upgrades.service
+sudo systemctl disable --now wpa_supplicant.service
 
-# // Using git-root code to bootstrap the node codespace, which will
-# // serve as production runtime env
-set -a
-source "./$ADA_CLUST_S/core/node_strapper.sh" adabrain
-set +a
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
 
-sudo "$ADA_CLUSTER/core/build.sh" "$ADABRAIN_CV"
-sudo "$ADA_CLUSTER/nodes/adabrain/build.sh"
-sudo "$ADA_CLUSTER/core/apt_update_upgrade_purge.sh"
+sudo apt-mark unhold bluez
+sudo apt-mark unhold wpasupplicant
 
-# // restore orig working dir
-if [ "$(pwd)" != "$_CURDIR" ]; then
-    cd "$_CURDIR"
+sudo apt purge bluez -y
+sudo apt purge modemmanager -y
+sudo apt purge multipath-tools -y
+sudo apt purge wpasupplicant -y
+
+sudo apt update -y && sudo apt autoremove -y && sudo apt autoclean -y
+set -e
+
+# ==============================================================================
+# Debian Core Programs - UV/StressNG
+# ==============================================================================
+if ! command -v uv &> /dev/null; then
+    echo "uv not found. Installing Astral's uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sudo env UV_INSTALL_DIR="/usr/local/bin" sh
+    # Source the environment so uv is immediately available in this script
+    source $HOME/.cargo/env
 fi
+sudo apt install stress-ng -y
 
-if [[ -t 0 ]]; then
-    echo -n "Reboot? [y/N] " && read -r -t 30 yn
-    if [[ "${yn,,}" == y ]]; then
-        sudo reboot
-    fi
-else
-    ada-logger main "Non-interactive mode: skipping reboot"
-    ada-logger yay "AdaBrain build complete, clear skies!"
+
+
+# We drop python3-venv and python3-pip entirely.
+# Just installing the raw C++ hardware drivers and curl.
+sudo apt-get install -y \
+    indi-full \
+    indi-bin \
+    gsc \
+    curl
+
+# Create the dedicated directory for the web server
+sudo mkdir -p /opt/indiweb
+sudo chown -R $USER:$USER /opt/indiweb
+cd /opt/indiweb
+
+# uv venv creates the isolated environment in milliseconds
+uv venv
+
+# uv pip install automatically detects the .venv in the current directory
+# No need to activate/deactivate the shell!
+uv pip install indiwebmanager
+
+echo "========================================================"
+echo " Phase 3: Systemd Daemon Injection"
+echo "========================================================"
+# The daemon points directly to the uv-generated binary path
+sudo tee /etc/systemd/system/indiweb.service > /dev/null <<EOF
+[Unit]
+Description=INDI Web Manager (AdaBrain Edge)
+After=network.target
+
+[Service]
+Type=simple
+User=$USER
+Environment="PATH=/opt/indiweb/.venv/bin:/usr/local/sbin:/usr/local/bin:/usr/sbin:/usr/bin:/sbin:/bin"
+ExecStart=/opt/indiweb/.venv/bin/indi-web -p 8624
+Restart=always
+RestartSec=5
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+# Reload systemd and enable the background service
+sudo systemctl daemon-reload
+sudo systemctl enable indiweb.service
+sudo systemctl restart indiweb.service
+
+echo "========================================================"
+echo "AdaBrain Headless Node is Live! (Built with uv)"
+echo "You can now hit the web interface at: http://$ADABRAIN_IP:8624"
+echo "========================================================"
+
+sudo apt update -y
+sudo apt full-update -y
+sudo apt autoremove -y
+sudo apt autoclean -y
+
+echo -n "Reboot? [y/N] " && read -r -t 30 yn
+if [[ "${yn,,}" == y ]]; then
+    sudo reboot
 fi

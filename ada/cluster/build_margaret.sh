@@ -1,97 +1,246 @@
 #!/usr/bin/env bash
-# ================================================================
-# Name: build_margaret.sh
-# Version: 1.0.0
-# Description: Bootstrapper for setting up Margaret production environment
-# Author: Drew Vandagriff
-# ==============================================================
+set -euxo pipefail
 
-set -euo pipefail
+# ==============================================================================
+# Configuration (override with env vars before calling this script)
+# ==============================================================================
+MARGARET_IP="10.42.0.77"
 
-# Trap for error handling
-trap 'echo "ERROR: Script failed at line $LINENO"' ERR
+NM_V_MAJOR="9"
+NM_V_MINOR="7"
+NM_V_PATCH="3"
+NM_V_BUILD="1"
 
-ADA_CLUST_S="${ADA_CLUST_S:-"ada/cluster"}"
+VNC_PORT="5900"
+VNC_PASSWORD="BigBird420"
+VNC_WEBSOCKIFY_PORT="6080"
+VNC_RESOLUTION="1920x1080x24"
 
-# // Tracer — toggle with ADA_TRACE=1
-source "$ADA_CLUST_S/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
+## // tune_sudoers
+# 1. Write the rule atomically into the drop-in directory
+skag_usr="drew"
+sudoers_file="/etc/sudoers.d/010_${skag_usr}_nopasswd"
+echo "$skag_usr ALL=(ALL) NOPASSWD: ALL" | sudo tee "$sudoers_file" > /dev/null
 
-# // light weight working dir manager
-DFLT_GITROOT="$HOME/adalovespace"
-GITROOT="${ALT_GIT_ROOT:-$DFLT_GITROOT}"
-if [ "$(pwd)" != "$GITROOT" ]; then
-    _CURDIR="$(pwd)"
-    cd "$GITROOT"
-fi
+# 2. Enforce strict permissions (Must be 0440 or sudo will reject it)
+sudo chmod 0440 "$sudoers_file"
 
-# // Do the thing — load env and bootstrap first
-source ./ada/cluster.env
-
-# Validate required environment variables
-required_vars=(
-    "ADA_CODESPACE"
-    "ADA_CLUST_S"
-    "ADA_CLUSTER"
-    "MARGARET_CV"
-)
-for var in "${required_vars[@]}"; do
-    if [ -z "${!var}" ]; then
-        ada-logger oof "ERROR: $var environment variable is not set"
-        exit 1
-    fi
-done
-
-if [ ! -d "$ADA_CLUSTER" ]; then
-    if [ ! -d "$ADA_CODESPACE" ]; then
-        ada-logger oof "ERROR: $ADA_CODESPACE not found"
-        exit 1
-    fi
-    ada-logger oof "ERROR: $ADA_CLUSTER not found, but $ADA_CODESPACE appears to be available"
+# 3. Validate the syntax safely before completing the build
+if ! sudo visudo -cf "$sudoers_file"; then
+    echo "Malformed sudoers syntax detected! Removing file to prevent system lockout."
+    sudo rm -f "$sudoers_file"
     exit 1
 fi
 
-# Validate required scripts
-required_scripts=(
-    "$ADA_CLUSTER/core/node_strapper.sh"
-    "$ADA_CLUSTER/core/build.sh"
-    "$ADA_CLUSTER/nodes/margaret/build.sh"
-    "$ADA_CLUSTER/core/apt_update_upgrade_purge.sh"
-)
-for script in "${required_scripts[@]}"; do
-    if [ ! -f "$script" ]; then
-        ada-logger oof "ERROR: $script not found"
+## // sys_tuner
+sudo apt update -y
+
+set +e
+sudo systemctl disable --now apt-daily-upgrade.timer
+sudo systemctl disable --now apt-daily.timer
+sudo systemctl disable --now bluetooth.service
+sudo systemctl disable --now ModemManager.service
+sudo systemctl disable --now multipathd.service multipathd.socket
+sudo systemctl disable --now unattended-upgrades.service
+sudo systemctl disable --now wpa_supplicant.service
+
+sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
+
+sudo touch /etc/cloud/cloud-init.disabled
+
+sudo apt-mark unhold bluez
+sudo apt-mark unhold wpasupplicant
+
+sudo apt purge bluez -y
+sudo apt purge modemmanager -y
+sudo apt purge multipath-tools -y
+sudo apt purge wpasupplicant -y
+sudo apt purge cloud-init -y
+
+sudo rm -rf /etc/cloud/ /var/lib/cloud/
+
+sudo apt update -y
+sudo apt autoremove -y
+sudo apt autoclean -y
+set -e
+
+# ==============================================================================
+# Debian Core Programs - UV/StressNG
+# ==============================================================================
+if ! command -v uv &> /dev/null; then
+    echo "uv not found. Installing Astral's uv..."
+    curl -LsSf https://astral.sh/uv/install.sh | sudo env UV_INSTALL_DIR="/usr/local/bin" sh
+    # Source the environment so uv is immediately available in this script
+    source $HOME/.cargo/env
+fi
+sudo apt install stress-ng -y
+
+# ==============================================================================
+# Margaret Core Programs - Kstars/Ekos/INDI
+# ==============================================================================
+sudo apt-add-repository ppa:mutlaqja/ppa -y
+sudo apt update -y
+sudo apt install indi-full kstars-bleeding -y
+
+# ==============================================================================
+# -{ MarPro }- Full Desktop Experience (XCFE+LightDM+NX)
+# ==============================================================================
+sudo apt install xorg xserver-xorg dbus-x11 -y
+sudo apt install xfce4 xfce4-goodies lightdm -y
+sudo apt purge xfce4-power-manager -y
+
+set +e
+sudo groupadd -r nopasswdlogin
+sudo gpasswd -a "$skag_usr" nopasswdlogin
+set -e
+
+sudo tee -a /etc/lightdm/lightdm.conf << EOF
+[Seat:*]
+    autologin-user="$skag_usr"
+    autologin-user-timeout=0
+    user-session=xfce
+EOF
+
+sudo systemctl restart lightdm
+
+# ==============================================================================
+# NoMachine Setup
+# ==============================================================================
+v_majmin="${NM_V_MAJOR}.${NM_V_MINOR}"
+v_full="${NM_V_MAJOR}.${NM_V_MINOR}.${NM_V_PATCH}_${NM_V_BUILD}"
+wget https://download.nomachine.com/download/${v_majmin}/Linux/nomachine_${v_full}_amd64.deb
+sudo dpkg -i nomachine_${v_full}_amd64.deb
+
+# ==============================================================================
+# -{ MarGo }- Lightweight VNC Kstars Experience
+# ==============================================================================
+sudo apt install -y \
+    xvfb \
+    tigervnc-standalone-server \
+    websockify \
+    novnc \
+    x11vnc
+
+# ==============================================================================
+# 1. Xvfb Service — Virtual Display (where KStars runs, invisible to user)
+# ==============================================================================
+sudo tee /etc/systemd/system/adalovespace-margo-vfb.service > /dev/null <<EOF
+[Unit]
+Description=Ada Lovespace MarGo Virtual Framebuffer
+After=network.target
+
+[Service]
+Type=simple
+User=$skag_usr
+Environment=DISPLAY=:99
+ExecStart=/usr/bin/Xvfb :99 -screen 0 $VNC_RESOLUTION -ac +extension GLX +render -noreset
+Restart=always
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl daemon-reload
+sudo systemctl enable adalovespace-margo-vfb.service
+
+echo "[MarGo] Xvfb unit created → http://$MARGARET_IP:${VNC_WEBSOCKIFY_PORT}/vnc.html"
+
+echo "[MarGo] Virtual Display :99 ($VNC_RESOLUTION)"
+
+# ==============================================================================
+# 2. x11vnc Service — Captures virtual display to VNC protocol
+# ==============================================================================
+if [[ -n "$VNC_PASSWORD" ]]; then
+    # Create password file
+    sudo mkdir -p /home/$skag_usr/.vnc
+    echo "$VNC_PASSWORD" | x11vnc -storepasswd - /home/$skag_usr/.vnc/vncpass 2>/dev/null || true
+    sudo chown -R $skag_usr:$skag_usr /home/$skag_usr/.vnc/
+    VNC_AUTH="-rfbauth /home/$skag_usr/.vnc/vncpass"
+else
+    VNC_AUTH="-nopw"
+fi
+
+sudo tee /etc/systemd/system/adalovespace-margo-vnc.service > /dev/null <<EOF
+[Unit]
+Description=Ada Lovespace MarGo x11vnc Server
+After=adalovespace-margo-vfb.service network-online.target
+Wants=adalovespace-margo-vfb.service
+
+[Service]
+Type=simple
+User=$skag_usr
+ExecStart=/usr/bin/x11vnc -display :99 $VNC_AUTH -forever -shared -rfbport $VNC_PORT -bg
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl enable adalovespace-margo-vnc.service
+echo "[MarGo] x11vnc unit created"
+
+# ==============================================================================
+# 3. websockify Service — Bridges VNC → WebSocket for noVNC viewer
+# ==============================================================================
+sudo tee /etc/systemd/system/adalovespace-margo-novnc.service > /dev/null <<EOF
+[Unit]
+Description=Ada Lovespace MarGo noVNC WebSocket Bridge
+After=adalovespace-margo-vfb.service network-online.target
+
+[Service]
+Type=simple
+User=$skag_usr
+ExecStart=/usr/bin/websockify --web /usr/share/novnc $VNC_WEBSOCKIFY_PORT localhost:$VNC_PORT
+Restart=on-failure
+RestartSec=3
+
+[Install]
+WantedBy=multi-user.target
+EOF
+
+sudo systemctl enable adalovespace-margo-novnc.service
+echo "[MarGo] websockify unit created"
+
+# ==============================================================================
+# 4. Start all services (in order: Xvfb → x11vnc → websockify)
+# ==============================================================================
+sudo systemctl restart adalovespace-margo-vfb.service
+sleep 2
+sudo systemctl restart adalovespace-margo-vnc.service
+sleep 1
+sudo systemctl restart adalovespace-margo-novnc.service
+sleep 1
+
+# Verify all services are running
+for svc in vfb vnc novnc; do
+    if sudo systemctl is-active --quiet "adalovespace-margo-$svc.service"; then
+        echo "[MarGo] $svc service: RUNNING"
+    else
+        echo "[MarGo] $svc service: FAILED to start"
         exit 1
     fi
 done
-# // Using git-root code to bootstrap the node codespace, which will
-# // serve as production runtime env
-set -a
-source "./$ADA_CLUST_S/core/node_strapper.sh" jakebase
-set +a
 
+echo ""
+echo "  ┌─────────────────────────────────────────────────────────────────────"
+echo "  │ 🌟 Ada Lovespace MarGo — Light KStars Access via Browser"
+echo "  ├─────────────────────────────────────────────────────────────────────"
+echo "  │  Virtual Display :99 ($VNC_RESOLUTION)"
+echo "  │  VNC Port        : $VNC_PORT"
+echo "  │  noVNC Browser URL: http://<margaret-ip>:${VNC_WEBSOCKIFY_PORT}/vnc.html?autoconnect=true"
+echo "  │  Auth            : $(if [[ -n "$VNC_PASSWORD" ]]; then echo 'Enabled'; else echo 'None (local subnet)'; fi)"
+echo "  │  KStars          : Must be started manually on display :99"
+echo "  └─────────────────────────────────────────────────────────────────────"
+echo ""
 
-sudo "$ADA_CLUSTER/core/build.sh" "$MARGARET_CV"
+sudo apt update -y
+sudo apt full-upgrade -y
+sudo apt autoremove -y
+sudo apt autoclean -y
 
-# // Accept variant args and forward to margaret/build.sh
-if [ $# -gt 0 ]; then
-    sudo "$ADA_CLUSTER/nodes/margaret/build.sh" "$@"
-else
-    sudo "$ADA_CLUSTER/nodes/margaret/build.sh"
-fi
-
-sudo "$ADA_CLUSTER/core/apt_update_upgrade_purge.sh"
-
-# // restore orig working dir
-if [ "$(pwd)" != "$_CURDIR" ]; then
-    cd "$_CURDIR"
-fi
-
-if [[ -t 0 ]]; then
-    echo -n "Reboot? [y/N] " && read -r -t 30 yn
-    if [[ "${yn,,}" == y ]]; then
-        sudo reboot
-    fi
-else
-    ada-logger main "Non-interactive mode: skipping reboot"
-    ada-logger yay "Margaret build complete, clear skies!"
+echo -n "Reboot? [y/N] " && read -r -t 30 yn
+if [[ "${yn,,}" == y ]]; then
+    sudo reboot
 fi
