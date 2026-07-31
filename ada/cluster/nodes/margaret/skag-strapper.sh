@@ -56,12 +56,16 @@ sudo apt purge cloud-init -y
 
 sudo rm -rf /etc/cloud/ /var/lib/cloud/
 
+sudo apt update -y
+sudo apt autoremove -y
+sudo apt autoclean
+
 ## // base_installs
 curl -LsSf https://astral.sh/uv/install.sh | sudo env UV_INSTALL_DIR="/usr/local/bin" sh
 sudo apt install stress-ng -y
 
 ## // margaret node build
-sudo add-apt-repository ppa:mutlaqja/ppa
+sudo apt-add-repository ppa:mutlaqja/ppa
 sudo apt update -y
 sudo apt install indi-full kstars-bleeding -y
 
@@ -87,6 +91,8 @@ sudo systemctl restart lightdm
 # ==============================================================================
 # NoMachine Setup
 # ==============================================================================
+v_majmin="${NM_V_MAJOR}.${NM_V_MINOR}"
+v_full="${NM_V_MAJOR}.${NM_V_MINOR}.${NM_V_PATCH}_${NM_V_BUILD}"
 wget https://download.nomachine.com/download/${v_majmin}/Linux/nomachine_${v_full}_amd64.deb
 sudo dpkg -i nomachine_${v_full}_amd64.deb
 
