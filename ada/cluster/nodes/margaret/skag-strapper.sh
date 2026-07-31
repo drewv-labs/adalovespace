@@ -1,6 +1,14 @@
 #!/usr/bin/env bash
 # set -euxo pipefail
 
+# ==============================================================================
+# Configuration (override with env vars before calling this script)
+# ==============================================================================
+VNC_PORT="5900"
+VNC_PASSWORD="BigBird420"
+VNC_WEBSOCKIFY_PORT="6080"
+VNC_RESOLUTION="1920x1080x24"
+
 ## // tune_sudoers
 # 1. Write the rule atomically into the drop-in directory
 skag_usr="drew"
@@ -81,14 +89,6 @@ sudo apt install -y \
     x11vnc
 
 # ==============================================================================
-# Configuration (override with env vars before calling this script)
-# ==============================================================================
-VNC_PORT="${MARGO_VNC_PORT:-$VNC_PORT}"
-VNC_PASSWORD="${MARGO_VNC_PASSWORD:-$VNC_PASSWORD}"
-WEBSOCKIFY_PORT="${MARGO_WEBSOCKIFY_PORT:-$VNC_WEBSOCKIFY_PORT}"
-RESOLUTION="${MARGO_RESOLUTION:-$VNC_RESOLUTION}"
-
-# ==============================================================================
 # 1. Xvfb Service — Virtual Display (where KStars runs, invisible to user)
 # ==============================================================================
 sudo tee /etc/systemd/system/adalovespace-margo-vfb.service > /dev/null <<EOF
@@ -98,7 +98,7 @@ After=network.target
 
 [Service]
 Type=forking
-User=$ADAUSR_SRV
+User=$skag_usr
 Environment=DISPLAY=:99
 ExecStart=/usr/bin/Xvfb :99 -screen 0 $RESOLUTION -ac +extension GLX +render -noreset
 ExecStop=/bin/kill \$(cat /var/run/adalovespace-xvfb.pid)
