@@ -64,13 +64,13 @@ deps=(
     libcfitsio-dev
     libnova-dev
     libopencv-dev
+    xvfb
     x11vnc
     fluxbox
 )
-for dep in "${deps[@]}"; do
-    sudo apt install "${dep}" -y
-done
+sudo apt install -y "${deps[@]}"
 
+# Allocate extra swap for PHD2 compile (Pi Zero 2W has only 1GB RAM)
 sudo sed -i 's/^CONF_SWAPSIZE=.*/CONF_SWAPSIZE=2048/' /etc/dphys-swapfile
 sudo systemctl restart dphys-swapfile
 
@@ -84,9 +84,10 @@ cmake -DOPENSOURCE_ONLY=1 ..
 make -j1
 sudo make install
 
+# Restore swap to 100MB
 sudo sed -i 's/^CONF_SWAPSIZE=.*/CONF_SWAPSIZE=100/' /etc/dphys-swapfile
-
 sudo systemctl restart dphys-swapfile
+
 sudo tee /etc/systemd/system/maryguider-phd2.service <<EOF
 [Unit]
 Description=MaryGuider PHD2 Headless Guiding Server for Ada Lovespace Project

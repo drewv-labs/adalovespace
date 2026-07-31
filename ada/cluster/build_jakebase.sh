@@ -10,7 +10,6 @@ source ./ada/cluster.env
 
 ## // tune_sudoers
 # 1. Write the rule atomically into the drop-in directory
-# ada_usr="drew"
 sudoers_file="/etc/sudoers.d/010_${USER}_nopasswd"
 echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee "$sudoers_file" > /dev/null
 
