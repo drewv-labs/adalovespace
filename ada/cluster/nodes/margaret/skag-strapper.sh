@@ -73,7 +73,7 @@ sudo apt install stress-ng -y
 # ==============================================================================
 # Margaret Core Programs - Kstars/Ekos/INDI
 # ==============================================================================
-sudo apt-add-repository ppa:mutlaqja/ppa
+sudo apt-add-repository ppa:mutlaqja/ppa -y
 sudo apt update -y
 sudo apt install indi-full kstars-bleeding -y
 
@@ -84,8 +84,10 @@ sudo apt install xorg xserver-xorg dbus-x11 -y
 sudo apt install xfce4 xfce4-goodies lightdm -y
 sudo apt purge xfce4-power-manager -y
 
+set +e
 sudo groupadd -r nopasswdlogin
 sudo gpasswd -a "$skag_usr" nopasswdlogin
+set -e
 
 sudo tee -a /etc/lightdm/lightdm.conf << EOF
 [Seat:*]
