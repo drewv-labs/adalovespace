@@ -1,9 +1,11 @@
 #!/usr/bin/env bash
-# set -euxo pipefail
+set -euxo pipefail
 
 # ==============================================================================
 # Configuration (override with env vars before calling this script)
 # ==============================================================================
+MARGARET_IP="10.42.0.77"
+
 NM_V_MAJOR="9"
 NM_V_MINOR="7"
 NM_V_PATCH="3"
@@ -33,6 +35,7 @@ fi
 ## // sys_tuner
 sudo apt update -y
 
+set +e
 sudo systemctl disable --now apt-daily-upgrade.timer
 sudo systemctl disable --now apt-daily.timer
 sudo systemctl disable --now bluetooth.service
@@ -59,12 +62,17 @@ sudo rm -rf /etc/cloud/ /var/lib/cloud/
 sudo apt update -y
 sudo apt autoremove -y
 sudo apt autoclean
+set -e
 
-## // base_installs
+# ==============================================================================
+# Debian Core Programs - UV/StressNG
+# ==============================================================================
 curl -LsSf https://astral.sh/uv/install.sh | sudo env UV_INSTALL_DIR="/usr/local/bin" sh
 sudo apt install stress-ng -y
 
-## // margaret node build
+# ==============================================================================
+# Margaret Core Programs - Kstars/Ekos/INDI
+# ==============================================================================
 sudo apt-add-repository ppa:mutlaqja/ppa
 sudo apt update -y
 sudo apt install indi-full kstars-bleeding -y
@@ -118,7 +126,7 @@ After=network.target
 Type=forking
 User=$skag_usr
 Environment=DISPLAY=:99
-ExecStart=/usr/bin/Xvfb :99 -screen 0 $RESOLUTION -ac +extension GLX +render -noreset
+ExecStart=/usr/bin/Xvfb :99 -screen 0 $VNC_RESOLUTION -ac +extension GLX +render -noreset
 ExecStop=/bin/kill \$(cat /var/run/adalovespace-xvfb.pid)
 PIDFile=/var/run/adalovespace-xvfb.pid
 Restart=always
@@ -131,7 +139,9 @@ EOF
 sudo systemctl daemon-reload
 sudo systemctl enable adalovespace-margo-vfb.service
 
-echo "[MarGo] Xvfb unit created → http://$MARGARET_IP:${WEBSOCKIFY_PORT}/vnc.html"
+echo "[MarGo] Xvfb unit created → http://$MARGARET_IP:${VNC_WEBSOCKIFY_PORT}/vnc.html"
+
+echo "[MarGo] Virtual Display :99 ($VNC_RESOLUTION)"
 
 # ==============================================================================
 # 2. x11vnc Service — Captures virtual display to VNC protocol
@@ -177,7 +187,7 @@ After=adalovespace-margo-vfb.service network-online.target
 [Service]
 Type=simple
 User=$skag_usr
-ExecStart=/usr/bin/websockify --web /usr/share/novnc $WEBSOCKIFY_PORT localhost:$VNC_PORT
+ExecStart=/usr/bin/websockify --web /usr/share/novnc $VNC_WEBSOCKIFY_PORT localhost:$VNC_PORT
 Restart=on-failure
 RestartSec=3
 
@@ -212,9 +222,9 @@ echo ""
 echo "  ┌─────────────────────────────────────────────────────────────────────"
 echo "  │ 🌟 Ada Lovespace MarGo — Light KStars Access via Browser"
 echo "  ├─────────────────────────────────────────────────────────────────────"
-echo "  │  Virtual Display :99 ($RESOLUTION)"
+echo "  │  Virtual Display :99 ($VNC_RESOLUTION)"
 echo "  │  VNC Port        : $VNC_PORT"
-echo "  │  noVNC Browser URL: http://<margaret-ip>:$WEBSOCKIFY_PORT/vnc.html?autoconnect=true"
+echo "  │  noVNC Browser URL: http://<margaret-ip>:${VNC_WEBSOCKIFY_PORT}/vnc.html?autoconnect=true"
 echo "  │  Auth            : $(if [[ -n "$VNC_PASSWORD" ]]; then echo 'Enabled'; else echo 'None (local subnet)'; fi)"
 echo "  │  KStars          : Must be started manually on display :99"
 echo "  └─────────────────────────────────────────────────────────────────────"
