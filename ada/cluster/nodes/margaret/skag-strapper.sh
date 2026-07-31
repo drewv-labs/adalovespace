@@ -51,17 +51,17 @@ sudo touch /etc/cloud/cloud-init.disabled
 sudo apt-mark unhold bluez
 sudo apt-mark unhold wpasupplicant
 
-sudo apt purge bluez
+sudo apt purge bluez -y
 sudo apt purge modemmanager -y
 sudo apt purge multipath-tools -y
-sudo apt purge wpasupplicant
+sudo apt purge wpasupplicant -y
 sudo apt purge cloud-init -y
 
 sudo rm -rf /etc/cloud/ /var/lib/cloud/
 
 sudo apt update -y
 sudo apt autoremove -y
-sudo apt autoclean
+sudo apt autoclean -y
 set -e
 
 # ==============================================================================
