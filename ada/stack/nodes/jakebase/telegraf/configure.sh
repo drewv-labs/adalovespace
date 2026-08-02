@@ -65,7 +65,7 @@ EOF
 
 # // $TOPIC target data lake route
 [[outputs.postgresql]]
-  connection = "host=127.0.0.1 user=$PSQL_CLUSTER_USER password=$PSQL_CLUSTER_PASSWORD dbname=$PSQL_DB_NAME sslmode=disable"
+  connection = "host=127.0.0.1 user=$PSQL_SERVICE_USER password=$PSQL_SERVICE_PASSWORD dbname=$PSQL_DB_NAME sslmode=disable"
   schema = "$TOPIC"
   table_name = "${PSQL_TBL_NAME:-staging}"
   timestamp_column = "$PSQL_MQTT_TIMESTAMP_FLD"

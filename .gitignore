@@ -8,3 +8,6 @@ cluster.conf
 .ignore
 .staging
 .secrets
+.env
+.env.*
+!.env.example

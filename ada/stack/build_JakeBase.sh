@@ -1,17 +1,17 @@
 #!/usr/bin/env bash
 # // Assumes running from project root
-# // cd ~/adalovespace && ./ada/cluster/build_jakebase.sh
+# // cd ~/adalovespace && ./ada/stack/build_jakebase.sh
 set -euxo pipefail
 
 # ==============================================================================
-# Configuration
+# Configuration (loaded via preflight → TOML or legacy .env)
 # ==============================================================================
-source ./ada/cluster.env
+source ./ada/lib/ada-preflight.sh "${BASH_SOURCE[0]}"
 
 ## // tune_sudoers
 # 1. Write the rule atomically into the drop-in directory
-sudoers_file="/etc/sudoers.d/010_${USER}_nopasswd"
-echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee "$sudoers_file" > /dev/null
+sudoers_file="/etc/sudoers.d/010_${ADAUSR_ADM}_nopasswd"
+echo "$ADAUSR_ADM ALL=(ALL) NOPASSWD: ALL" | sudo tee "$sudoers_file" > /dev/null
 
 # 2. Enforce strict permissions (Must be 0440 or sudo will reject it)
 sudo chmod 0440 "$sudoers_file"
@@ -120,7 +120,7 @@ sudo -u postgres psql -c "SELECT 1" > /dev/null
 
 # Create application users
 sudo -u postgres psql << EOF
-CREATE USER $PSQL_CLUSTER_USER WITH PASSWORD '$PSQL_CLUSTER_PASSWORD';
+CREATE USER $PSQL_SERVICE_USER WITH PASSWORD '$PSQL_SERVICE_PASSWORD';
 CREATE USER $PSQL_COURIER_USER WITH PASSWORD '$PSQL_COURIER_PASSWORD';
 CREATE DATABASE $PSQL_DB_NAME;
 \c $PSQL_DB_NAME;
@@ -130,7 +130,7 @@ for TOPIC in $MQTT_SUB_TOPICS; do
     TBL="$TOPIC.$PSQL_TBL_NAME"
     sudo -u postgres psql << EOF
 CREATE SCHEMA IF NOT EXISTS $TOPIC;
-GRANT USAGE ON SCHEMA $TOPIC TO $PSQL_CLUSTER_USER, $PSQL_COURIER_USER;
+GRANT USAGE ON SCHEMA $TOPIC TO $PSQL_SERVICE_USER, $PSQL_COURIER_USER;
 CREATE TABLE IF NOT EXISTS $TBL (
     id BIGSERIAL PRIMARY KEY,
     topic TEXT NOT NULL,
@@ -145,10 +145,10 @@ done
 for TOPIC in $MQTT_SUB_TOPICS; do
     TBL="$TOPIC.$PSQL_TBL_NAME"
     sudo -u postgres psql << EOF
-GRANT SELECT, INSERT, UPDATE ON $TBL TO $PSQL_CLUSTER_USER;
-GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA $TOPIC TO $PSQL_CLUSTER_USER;
+GRANT SELECT, INSERT, UPDATE ON $TBL TO $PSQL_SERVICE_USER;
+GRANT USAGE, SELECT ON ALL SEQUENCES IN SCHEMA $TOPIC TO $PSQL_SERVICE_USER;
 GRANT SELECT, TRUNCATE ON $TBL TO $PSQL_COURIER_USER;
-ALTER DEFAULT PRIVILEGES FOR ROLE $PSQL_CLUSTER_USER IN SCHEMA $TOPIC
+ALTER DEFAULT PRIVILEGES FOR ROLE $PSQL_SERVICE_USER IN SCHEMA $TOPIC
 GRANT SELECT, TRUNCATE ON TABLES TO $PSQL_COURIER_USER;
 EOF
 done
@@ -226,7 +226,7 @@ EOF
 
 # // $TOPIC target data lake route
 [[outputs.postgresql]]
-  connection = "host=127.0.0.1 user=$PSQL_CLUSTER_USER password=$PSQL_CLUSTER_PASSWORD dbname=$PSQL_DB_NAME sslmode=disable"
+  connection = "host=127.0.0.1 user=$PSQL_SERVICE_USER password=$PSQL_SERVICE_PASSWORD dbname=$PSQL_DB_NAME sslmode=disable"
   schema = "$TOPIC"
   table_name = "${PSQL_TBL_NAME:-staging}"
   timestamp_column = "$PSQL_MQTT_TIMESTAMP_FLD"

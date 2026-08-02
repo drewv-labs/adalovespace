@@ -1,26 +1,14 @@
-#!/usr/bin/env bash
 set -euxo pipefail
 
 # ==============================================================================
-# Configuration (override with env vars before calling this script)
+# Configuration (loaded via preflight → TOML or legacy .env)
 # ==============================================================================
-MARGARET_IP="10.42.0.77"
-
-NM_V_MAJOR="9"
-NM_V_MINOR="7"
-NM_V_PATCH="3"
-NM_V_BUILD="1"
-
-VNC_PORT="5900"
-VNC_PASSWORD="BigBird420"
-VNC_WEBSOCKIFY_PORT="6080"
-VNC_RESOLUTION="1920x1080x24"
+source ./ada/lib/ada-preflight.sh "${BASH_SOURCE[0]}"
 
 ## // tune_sudoers
 # 1. Write the rule atomically into the drop-in directory
-skag_usr="drew"
-sudoers_file="/etc/sudoers.d/010_${skag_usr}_nopasswd"
-echo "$skag_usr ALL=(ALL) NOPASSWD: ALL" | sudo tee "$sudoers_file" > /dev/null
+sudoers_file="/etc/sudoers.d/010_${ADAUSR_ADM}_nopasswd"
+echo "$ADAUSR_ADM ALL=(ALL) NOPASSWD: ALL" | sudo tee "$sudoers_file" > /dev/null
 
 # 2. Enforce strict permissions (Must be 0440 or sudo will reject it)
 sudo chmod 0440 "$sudoers_file"
@@ -76,7 +64,7 @@ fi
 sudo apt install stress-ng -y
 
 # ==============================================================================
-# Margaret Core Programs - Kstars/Ekos/INDI
+# MargiStars Core Programs - Kstars/Ekos/INDI
 # ==============================================================================
 sudo apt-add-repository ppa:mutlaqja/ppa -y
 sudo apt update -y
@@ -91,25 +79,20 @@ sudo apt purge xfce4-power-manager -y
 
 set +e
 sudo groupadd -r nopasswdlogin
-sudo gpasswd -a "$skag_usr" nopasswdlogin
+sudo gpasswd -a "$ADAUSR_ADM" nopasswdlogin
 set -e
 
 sudo tee -a /etc/lightdm/lightdm.conf << EOF
 [Seat:*]
-    autologin-user="$skag_usr"
+    autologin-user="$ADAUSR_ADM"
     autologin-user-timeout=0
     user-session=xfce
 EOF
 
 sudo systemctl restart lightdm
 
-# ==============================================================================
-# NoMachine Setup
-# ==============================================================================
-v_majmin="${NM_V_MAJOR}.${NM_V_MINOR}"
-v_full="${NM_V_MAJOR}.${NM_V_MINOR}.${NM_V_PATCH}_${NM_V_BUILD}"
-wget https://download.nomachine.com/download/${v_majmin}/Linux/nomachine_${v_full}_amd64.deb
-sudo dpkg -i nomachine_${v_full}_amd64.deb
+wget https://download.nomachine.com/download/${NM_V_MAJMIN}/Linux/nomachine_${NM_V_FULL}_amd64.deb
+sudo dpkg -i nomachine_${NM_V_FULL}_amd64.deb
 
 # ==============================================================================
 # -{ MarGo }- Lightweight VNC Kstars Experience
@@ -131,7 +114,7 @@ After=network.target
 
 [Service]
 Type=simple
-User=$skag_usr
+User=$ADAUSR_ADM
 Environment=DISPLAY=:99
 ExecStart=/usr/bin/Xvfb :99 -screen 0 $VNC_RESOLUTION -ac +extension GLX +render -noreset
 Restart=always
@@ -153,10 +136,10 @@ echo "[MarGo] Virtual Display :99 ($VNC_RESOLUTION)"
 # ==============================================================================
 if [[ -n "$VNC_PASSWORD" ]]; then
     # Create password file
-    sudo mkdir -p /home/$skag_usr/.vnc
-    echo "$VNC_PASSWORD" | x11vnc -storepasswd - /home/$skag_usr/.vnc/vncpass 2>/dev/null || true
-    sudo chown -R $skag_usr:$skag_usr /home/$skag_usr/.vnc/
-    VNC_AUTH="-rfbauth /home/$skag_usr/.vnc/vncpass"
+    sudo mkdir -p /home/$ADAUSR_ADM/.vnc
+    echo "$VNC_PASSWORD" | x11vnc -storepasswd - /home/$ADAUSR_ADM/.vnc/vncpass 2>/dev/null || true
+    sudo chown -R $ADAUSR_ADM:$ADAUSR_ADM /home/$ADAUSR_ADM/.vnc/
+    VNC_AUTH="-rfbauth /home/$ADAUSR_ADM/.vnc/vncpass"
 else
     VNC_AUTH="-nopw"
 fi
@@ -169,7 +152,7 @@ Wants=adalovespace-margo-vfb.service
 
 [Service]
 Type=simple
-User=$skag_usr
+User=$ADAUSR_ADM
 ExecStart=/usr/bin/x11vnc -display :99 $VNC_AUTH -forever -shared -rfbport $VNC_PORT -bg
 Restart=on-failure
 RestartSec=3
@@ -191,7 +174,7 @@ After=adalovespace-margo-vfb.service network-online.target
 
 [Service]
 Type=simple
-User=$skag_usr
+User=$ADAUSR_ADM
 ExecStart=/usr/bin/websockify --web /usr/share/novnc $VNC_WEBSOCKIFY_PORT localhost:$VNC_PORT
 Restart=on-failure
 RestartSec=3
@@ -215,7 +198,7 @@ sleep 1
 
 # Verify all services are running
 for svc in vfb vnc novnc; do
-    if sudo systemctl is-active --quiet "adalovespace-margo-$svc.service"; then
+    if sudo systemctl is-active --quiet "adalovespace-margo-${svc}.service"; then
         echo "[MarGo] $svc service: RUNNING"
     else
         echo "[MarGo] $svc service: FAILED to start"
@@ -225,11 +208,11 @@ done
 
 echo ""
 echo "  ┌─────────────────────────────────────────────────────────────────────"
-echo "  │ 🌟 Ada Lovespace MarGo — Light KStars Access via Browser"
+echo "  │ 🌟 Ada Lovespace MargiStars:MarGo Mode! — Light KStars Access via Browser"
 echo "  ├─────────────────────────────────────────────────────────────────────"
 echo "  │  Virtual Display :99 ($VNC_RESOLUTION)"
 echo "  │  VNC Port        : $VNC_PORT"
-echo "  │  noVNC Browser URL: http://<margaret-ip>:${VNC_WEBSOCKIFY_PORT}/vnc.html?autoconnect=true"
+echo "  │  noVNC Browser URL: http://${VNC_NODE}:${VNC_WEBSOCKIFY_PORT}/vnc.html?autoconnect=true"
 echo "  │  Auth            : $(if [[ -n "$VNC_PASSWORD" ]]; then echo 'Enabled'; else echo 'None (local subnet)'; fi)"
 echo "  │  KStars          : Must be started manually on display :99"
 echo "  └─────────────────────────────────────────────────────────────────────"

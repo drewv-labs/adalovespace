@@ -21,22 +21,29 @@ debcore="$ADA_CLUSTER/core/debian"
 margaret="$ADA_CLUSTER/nodes/margaret"
 
 # // Build out the common Margaret kit
-"$debcore/mods/install_indi.sh"
 "$margaret/kstars/build.sh"
+
+margo() {
+    ada-logger main "=== Building MarGo Stack (VNC)"
+    "$ADA_CLUSTER/nodes/margaret/margo/build.sh"
+}
+
+marpro() {
+    ada-logger main "=== Building MarPro Stack (XFCE)"
+    "$margaret/marpro/build.sh"
+}
 
 # // Dynamic GUI Stack Building
 case "${1:-}" in
     marpro)
-        "$margaret/marpro/build.sh"
+        marpro
         ;;
     margo)
-        "$margaret/margo/build.sh"
-        "$margaret/margo/configure.sh"
+        margo
         ;;
     *)
-        "$margaret/marpro/build.sh"
-        "$margaret/margo/build.sh"
-        "$margaret/margo/configure.sh"
+        marpro
+        margo
         ;;
 esac
 

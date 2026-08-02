@@ -26,7 +26,7 @@ fi
 
 # // CWD should be at user's adalovespace clone spot at this point
 # // cluster.env vars are static so can source from the git repo
-source ./ada/cluster.env
+source ./ada/lib/ada-preflight.sh "${BASH_SOURCE[0]}"
 
 # // Wanna do validation first before running ada-strapper.sh to catch issues
 # // before start
