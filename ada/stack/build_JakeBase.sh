@@ -8,6 +8,20 @@ set -euxo pipefail
 # ==============================================================================
 source ./ada/lib/ada-preflight.sh "${BASH_SOURCE[0]}"
 
+# Required environment variables
+REQUIRED_VARS=(
+    ADAUSR_ADM
+    NFS_ROOT NFS_CODE NFS_LOGS NFS_SHARE
+    MQTT_PORT MQTT_ROOT_TOPIC
+    PSQL_SERVICE_USER PSQL_SERVICE_PASSWORD
+)
+for var in "${REQUIRED_VARS[@]}"; do
+    if [[ -z "${!var}" ]]; then
+        echo "Error: $var environment variable is not set"
+        exit 1
+    fi
+done
+
 ## // tune_sudoers
 # 1. Write the rule atomically into the drop-in directory
 sudoers_file="/etc/sudoers.d/010_${ADAUSR_ADM}_nopasswd"
@@ -41,6 +55,7 @@ sudo apt-mark unhold wpasupplicant
 sudo apt purge bluez -y
 sudo apt purge modemmanager -y
 sudo apt purge multipath-tools -y
+sudo apt purge rpi-connect rpi-connect-lite -y
 sudo apt purge wpasupplicant -y
 
 sudo apt update -y && sudo apt autoremove -y && sudo apt autoclean -y

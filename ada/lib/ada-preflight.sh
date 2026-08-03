@@ -26,7 +26,7 @@ _find_ada_root() {
     local cur="$(readlink -f "$input_path")"
     while [[ "$cur" != "/" ]]; do
         # Prefer ada_config.toml (TOML), fall back to cluster.env (legacy)
-        if [[ -f "$cur/ada_config.toml" ]]; then
+        if [[ -f "$cur/ada/ada_config.toml" ]]; then
             echo "$cur"
             return 0
         fi
@@ -36,7 +36,7 @@ _find_ada_root() {
     # Second pass: look for legacy cluster.env
     cur="$(readlink -f "$input_path")"
     while [[ "$cur" != "/" ]]; do
-        if [[ -f "$cur/cluster.env" ]]; then
+        if [[ -f "$cur/ada/.env" ]]; then
             echo "$cur"
             return 0
         fi
@@ -50,7 +50,7 @@ _find_ada_root() {
 _load_env() {
     # Resolve config path — prefer explicit override, fall back to TOML then legacy .env
     local conf_file="${ADALOVESPACE_CONF:-ada_config.toml}"
-    local resolved="${ADA_ROOT}/${conf_file}"
+    local resolved="${ADA_ROOT}/ada/${conf_file}"
 
     if [[ ! -f "$resolved" ]]; then
         echo "FATAL: [ada-preflight] Could not locate $conf_file in $ADA_ROOT" >&2
@@ -59,7 +59,7 @@ _load_env() {
 
     # If TOML, use Python loader to produce flat env vars; otherwise source directly.
     if [[ "$resolved" == *.toml ]]; then
-        local loader="${ADA_ROOT}/lib/env-loader.py"
+        local loader="${ADA_ROOT}/ada/lib/env-loader.py"
         if [[ ! -f "$loader" ]]; then
             # ADA_ROOT may point inside 'ada/' subdir — look up one level
             loader="$(dirname "$ADA_ROOT")/lib/env-loader.py"
