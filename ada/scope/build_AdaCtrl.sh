@@ -9,13 +9,26 @@ set -euxo pipefail
 # ==============================================================================
 # Configuration
 # ==============================================================================
-source ./ada/cluster.env
+source ./ada/lib/ada-preflight.sh "${BASH_SOURCE[0]}"
+
+# Required environment variables
+REQUIRED_VARS=(
+    ADAUSR_ADM
+    NFS_ROOT NFS_CODE NFS_LOGS NFS_SHARE
+    MQTT_PORT MQTT_ROOT_TOPIC
+    PSQL_SERVICE_USER PSQL_SERVICE_PASSWORD
+)
+for var in "${REQUIRED_VARS[@]}"; do
+    if [[ -z "${!var}" ]]; then
+        echo "Error: $var environment variable is not set"
+        exit 1
+    fi
+done
 
 ## // tune_sudoers
 # 1. Write the rule atomically into the drop-in directory
-# ada_usr="drew"
-sudoers_file="/etc/sudoers.d/010_${USER}_nopasswd"
-echo "$USER ALL=(ALL) NOPASSWD: ALL" | sudo tee "$sudoers_file" > /dev/null
+sudoers_file="/etc/sudoers.d/010_${ADAUSR_ADM}_nopasswd"
+echo "$ADAUSR_ADM ALL=(ALL) NOPASSWD: ALL" | sudo tee "$sudoers_file" > /dev/null
 
 # 2. Enforce strict permissions (Must be 0440 or sudo will reject it)
 sudo chmod 0440 "$sudoers_file"

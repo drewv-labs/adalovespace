@@ -12,13 +12,16 @@ adausr_srv = "adanaut"
 adausr_adm = "drew"
 
 # -- Filepath Anchors --
-ada_local_logs = "/var/log/ada"
-ada_gitroot = "/home/drew/adalovespace"
-ada_codespace = "/opt/adalovespace"
-ada_rscope = "ada/scope"
-ada_scope = "/opt/adalovespace/ada/scope"
-ada_rstack = "ada/stack"
-ada_stack = "/opt/adalovespace/ada/stack"
+adalocalogs = "/var/log/ada"
+
+adagitroot = "/home/drew/adalovespace"
+adacodespace = "/opt/adalovespace"
+
+adascope_r = "ada/scope"
+adascope = "/opt/adalovespace/ada/scope"
+
+adastack_r = "ada/stack"
+adastack = "/opt/adalovespace/ada/stack"
 
 # -- Node IP Mapping --
 ada_subnet = "10.42.0"
