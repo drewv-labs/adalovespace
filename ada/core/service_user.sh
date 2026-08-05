@@ -10,7 +10,7 @@ source ada-preflight "$BASH_SOURCE"
 
 
 # // Tracer — toggle with ADA_TRACE=1
-source "$ADA_CLUSTER/lib/ada-tracer.sh" "${ADA_TRACE:-0}"
+source ada-tracer "${ADA_TRACE:-0}"
 
 home_dir="/home/$ADAUSR_SRV"
 

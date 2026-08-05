@@ -1,76 +1,15 @@
 #!/usr/bin/env bash
-# // Assumes running from project root
-# // cd ~/adalovespace && ./ada/stack/build_jakebase.sh
+# > cd ~ && git clone https://github.com/dvandagriff/adalovespace
+# > cd adalovespace && ./ada/stack/build_JakeBase.sh
+
 set -euxo pipefail
 
-# ==============================================================================
-# Configuration (loaded via preflight → TOML or legacy .env)
-# ==============================================================================
-source ./ada/lib/ada-preflight.sh "${BASH_SOURCE[0]}"
+# // Configuration (loaded via preflight → TOML or legacy .env)
+source ./ada/lib/ada-preflight.sh "$BASH_SOURCE"
 
-# Required environment variables
-REQUIRED_VARS=(
-    ADAUSR_ADM
-    NFS_ROOT NFS_CODE NFS_LOGS NFS_SHARE
-    MQTT_PORT MQTT_ROOT_TOPIC
-    PSQL_SERVICE_USER PSQL_SERVICE_PASSWORD
-)
-for var in "${REQUIRED_VARS[@]}"; do
-    if [[ -z "${!var}" ]]; then
-        echo "Error: $var environment variable is not set"
-        exit 1
-    fi
-done
+# // Sys Core Build
+"${ADACODESPACE}/ada/core/build.sh" "rpi"
 
-## // tune_sudoers
-# 1. Write the rule atomically into the drop-in directory
-sudoers_file="/etc/sudoers.d/010_${ADAUSR_ADM}_nopasswd"
-echo "$ADAUSR_ADM ALL=(ALL) NOPASSWD: ALL" | sudo tee "$sudoers_file" > /dev/null
-
-# 2. Enforce strict permissions (Must be 0440 or sudo will reject it)
-sudo chmod 0440 "$sudoers_file"
-
-# 3. Validate the syntax safely before completing the build
-if ! sudo visudo -cf "$sudoers_file"; then
-    echo "Malformed sudoers syntax detected! Removing file to prevent system lockout."
-    sudo rm -f "$sudoers_file"
-    exit 1
-fi
-
-## // sys_tuner
-set +e
-sudo systemctl disable --now apt-daily-upgrade.timer
-sudo systemctl disable --now apt-daily.timer
-sudo systemctl disable --now bluetooth.service
-sudo systemctl disable --now ModemManager.service
-sudo systemctl disable --now multipathd.service multipathd.socket
-sudo systemctl disable --now unattended-upgrades.service
-sudo systemctl disable --now wpa_supplicant.service
-
-sudo systemctl mask sleep.target suspend.target hibernate.target hybrid-sleep.target
-
-sudo apt-mark unhold bluez
-sudo apt-mark unhold wpasupplicant
-
-sudo apt purge bluez -y
-sudo apt purge modemmanager -y
-sudo apt purge multipath-tools -y
-sudo apt purge rpi-connect rpi-connect-lite -y
-sudo apt purge wpasupplicant -y
-
-sudo apt update -y && sudo apt autoremove -y && sudo apt autoclean -y
-set -e
-
-# ==============================================================================
-# Debian Core Programs - UV/StressNG
-# ==============================================================================
-if ! command -v uv &> /dev/null; then
-    echo "uv not found. Installing Astral's uv..."
-    curl -LsSf https://astral.sh/uv/install.sh | sudo env UV_INSTALL_DIR="/usr/local/bin" sh
-    # Source the environment so uv is immediately available in this script
-    source $HOME/.cargo/env
-fi
-sudo apt install stress-ng -y
 
 # ==============================================================================
 # JakeBase Core Build

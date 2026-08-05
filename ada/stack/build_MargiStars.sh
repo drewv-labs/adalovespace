@@ -1,9 +1,13 @@
+#!/usr/bin/env bash
+# cd ~ && git clone https://github.com/dvandagriff/adalovespace
+# cd adalovespace && ./ada/stack/build_MargiStars.sh
+
 set -euxo pipefail
 
 # ==============================================================================
 # Configuration (loaded via preflight → TOML or legacy .env)
 # ==============================================================================
-source ./ada/lib/ada-preflight.sh "${BASH_SOURCE[0]}"
+source ./ada/lib/ada-preflight.sh "$BASH_SOURCE"
 
 ## // tune_sudoers
 # 1. Write the rule atomically into the drop-in directory

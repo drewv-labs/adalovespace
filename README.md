@@ -20,16 +20,18 @@ It's modularly designed and built around a small, highly resilient, low-power di
 
 Whether it's running a swarm of IoT sensors for real-time inference-driven event detection, experimenting with distributed scope clustering, or processing large volumes of astronomical data onsite without disturbing core imaging — Ada Lovespace pushes the boundaries of what's possible in astrophotography and observatory research while sipping watts.
 
-This project is intended for the hardcore hobbyist wanting to take their setup to the next level or anyone looking to learn technologies like distributed computing, machine learning, data science, niche architectures like RISC-V, and more — all while honoring the legacies of STEM's most badass ladies.
+This project aims to provide a platform that expands an already rich open source ecosystem for astrophotography through:  
+* __Building a platform for AI development__ at the source to improve raw data quality and increase total integration time through dynamic orchestration.  
+* __Porting & optimizing dependencies on RISC-V architectures__, opening up this exciting new frontier to existing open source astronomy software!  
+* __Studying multi scope clusters for concurrent channel imaging__ with aims of optimizing applications such as narrowband and panelled data capture.  
 
-With that, let's meet the Ada Lovespace gang...
 
 ## 👩‍🔬 Namesakes & Tributes
 
 Ada Lovespace is currently comprised of **6 nodes**: two on-scope and four in a mini-rack enclosure placed near the rig. Each node is named after a pioneering woman in STEM whose work laid the groundwork for precision computing, network architecture, or observational astronomy.
 
-### `AdaBrain` \| [Ada Lovelace](https://en.wikipedia.org/wiki/Ada_Lovelace) (1815–1852)
-<img src=".github/images/namesakes/ada-lovespace.png" alt="Ada Lovelace portrait" width="120">
+### `AdaCtrl` \| [Ada Lovelace](https://en.wikipedia.org/wiki/Ada_Lovelace) (1815–1852)
+<img src=".github/images/namesakes/ada-lovelace.png" alt="Ada Lovelace portrait" width="120">
 
 English mathematician and writer Ada Lovelace envisioned programmable computation long before mechanical computers existed, authoring the first algorithm for Charles Babbage's Analytical Engine and proving that machines could manipulate abstract symbols — not just perform arithmetic. While her work predated modern astronomy by decades, her computational framework became indispensable to today's automated observatories, where precise control logic and real-time data routing turn raw photon counts into publishable catalogs.
 
@@ -49,7 +51,7 @@ Elizabeth "Jake" Feinler was instrumental in building the early Internet, managi
 
 JakeBase channels her infrastructure-first philosophy as your central NFS/PostgreSQL/MQTT broker — routing telemetry, persisting raw FITS catalogs, and ensuring every edge node can reliably publish, subscribe, and back up its astronomical findings across the lab's local fabric without single-point bottlenecks.
 
-### `Margaret` \| [Margaret Hamilton](https://en.wikipedia.org/wiki/Margaret_Hamilton_(scientist)) (1936–present)
+### `MargiStars` \| [Margaret Hamilton](https://en.wikipedia.org/wiki/Margaret_Hamilton_(scientist)) (1936–present)
 <img src=".github/images/namesakes/margaret-hamilton.jpg" alt="Margaret Hamilton portrait" width="120">
 
 As lead software engineer for NASA's Apollo missions, Margaret Hamilton pioneered real-time flight systems architecture and effectively founded modern software engineering. Her team demonstrated that rigorous design patterns, exhaustive testing, and graceful error recovery can keep critical systems functional under extreme failure conditions. While her work was aerospace rather than astronomical, the same principles of timing-critical orchestration apply directly to astrophotography: Margaret runs your KStars/Ekos stack, synchronizing mount tracking, filter wheels, camera triggers, and environmental sensors into a single fault-tolerant capture pipeline.
@@ -74,8 +76,8 @@ RadiaWrt embodies this engineering philosophy as your dedicated OpenWrt router �
 <img src=".github/images/namesakes/grace-hopper.jpg" alt="Grace Hopper portrait" width="120">  
     
 
-### `LiskovSys` \| [Margaret Liskov](https://en.wikipedia.org/wiki/Margaret_Liskov) (1934–2018)
-<img src=".github/images/namesakes/margaret-liskov.jpg" alt="Margaret Liskov portrait" width="120">  
+### `LiskovSys` \| [Barbara Liskov](https://en.wikipedia.org/wiki/Barbara_Liskov) (1934–present)
+<img src=".github/images/namesakes/barbara-liskov.jpg" alt="Barbara Liskov portrait" width="120">  
 
 
 ## 🚀 Mission
@@ -284,9 +286,18 @@ Ada Lovespace stands on the shoulders of incredible open-source projects and com
 
 Beyond that: the RISC-V ecosystem, Hailo NPUs, and all the toolchains that make heterogeneous edge clusters work. None of this exists without the open-source communities behind it.
 
-## 📜 License
+## 📜 License  
 
-This project is licensed under the [MIT License](LICENSE). You are free to use, modify, and distribute this code for any purpose — commercial or otherwise — as long as you include the original copyright notice.
+Licensed under either of:
+
+* Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
+* MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
+
+at your option.
+
+### Contribution
+
+Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
 
 ## 🎓 Citing Ada Lovespace
 
