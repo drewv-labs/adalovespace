@@ -6,11 +6,14 @@
 ![Hardware](https://img.shields.io/badge/Hardware-RPi%20|%20RISC--V%20|%20ESP32%20|%20OpenWrt%20|%20Hailo--8L-brightgreen)  
 
 # `@<3[\s]` **Ada Lovespace**  
-#### A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astronomical Analysis  
+#### The Heterogeneous Distributed Edge AI Field Lab 
+*Where raw, unhewn silicon interacts with the physical constraints of the universe.*  
 
 ![Ada Lovespace](.github/images/banner.jpeg)
 
 ## ⁉️ About
+
+--- _"Purity in the science; efficiency in the engineering; audacity in the art;"_  
 
 The Ada Lovespace project is a high-fidelity prototype of modern astrophotography and observatory-based research infrastructure. It comprises two main units:  
 * `AdaScope` - bring your own scope, Ada will provide the brain and dedicated PHD2 guiding engine for rock solid scope control and resilient guiding performance.
@@ -35,7 +38,7 @@ Ada Lovespace is currently comprised of **6 nodes**: two on-scope and four in a 
 
 English mathematician and writer Ada Lovelace envisioned programmable computation long before mechanical computers existed, authoring the first algorithm for Charles Babbage's Analytical Engine and proving that machines could manipulate abstract symbols — not just perform arithmetic. While her work predated modern astronomy by decades, her computational framework became indispensable to today's automated observatories, where precise control logic and real-time data routing turn raw photon counts into publishable catalogs.
 
-AdaBrain channels this pioneering architecture as your scope-mounted INDI web server: exposing local telemetry, managing mount/camera parameters via the INDIGO/INDI protocol stack, and serving as the conceptual heart of Ada Lovespace itself. Positioned at the optical frontier, it reminds us that every exposure begins with a single well-crafted instruction — and that modern astrophotography pipelines still run on her original blueprint for programmable machines.
+AdaCtrl channels this pioneering architecture as your scope-mounted INDI web server: exposing local telemetry, managing mount/camera parameters via the INDIGO/INDI protocol stack, and serving as the conceptual heart of Ada Lovespace itself. Positioned at the optical frontier, it reminds us that every exposure begins with a single well-crafted instruction — and that modern astrophotography pipelines still run on her original blueprint for programmable machines.
 
 ### `Caroline-V` \| [Caroline Herschel](https://en.wikipedia.org/wiki/Caroline_Herschel) (1750–1848)
 <img src=".github/images/namesakes/caroline-herschel.jpg" alt="Caroline Herschel portrait" width="120">
@@ -54,7 +57,9 @@ JakeBase channels her infrastructure-first philosophy as your central NFS/Postgr
 ### `MargiStars` \| [Margaret Hamilton](https://en.wikipedia.org/wiki/Margaret_Hamilton_(scientist)) (1936–present)
 <img src=".github/images/namesakes/margaret-hamilton.jpg" alt="Margaret Hamilton portrait" width="120">
 
-As lead software engineer for NASA's Apollo missions, Margaret Hamilton pioneered real-time flight systems architecture and effectively founded modern software engineering. Her team demonstrated that rigorous design patterns, exhaustive testing, and graceful error recovery can keep critical systems functional under extreme failure conditions. While her work was aerospace rather than astronomical, the same principles of timing-critical orchestration apply directly to astrophotography: Margaret runs your KStars/Ekos stack, synchronizing mount tracking, filter wheels, camera triggers, and environmental sensors into a single fault-tolerant capture pipeline.
+As lead software engineer for NASA's Apollo missions, Margaret Hamilton pioneered real-time flight systems architecture and effectively founded modern software engineering. Her team demonstrated that rigorous design patterns, exhaustive testing, and graceful error recovery can keep critical systems functional under extreme failure conditions. While her work was aerospace rather than astronomical, the same principles of timing-critical orchestration apply directly to astrophotography:  
+
+MargiStars runs your KStars/Ekos stack, synchronizing mount tracking, filter wheels, camera triggers, and environmental sensors into a single fault-tolerant capture pipeline.
 
 ### `MaryGuider` \| [Mary Somerville](https://en.wikipedia.org/wiki/Mary_Somerville) (1780–1827)
 <img src=".github/images/namesakes/mary-somerville.jpg" alt="Mary Somerville portrait" width="120">

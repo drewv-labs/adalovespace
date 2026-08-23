@@ -11,3 +11,4 @@ cluster.conf
 .env
 .env.*
 !.env.example
+.ollama
