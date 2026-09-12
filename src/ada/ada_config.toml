@@ -1,0 +1,97 @@
+# ==============================================================================
+# AdaLovespace Cluster Configuration (Flat)
+# Source of truth for JakeBase data broker node.
+# Flat keys match bash variable names for direct env export.
+# Structured readers can group by prefix (e.g., all ADA_* → users/paths).
+# ==============================================================================
+
+ada_version = "0.0.1"
+
+# -- Users --
+adausr_srv = "adanaut"
+adausr_adm = "drew"
+
+# -- Filepath Anchors --
+adalocalogs = "/var/log/ada"
+
+adagitroot = "/home/drew/adalovespace"
+adacodespace = "/opt/adalovespace"
+
+adascope_r = "ada/scope"
+adascope = "/opt/adalovespace/ada/scope"
+
+adastack_r = "ada/stack"
+adastack = "/opt/adalovespace/ada/stack"
+
+# -- Node IP Mapping --
+ada_subnet = "10.42.0"
+
+adactrl_ip  = "10.42.0.10"
+adactrl_cv  = "rpi"
+
+maryguider_ip  = "10.42.0.20"
+maryguider_cv  = "rpi"
+
+margistars_ip  = "10.42.0.77"
+margistars_cv  = "ubuntu"
+
+carolinev_ip  = "10.42.0.88"
+carolinev_cv  = "debian"
+
+jakebase_ip  = "10.42.0.99"
+jakebase_cv  = "rpi"
+
+# -- Mosquitto (MQTT Broker) --
+mqtt_broker = "10.42.0.99"
+mqtt_port = 1883
+mqtt_root_topic = "ada"
+mqtt_sub_topics = ["alerts", "events", "telemetry"]
+
+# Topic reference:
+#   ada/alerts      — Ntfy alerting
+#   ada/events      — Events like eaf_start, dustcap_off, etc. with metadata
+#   ada/telemetry   — Telesender node resource monitor
+
+# -- Network File System (NFS) --
+nfs_host = "10.42.0.99"
+nfs_root = "/mnt/ada"
+nfs_code = "/mnt/ada/code"
+nfs_logs = "/mnt/ada/logs"
+nfs_share = "/mnt/ada/share"
+
+# -- NoMachine (NX) --
+nm_node = "10.42.0.77"
+nm_v_major = 9
+nm_v_minor = 7
+nm_v_patch = 3
+nm_v_build = 1
+nm_v_majmin = "9.7"
+nm_v_full = "9.7.3.1"
+
+# -- PostgreSQL --
+psql_host = "10.42.0.99"
+psql_port = 5432
+psql_db_name = "adabase"
+psql_tbl_name = "edge"
+psql_mqtt_dest_fld = "payload"
+psql_mqtt_timestamp_fld = "event_timestamp"
+
+psql_service_user = "adanaut"
+psql_service_password = "ClosedNetwork3K"
+psql_courier_user = "coffee_courier"
+psql_courier_password = "Starsucks"
+
+# -- Telegraf --
+tg_host = "10.42.0.99"
+tg_interval = "1s"
+tg_flush_interval = "1s"
+tg_omit_hostname = false
+tg_metric_batch_size = 500
+tg_metric_buffer_limit = 10000
+
+# -- VNC --
+vnc_node = "10.42.0.77"
+vnc_port = 5900
+vnc_password = "BigBird420"
+vnc_websockify_port = 6080
+vnc_resolution = "1920x1080x24"
