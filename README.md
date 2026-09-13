@@ -5,23 +5,23 @@
 ![Arch](https://img.shields.io/badge/Arch-arm64%20|%20riscv64%20|%20x86_64-brightgreen)  
 ![Hardware](https://img.shields.io/badge/Hardware-RPi%20|%20RISC--V%20|%20ESP32%20|%20OpenWrt%20|%20Hailo--8L-brightgreen)  
 
-# `@<3[\s]` **Ada Lovespace**  
+# `@<3[\s]` **AdaLovespace**  
 #### The Heterogeneous Distributed Edge AI Field Lab 
 *Where raw, unhewn silicon interacts with the physical constraints of the universe.*  
 
-![Ada Lovespace](.github/images/banner.jpeg)
+![AdaLovespace](.github/images/banner.jpeg)
 
 ## ⁉️ About
 
 --- _"Purity in the science; efficiency in the engineering; audacity in the art;"_  
 
-The Ada Lovespace project is a high-fidelity prototype of modern astrophotography and observatory-based research infrastructure. It comprises two main units:  
+The AdaLovespace project is a high-fidelity prototype of modern astrophotography and observatory-based research infrastructure. It comprises two main units:  
 * `AdaScope` - bring your own scope, Ada will provide the brain and dedicated PHD2 guiding engine for rock solid scope control and resilient guiding performance.
 * `AdaStack` - your personal field data center. This mini rack is stacked with enough ponies to handle the most demanding of projects.    
 
 It's modularly designed and built around a small, highly resilient, low-power distributed edge AI cluster that expands automation and data pipelining applications, enabling more from your astro gear than you ever thought possible. Your ideas are the new bottleneck! ;) 
 
-Whether it's running a swarm of IoT sensors for real-time inference-driven event detection, experimenting with distributed scope clustering, or processing large volumes of astronomical data onsite without disturbing core imaging — Ada Lovespace pushes the boundaries of what's possible in astrophotography and observatory research while sipping watts.
+Whether it's running a swarm of IoT sensors for real-time inference-driven event detection, experimenting with distributed scope clustering, or processing large volumes of astronomical data onsite without disturbing core imaging — AdaLovespace pushes the boundaries of what's possible in astrophotography and observatory research while sipping watts.
 
 This project aims to provide a platform that expands an already rich open source ecosystem for astrophotography through:  
 * __Building a platform for AI development__ at the source to improve raw data quality and increase total integration time through dynamic orchestration.  
@@ -31,14 +31,14 @@ This project aims to provide a platform that expands an already rich open source
 
 ## 👩‍🔬 Namesakes & Tributes
 
-Ada Lovespace is currently comprised of **6 nodes**: two on-scope and four in a mini-rack enclosure placed near the rig. Each node is named after a pioneering woman in STEM whose work laid the groundwork for precision computing, network architecture, or observational astronomy.
+AdaLovespace is currently comprised of **6 nodes**: two on-scope and four in a mini-rack enclosure placed near the rig. Each node is named after a pioneering woman in STEM whose work laid the groundwork for precision computing, network architecture, or observational astronomy.
 
 ### `AdaCtrl` \| [Ada Lovelace](https://en.wikipedia.org/wiki/Ada_Lovelace) (1815–1852)
 <img src=".github/images/namesakes/ada-lovelace.png" alt="Ada Lovelace portrait" width="120">
 
 English mathematician and writer Ada Lovelace envisioned programmable computation long before mechanical computers existed, authoring the first algorithm for Charles Babbage's Analytical Engine and proving that machines could manipulate abstract symbols — not just perform arithmetic. While her work predated modern astronomy by decades, her computational framework became indispensable to today's automated observatories, where precise control logic and real-time data routing turn raw photon counts into publishable catalogs.
 
-AdaCtrl channels this pioneering architecture as your scope-mounted INDI web server: exposing local telemetry, managing mount/camera parameters via the INDIGO/INDI protocol stack, and serving as the conceptual heart of Ada Lovespace itself. Positioned at the optical frontier, it reminds us that every exposure begins with a single well-crafted instruction — and that modern astrophotography pipelines still run on her original blueprint for programmable machines.
+AdaCtrl channels this pioneering architecture as your scope-mounted INDI web server: exposing local telemetry, managing mount/camera parameters via the INDIGO/INDI protocol stack, and serving as the conceptual heart of AdaLovespace itself. Positioned at the optical frontier, it reminds us that every exposure begins with a single well-crafted instruction — and that modern astrophotography pipelines still run on her original blueprint for programmable machines.
 
 ### `Caroline-V` \| [Caroline Herschel](https://en.wikipedia.org/wiki/Caroline_Herschel) (1750–1848)
 <img src=".github/images/namesakes/caroline-herschel.jpg" alt="Caroline Herschel portrait" width="120">
@@ -277,7 +277,7 @@ TDP values are included per-node to support system debriefing analyses — cross
 
 ## 🙏 Acknowledgments
 
-Ada Lovespace stands on the shoulders of incredible open-source projects and communities. We acknowledge their contributors and thank them for making this kind of work possible. Not all heroes wear capes and most go unrecognized:
+AdaLovespace stands on the shoulders of incredible open-source projects and communities. We acknowledge their contributors and thank them for making this kind of work possible. Not all heroes wear capes and most go unrecognized:
 
 - **INDI** ([indi-software.org](https://www.indi-software.org)) — Astronomy device control interface, the backbone of observatory automation
 - **KStars / Ekos** ([kstars.org](https://kstars.org)) — Telescope control and imaging suite
@@ -304,14 +304,14 @@ at your option.
 
 Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
 
-## 🎓 Citing Ada Lovespace
+## 🎓 Citing AdaLovespace
 
 I invite you to use this work in research, presentations, academic papers, or commercial products, and we kindly ask that you cite this project:
 
 ```bibtex
 @software{adalovespace2025,
   author       = {Drew Vandagriff},
-  title        = {{Ada Lovespace}: A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astronomical Analysis},
+  title        = {{AdaLovespace}: A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astronomical Analysis},
   version      = {0.1.0},
   year         = 2025,
   url          = {https://github.com/dvandagriff/adalovespace},

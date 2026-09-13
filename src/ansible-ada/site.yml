@@ -1,0 +1,36 @@
+---
+- name: Apply clusterwide baseline
+  hosts: cluster
+  become: true
+  roles:
+    - common_carrierpigeons
+
+- name: Configure Storage and Messaging Broker
+  hosts: jakebase
+  become: true
+  roles:
+    - jakebase_services
+
+- name: Configure INDI and KStars Capture
+  hosts: margistars
+  become: true
+  roles:
+    - margistars_indi
+
+- name: Configure INDI Web Control
+  hosts: adactrl
+  become: true
+  roles:
+    - adactrl_web
+
+- name: Configure Guiding and Network Tethering
+  hosts: maryguider
+  become: true
+  roles:
+    - maryguider_phd2
+
+- name: Configure Hailo NPU Edge Inference
+  hosts: caroline-v
+  become: true
+  roles:
+    - caroline_hailo

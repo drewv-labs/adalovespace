@@ -1,0 +1,45 @@
+---
+---
+- name: Ensure base compilation dependencies for DKMS are present
+  apt:
+    name:
+      - dkms
+      - "linux-headers-{{ ansible_kernel }}"
+      - gnupg
+    state: present
+    update_cache: yes
+
+- name: Create apt keyrings directory
+  file:
+    path: /etc/apt/keyrings
+    state: directory
+    mode: '0755'
+
+- name: Download Hailo GPG key
+  ansible.builtin.get_url:
+    url: https://repository.hailo.ai/apt-repo/hailo.gpg
+    dest: /etc/apt/keyrings/hailo.gpg
+    mode: '0644'
+
+- name: Add Hailo APT repository
+  ansible.builtin.apt_repository:
+    # Explicitly including riscv64 to ensure the VisionFive 2 pulls the correct binary architecture
+    repo: "deb [arch=amd64,arm64,riscv64 signed-by=/etc/apt/keyrings/hailo.gpg] https://repository.hailo.ai/apt-repo/ stable main"
+    state: present
+    filename: hailo
+    update_cache: yes
+
+- name: Install Hailo NPU stack
+  apt:
+    name:
+      - hailort
+      - hailort-pcie-driver
+      - hailo-firmware
+    state: present
+  notify: reboot caroline-v
+
+- name: Ensure Ansible user has permissions for /dev/hailo0
+  user:
+    name: "{{ ansible_user }}"
+    groups: hailo
+    append: yes

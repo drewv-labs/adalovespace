@@ -1,0 +1,6 @@
+---
+- name: restart carrierpigeons
+  systemd:
+    name: carrierpigeons
+    state: restarted
+    daemon_reload: yes

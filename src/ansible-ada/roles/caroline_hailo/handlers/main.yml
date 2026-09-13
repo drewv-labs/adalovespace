@@ -1,0 +1,5 @@
+---
+- name: reboot caroline-v
+  ansible.builtin.reboot:
+    msg: "Rebooting to load newly compiled Hailo PCIe DKMS modules"
+    reboot_timeout: 300

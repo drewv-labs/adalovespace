@@ -12,3 +12,4 @@ cluster.conf
 .env.*
 !.env.example
 .ollama
+.scripts

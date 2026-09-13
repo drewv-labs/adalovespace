@@ -1,0 +1,77 @@
+---
+---
+- name: Install PHD2 compilation dependencies
+  apt:
+    name:
+      - build-essential
+      - cmake
+      - pkg-config
+      - git
+      - libwxgtk3.2-dev # Use 3.0-dev on older distros, 3.2 is standard for Debian 12/Ubuntu 22.04+
+      - libindi-dev
+      - libnova-dev
+      - libusb-1.0-0-dev
+      - zlib1g-dev
+    state: present
+    update_cache: yes
+
+- name: Clone the OpenPHDGuiding repository
+  ansible.builtin.git:
+    repo: 'https://github.com/OpenPHDGuiding/phd2.git'
+    dest: /opt/phd2_src
+    version: master
+    force: yes
+
+- name: Create CMake build directory
+  file:
+    path: /opt/phd2_src/build
+    state: directory
+    mode: '0755'
+
+- name: Configure build environment with CMake
+  ansible.builtin.command: cmake ..
+  args:
+    chdir: /opt/phd2_src/build
+    creates: /opt/phd2_src/build/Makefile
+
+- name: Compile PHD2 via make (This will take a while on edge nodes)
+  ansible.builtin.command: make -j4
+  args:
+    chdir: /opt/phd2_src/build
+    creates: /opt/phd2_src/build/phd2
+
+- name: Install PHD2 system-wide
+  ansible.builtin.command: make install
+  args:
+    chdir: /opt/phd2_src/build
+    creates: /usr/local/bin/phd2
+
+# --- USB-as-ETH Tethering Configuration ---
+# Assuming a standard Raspberry Pi / Debian environment utilizing the g_ether module
+
+- name: Enable dwc2 overlay in boot configuration
+  lineinfile:
+    path: /boot/firmware/config.txt # Use /boot/config.txt for older Pi OS versions
+    line: 'dtoverlay=dwc2'
+    insertafter: EOF
+    state: present
+
+- name: Load dwc2 and g_ether kernel modules on boot
+  lineinfile:
+    path: /etc/modules
+    line: "{{ item }}"
+    state: present
+  loop:
+    - dwc2
+    - g_ether
+
+- name: Configure static IP for usb0 interface
+  copy:
+    dest: /etc/network/interfaces.d/usb0
+    content: |
+      allow-hotplug usb0
+      iface usb0 inet static
+        address 192.168.7.2
+        netmask 255.255.255.0
+        gateway 192.168.7.1
+    mode: '0644'

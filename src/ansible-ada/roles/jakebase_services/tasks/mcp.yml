@@ -1,0 +1,48 @@
+---
+- name: Create mcpuser system user
+  user:
+    name: mcpuser
+    system: yes
+    create_home: yes
+    home: /opt/mcp-jakebase
+    shell: /usr/sbin/nologin
+
+- name: Ensure FastMCP directory permissions
+  file:
+    path: /opt/mcp-jakebase
+    state: directory
+    owner: mcpuser
+    group: mcpuser
+    mode: '0755'
+
+- name: Deploy FastMCP server script
+  copy:
+    src: files/server.py
+    dest: /opt/mcp-jakebase/server.py
+    owner: mcpuser
+    group: mcpuser
+    mode: '0644'
+  notify: restart mcp-jakebase
+
+- name: Initialize uv virtual environment and install dependencies
+  become_user: mcpuser
+  command: uv venv && uv pip install mcp asyncpg aiomqtt pydantic
+  args:
+    chdir: /opt/mcp-jakebase
+    creates: /opt/mcp-jakebase/.venv
+
+- name: Deploy MCP systemd service unit
+  template:
+    src: templates/mcp-jakebase.service.j2
+    dest: /etc/systemd/system/mcp-jakebase.service
+    owner: root
+    group: root
+    mode: '0644'
+  notify: restart mcp-jakebase
+
+- name: Ensure MCP gateway is enabled and running
+  systemd:
+    name: mcp-jakebase
+    state: started
+    enabled: yes
+    daemon_reload: yes
