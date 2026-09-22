@@ -325,11 +325,12 @@ I invite you to use this work in research, presentations, academic papers, or co
 
  * NFS security model will be open and conducive to rapid prototyping, will fine tune once the operating model is more well refined.
 
+
 ----
 
 Made with ♥️ by
 ```py
-DarkSiliconLab := {
+DREW-V := {
   "Simplicity in the Architecture",
   "Efficiency in the Engineering",
   "Purity in the Science",
