@@ -138,7 +138,7 @@ TDP values are included per-node to support system debriefing analyses — cross
 ### 🔭 `AdaScope` | The Automagical Astrograph 
 <img src=".github/images/adascope-demo.jpeg" alt="AdaStack demo" width="350">  
     
-#### `AdaBrain`
+#### `AdaCtrl`
 - **Namesake:** Ada Lovelace
 - **Role:** Scope Pilot
 - **Services:** INDI Web Server
@@ -228,7 +228,7 @@ TDP values are included per-node to support system debriefing analyses — cross
   - TDP: ~7W max
   - Cooling: Active (NVMe + sustained disk I/O under PostgreSQL/NAS load)
 
-#### `Margaret`
+#### `MargiStars`
 - **Namesake:** Margaret Hamilton
 - **Role:** Orchestration Maestro
 - **Services:** NoMachine, KStars, Ekos
