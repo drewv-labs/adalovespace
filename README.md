@@ -318,7 +318,7 @@ I invite you to use this work in research, presentations, academic papers, or co
 <div align="center">
 
 Made with ♥️ by
-```py
+<code>
 DREW-V := {
   "Simplicity in the Architecture",
   "Efficiency in the Engineering",
@@ -326,6 +326,6 @@ DREW-V := {
   "Audacity in the Art",
   "Life in the Logic"
 }
-```
+</code>
 
 </div>
