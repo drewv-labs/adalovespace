@@ -6,7 +6,7 @@
 ![Arch](https://img.shields.io/badge/Arch-arm64%20|%20riscv64%20|%20x86_64-brightgreen)  
 ![Hardware](https://img.shields.io/badge/Hardware-RPi%20|%20RISC--V%20|%20ESP32%20|%20OpenWrt%20|%20Hailo--8L-brightgreen)  
 
-# `@<3[\s]` **AdaLovespace**  
+# `@<3[\s]` 
 #### The Heterogeneous Distributed Edge AI Field Lab 
 *Where raw, unhewn silicon interacts with the physical constraints of the universe.*  
 
