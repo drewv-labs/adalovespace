@@ -75,9 +75,9 @@ Network architect Radia Perlman invented Spanning Tree Protocol (STP), solving c
 RadiaWrt embodies this engineering philosophy as your dedicated OpenWrt router — handling inter-node synchronization, traffic shaping, and fault-tolerant connectivity so data flows cleanly between capture, processing, and storage layers even when cables are swapped or nodes reboot mid-session.
 
 
-## 🚀 Mission
+## 🚀 Research Roadmap
 
-Use this project to perform three demo builds:
+Use this project to perform three studies:
 
 ### 1. Single-scope `SynapseHorde`
 
