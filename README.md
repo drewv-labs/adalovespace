@@ -12,8 +12,6 @@
 
 ## ⁉️ About
 
---- _"Purity in the science; efficiency in the engineering; audacity in the art;"_  
-
 The AdaLovespace project is a high-fidelity prototype of modern astrophotography and observatory-based research infrastructure. It comprises two main units:  
 * `AdaScope` - bring your own scope, Ada will provide the brain and dedicated PHD2 guiding engine for rock solid scope control and resilient guiding performance.
 * `AdaStack` - your personal field data center. This mini rack is stacked with enough ponies to handle the most demanding of projects.    
