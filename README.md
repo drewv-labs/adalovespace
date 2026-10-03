@@ -315,6 +315,7 @@ I invite you to use this work in research, presentations, academic papers, or co
 
 
 ----
+<div align="center">
 
 Made with ♥️ by
 ```py
@@ -326,3 +327,5 @@ DREW-V := {
   "Life in the Logic"
 }
 ```
+
+</div>
