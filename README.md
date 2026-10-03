@@ -2,7 +2,7 @@
 
 ![AdaLovespace](.github/images/banner.jpeg)  
     
-![Go](https://img.shields.io/badge/Go-1.22+-00ADD8?logo=go&logoColor=white) ![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white) ![Arch](https://img.shields.io/badge/Arch-arm64%20|%20riscv64%20|%20x86_64-brightgreen) ![Hardware](https://img.shields.io/badge/Hardware-RPi%20|%20RISC--V%20|%20ESP32%20|%20OpenWrt%20|%20Hailo--8L-brightgreen)  
+![Go](https://img.shields.io/badge/Go-1.22+-00ADD8?logo=go&logoColor=white) ![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white) ![Arch](https://img.shields.io/badge/Arch-arm64%20|%20riscv64%20|%20x86_64-brightgreen) ![Hardware](https://img.shields.io/badge/Hardware-RPi%20|%20VisionFive2%20|%20ESP32%20|%20OpenWrt%20|%20Hailo--8L-brightgreen)  
 
 </div>
 
