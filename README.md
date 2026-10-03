@@ -1,3 +1,4 @@
+![AdaLovespace](.github/images/banner.jpeg)
 ![License](https://img.shields.io/badge/License-MIT-blue)  
 ![Status](https://img.shields.io/badge/Status-Planning-blue)  
 ![Go](https://img.shields.io/badge/Go-1.22+-00ADD8?logo=go&logoColor=white)  
@@ -8,8 +9,6 @@
 # `@<3[\s]` **AdaLovespace**  
 #### The Heterogeneous Distributed Edge AI Field Lab 
 *Where raw, unhewn silicon interacts with the physical constraints of the universe.*  
-
-![AdaLovespace](.github/images/banner.jpeg)
 
 ## ⁉️ About
 
