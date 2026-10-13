@@ -132,6 +132,10 @@ sudo apt full-update -y
 sudo apt autoremove -y
 sudo apt autoclean -y
 
+# // Setup hardline tether to maryguider
+nmcli con add type ethernet ifname usb0 con-name maryguider-link ipv4.method manual ipv4.addresses 10.42.1.1/24
+nmcli con up maryguider-link
+
 echo -n "Reboot? [y/N] " && read -r -t 30 yn
 if [[ "${yn,,}" == y ]]; then
     sudo reboot

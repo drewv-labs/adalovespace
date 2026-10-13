@@ -42,76 +42,84 @@ sudo apt purge wpasupplicant -y
 
 sudo apt update -y && sudo apt autoremove -y && sudo apt autoclean -y
 
-compile_phd2() {
+# // Compile PHD2
+set -e
 
-    set -e
+sudo apt install stress-ng -y
 
-    sudo apt install stress-ng -y
+deps=(
+    dphys-swapfile
+    git
+    build-essential
+    cmake
+    pkg-config
+    libwxgtk3.2-dev
+    wx-common
+    wx3.2-i18n
+    gettext
+    zlib1g-dev
+    libx11-dev
+    libcurl4-gnutls-dev
+    libeigen3-dev
+    libcfitsio-dev
+    libnova-dev
+    libopencv-dev
+    xvfb
+    x11vnc
+    fluxbox
+)
+sudo apt install -y "${deps[@]}"
 
-    deps=(
-        dphys-swapfile
-        git
-        build-essential
-        cmake
-        pkg-config
-        libwxgtk3.2-dev
-        wx-common
-        wx3.2-i18n
-        gettext
-        zlib1g-dev
-        libx11-dev
-        libcurl4-gnutls-dev
-        libeigen3-dev
-        libcfitsio-dev
-        libnova-dev
-        libopencv-dev
-        xvfb
-        x11vnc
-        fluxbox
-    )
-    sudo apt install -y "${deps[@]}"
+# Allocate extra swap for PHD2 compile (Pi Zero 2W has only 1GB RAM)
+sudo sed -i 's/^CONF_SWAPSIZE=.*/CONF_SWAPSIZE=2048/' /etc/dphys-swapfile
+sudo systemctl restart dphys-swapfile
 
-    # Allocate extra swap for PHD2 compile (Pi Zero 2W has only 1GB RAM)
-    sudo sed -i 's/^CONF_SWAPSIZE=.*/CONF_SWAPSIZE=2048/' /etc/dphys-swapfile
-    sudo systemctl restart dphys-swapfile
+cd $HOME
+git clone --depth 1 https://github.com/OpenPHDGuiding/phd2.git
+cd phd2
+mkdir tmp
+cd tmp
 
-    cd $HOME
-    git clone --depth 1 https://github.com/OpenPHDGuiding/phd2.git
-    cd phd2
-    mkdir tmp
-    cd tmp
+cmake -DOPENSOURCE_ONLY=1 ..
+make -j1
+sudo make install
 
-    cmake -DOPENSOURCE_ONLY=1 ..
-    make -j1
-    sudo make install
+# Restore swap to 100MB
+sudo sed -i 's/^CONF_SWAPSIZE=.*/CONF_SWAPSIZE=100/' /etc/dphys-swapfile
+sudo systemctl restart dphys-swapfile
 
-    # Restore swap to 100MB
-    sudo sed -i 's/^CONF_SWAPSIZE=.*/CONF_SWAPSIZE=100/' /etc/dphys-swapfile
-    sudo systemctl restart dphys-swapfile
+sudo tee /etc/systemd/system/maryguider-phd2.service <<EOF
+[Unit]
+Description=MaryGuider PHD2 Headless Guiding Server for Ada Lovespace Project
+After=network.target
 
-    sudo tee /etc/systemd/system/maryguider-phd2.service <<EOF
-    [Unit]
-    Description=MaryGuider PHD2 Headless Guiding Server for Ada Lovespace Project
-    After=network.target
+[Service]
+User=$ADAUSR_SRV
+Type=simple
+Environment="DISPLAY=:99"
+ExecStart=/usr/bin/xvfb-run -a /usr/bin/phd2
+Restart=always
+RestartSec=3
 
-    [Service]
-    User=$ADAUSR_SRV
-    Type=simple
-    Environment="DISPLAY=:99"
-    ExecStart=/usr/bin/xvfb-run -a /usr/bin/phd2
-    Restart=always
-    RestartSec=3
+[Install]
+WantedBy=multi-user.target
 
-    [Install]
-    WantedBy=multi-user.target
+EOF
 
-    EOF
-}
 
 sudo apt update -y
 sudo apt full-update -y
 sudo apt autoremove -y
 sudo apt autoclean -y
+
+# // Setup device mode tether to adactrl
+# Append dtoverlay=dwc2 to /boot/firmware/config.txt (or /boot/config.txt depending on the OS release).
+# Next, open /boot/firmware/cmdline.txt and append modules-load=dwc2,g_ether after rootwait on the same line.
+# in /boot/firmware/cmdline.txt append the following to end:
+# g_ether.host_addr=12:42:01:00:00:01 g_ether.dev_addr=12:42:01:00:00:20
+# Verify success: Reboot the node and run lsmod | grep g_ether to confirm the driver module loaded successfully.
+nmcli con add type ethernet ifname usb0 con-name usb-link ipv4.method manual ipv4.addresses 10.42.1.20/24
+nmcli con up usb-link
 
 echo -n "Reboot? [y/N] " && read -r -t 30 yn
 if [[ "${yn,,}" == y ]]; then
