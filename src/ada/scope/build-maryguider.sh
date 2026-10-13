@@ -41,68 +41,72 @@ sudo apt purge multipath-tools -y
 sudo apt purge wpasupplicant -y
 
 sudo apt update -y && sudo apt autoremove -y && sudo apt autoclean -y
-set -e
 
-sudo apt install stress-ng -y
+compile_phd2() {
 
-deps=(
-    dphys-swapfile
-    git
-    build-essential
-    cmake
-    pkg-config
-    libwxgtk3.2-dev
-    wx-common
-    wx3.2-i18n
-    gettext
-    zlib1g-dev
-    libx11-dev
-    libcurl4-gnutls-dev
-    libeigen3-dev
-    libcfitsio-dev
-    libnova-dev
-    libopencv-dev
-    xvfb
-    x11vnc
-    fluxbox
-)
-sudo apt install -y "${deps[@]}"
+    set -e
 
-# Allocate extra swap for PHD2 compile (Pi Zero 2W has only 1GB RAM)
-sudo sed -i 's/^CONF_SWAPSIZE=.*/CONF_SWAPSIZE=2048/' /etc/dphys-swapfile
-sudo systemctl restart dphys-swapfile
+    sudo apt install stress-ng -y
 
-cd $HOME
-git clone --depth 1 https://github.com/OpenPHDGuiding/phd2.git
-cd phd2
-mkdir tmp
-cd tmp
+    deps=(
+        dphys-swapfile
+        git
+        build-essential
+        cmake
+        pkg-config
+        libwxgtk3.2-dev
+        wx-common
+        wx3.2-i18n
+        gettext
+        zlib1g-dev
+        libx11-dev
+        libcurl4-gnutls-dev
+        libeigen3-dev
+        libcfitsio-dev
+        libnova-dev
+        libopencv-dev
+        xvfb
+        x11vnc
+        fluxbox
+    )
+    sudo apt install -y "${deps[@]}"
 
-cmake -DOPENSOURCE_ONLY=1 ..
-make -j1
-sudo make install
+    # Allocate extra swap for PHD2 compile (Pi Zero 2W has only 1GB RAM)
+    sudo sed -i 's/^CONF_SWAPSIZE=.*/CONF_SWAPSIZE=2048/' /etc/dphys-swapfile
+    sudo systemctl restart dphys-swapfile
 
-# Restore swap to 100MB
-sudo sed -i 's/^CONF_SWAPSIZE=.*/CONF_SWAPSIZE=100/' /etc/dphys-swapfile
-sudo systemctl restart dphys-swapfile
+    cd $HOME
+    git clone --depth 1 https://github.com/OpenPHDGuiding/phd2.git
+    cd phd2
+    mkdir tmp
+    cd tmp
 
-sudo tee /etc/systemd/system/maryguider-phd2.service <<EOF
-[Unit]
-Description=MaryGuider PHD2 Headless Guiding Server for Ada Lovespace Project
-After=network.target
+    cmake -DOPENSOURCE_ONLY=1 ..
+    make -j1
+    sudo make install
 
-[Service]
-User=$ADAUSR_SRV
-Type=simple
-Environment="DISPLAY=:99"
-ExecStart=/usr/bin/xvfb-run -a /usr/bin/phd2
-Restart=always
-RestartSec=3
+    # Restore swap to 100MB
+    sudo sed -i 's/^CONF_SWAPSIZE=.*/CONF_SWAPSIZE=100/' /etc/dphys-swapfile
+    sudo systemctl restart dphys-swapfile
 
-[Install]
-WantedBy=multi-user.target
+    sudo tee /etc/systemd/system/maryguider-phd2.service <<EOF
+    [Unit]
+    Description=MaryGuider PHD2 Headless Guiding Server for Ada Lovespace Project
+    After=network.target
 
-EOF
+    [Service]
+    User=$ADAUSR_SRV
+    Type=simple
+    Environment="DISPLAY=:99"
+    ExecStart=/usr/bin/xvfb-run -a /usr/bin/phd2
+    Restart=always
+    RestartSec=3
+
+    [Install]
+    WantedBy=multi-user.target
+
+    EOF
+}
 
 sudo apt update -y
 sudo apt full-update -y
