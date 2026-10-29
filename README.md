@@ -311,15 +311,12 @@ I invite you to use this work in research, presentations, academic papers, or co
  * NFS security model will be open and conducive to rapid prototyping, will fine tune once the operating model is more well refined.
 
 
-----
+---
 
-Made with ♥️ by
-```py
-DREW-V := {
-  "Simplicity in the Architecture",
-  "Efficiency in the Engineering",
-  "Purity in the Science",
-  "Audacity in the Art",
-  "Life in the Logic"
-}
-```
+<div align="center">
+
+**DREW-V LABS** // **Drew Vandagriff** — *Dallas, TX*  
+`Simplicity in Architecture · Efficiency in Engineering · Purity in Science · Audacity in Art · Life in Logic`
+
+</div>
+
