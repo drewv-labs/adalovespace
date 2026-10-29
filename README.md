@@ -7,7 +7,7 @@
 </div>
 
 # `@<3[\s]` 
-#### The Heterogeneous Distributed Edge AI Field Lab 
+#### The Heterogeneous Distributed Edge ML Field Lab 
 *Where raw, unhewn silicon interacts with the physical constraints of the universe.*  
 
 ## ⁉️ About
