@@ -133,8 +133,7 @@ build_jakebase.sh
 
 TDP values are included per-node to support system debriefing analyses — cross-reference with cooling configuration and actual measured draw during imaging sessions to build thermal profiles and power budget models.
 
-### 🔭 `AdaScope` | The Automagical Astrograph 
-<img src=".github/images/adascope-demo.jpeg" alt="AdaStack demo" width="350">  
+### 🔭 `AdaScope` | The Automagical Astrograph  
     
 #### `AdaCtrl`
 - **Namesake:** Ada Lovelace
@@ -195,8 +194,6 @@ TDP values are included per-node to support system debriefing analyses — cross
 - **focuser:** 
 
 ### 🧠 `AdaStack` | The Edge AstroLab 
-
-<img src=".github/images/adastack-demo.png" alt="AdaStack demo" width="300">
 
 #### `Caroline-V`
 - **Namesake:** Caroline Herschel
