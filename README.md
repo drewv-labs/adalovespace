@@ -107,6 +107,8 @@ English mathematician and writer Ada Lovelace envisioned programmable computatio
 
 AdaCtrl channels this pioneering architecture as your scope-mounted INDI web server: exposing local telemetry, managing mount/camera parameters via the INDIGO/INDI protocol stack, and serving as the conceptual heart of AdaLovespace itself. Positioned at the optical frontier, it reminds us that every exposure begins with a single well-crafted instruction — and that modern astrophotography pipelines still run on her original blueprint for programmable machines.
 
+---
+
 <div align="center">
 
 <img src=".github/images/namesakes/caroline-herschel.jpg" alt="Caroline Herschel portrait" width="120">
@@ -119,6 +121,8 @@ German-British astronomer Caroline Herschel independently discovered eight comet
 
 Caroline-V honors her as your RISC-V inference engine: delivering low-power, high-efficiency AI processing for real-time object detection, defect mapping, and image analysis at the edge of your observatory stack, where every watt counts.
 
+---
+
 <div align="center">
 
 <img src=".github/images/namesakes/elizabeth-feinler.jpg" alt="Elizabeth Feinler portrait" width="120">
@@ -130,6 +134,8 @@ Caroline-V honors her as your RISC-V inference engine: delivering low-power, hig
 Elizabeth "Jake" Feinler was instrumental in building the early Internet, managing ARPANET's first Network Information Center and designing the host directory that made distributed computing scalable and discoverable. She championed open data standards when most networks were proprietary silos.
 
 JakeBase channels her infrastructure-first philosophy as your central PostgreSQL/NFS-Ganesha/MQTT broker — routing telemetry, persisting raw FITS catalogs, and ensuring every edge node can reliably publish, subscribe, and back up its astronomical findings across the lab's local fabric without single-point bottlenecks.
+
+---
 
 <div align="center">
 
@@ -144,6 +150,8 @@ As lead software engineer for NASA's Apollo missions, Margaret Hamilton pioneere
 MargiStars runs your KStars/Ekos stack, synchronizing mount tracking, filter wheels, camera triggers, and environmental sensors into a single fault-tolerant capture pipeline. 
 
 MargiMaestro serves as your lightweight, headless event-driven orchestration engine to drive automated imaging sessions with environmental awareness to pause imaging when a cloud wanders too close or to initiate immediate autofocus events if those stars are bloated in the last 300 second frame, no longer relying on cheap thermometer probes.
+
+---
 
 <div align="center">
 
