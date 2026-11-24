@@ -18,7 +18,7 @@
 
 The goal of this project is to build a low power R&D Astrolab for field studying RISC-V edge data systems & ML and to design & build the worlds first RISC-V compute system for Astrophotography. RISC-V is an emerging technology in both industrial & retail spaces but still has high barrier to entry due to major support gaps. AdaLovespace project is dedicated to opening up the RISC-V frontier to the already rich open source astrophotography ecosystem with hopes of expanding open researcher toolkits or empowering weekend warriors to get more out of their imaging rigs & limited imaging time.
 
-Do accomplish this goal, AdaLovespace is organized into two distinct domains:
+To accomplish this goal, AdaLovespace is organized into two distinct domains:
 
 ### *AdaStak*, the R&D Astrolab for the researchers:
 **AdaStak**, named after [BrakerRak](https://github.dev/drewv-labs/brakerrak), represents an astophotography focused field R&D lab, aka astrolab, that emulates **BrakerRak's** scientifically rigorous system observability model of isolating each system in its own sterile test environment to measure & study each independent component (data brokering, edge ML, orchestration, INDI/PHD2 scope control) with the intention of designing and engineering lean, efficient RISC-V astro compute solutions that pushes the boundaries of modern astrophotography for all.
