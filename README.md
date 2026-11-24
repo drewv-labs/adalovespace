@@ -173,12 +173,6 @@ RadiaWrt embodies this engineering philosophy as your dedicated OpenWrt router �
 
 ---
 
-## License
-
-MIT License — see [`LICENSE`](LICENSE).
-
----
-
 <div align="center">
 
 🔭 **[DREW-V LABS](https://github.com/drewv-labs)** // Indie Data Systems R&D<br>
