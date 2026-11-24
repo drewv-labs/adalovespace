@@ -97,8 +97,9 @@ sudo ada update                # Pull latest AdaLovespace (+ RVDK on riscv64) en
 
 <div align="center">
 
-### `AdaCtrl` | [Ada Lovelace](https://en.wikipedia.org/wiki/Ada_Lovelace) (1815–1852)
 <img src=".github/images/namesakes/ada-lovelace.png" alt="Ada Lovelace portrait" width="120">
+    
+### `AdaCtrl` | [Ada Lovelace](https://en.wikipedia.org/wiki/Ada_Lovelace) (1815–1852)
 
 </div>
 
@@ -108,8 +109,9 @@ AdaCtrl channels this pioneering architecture as your scope-mounted INDI web ser
 
 <div align="center">
 
-### `Caroline-V` | [Caroline Herschel](https://en.wikipedia.org/wiki/Caroline_Herschel) (1750–1848)
 <img src=".github/images/namesakes/caroline-herschel.jpg" alt="Caroline Herschel portrait" width="120">
+    
+### `Caroline-V` | [Caroline Herschel](https://en.wikipedia.org/wiki/Caroline_Herschel) (1750–1848)
 
 </div>
 
@@ -119,8 +121,9 @@ Caroline-V honors her as your RISC-V inference engine: delivering low-power, hig
 
 <div align="center">
 
-### `JakeBase` | [Elizabeth "Jake" Feinler](https://en.wikipedia.org/wiki/Jake_Feinler) (1931–present)
 <img src=".github/images/namesakes/elizabeth-feinler.jpg" alt="Elizabeth Feinler portrait" width="120">
+    
+### `JakeBase` | [Elizabeth "Jake" Feinler](https://en.wikipedia.org/wiki/Jake_Feinler) (1931–present)
 
 </div>
 
@@ -130,8 +133,9 @@ JakeBase channels her infrastructure-first philosophy as your central PostgreSQL
 
 <div align="center">
 
-### `MargiStars` / `MargiMaestro` | [Margaret Hamilton](https://en.wikipedia.org/wiki/Margaret_Hamilton_(scientist)) (1936–2026)
 <img src=".github/images/namesakes/margaret-hamilton.jpg" alt="Margaret Hamilton portrait" width="120">
+    
+### `MargiStars` / `MargiMaestro` | [Margaret Hamilton](https://en.wikipedia.org/wiki/Margaret_Hamilton_(scientist)) (1936–2026)
 
 </div>
 
@@ -143,8 +147,9 @@ MargiMaestro serves as your lightweight, headless event-driven orchestration eng
 
 <div align="center">
 
-### `RadiaWrt` | [Radia Perlman](https://en.wikipedia.org/wiki/Radia_Perlman) (1951–present)
 <img src=".github/images/namesakes/radia-perlman.jpg" alt="Radia Perlman portrait" width="120">
+    
+### `RadiaWrt` | [Radia Perlman](https://en.wikipedia.org/wiki/Radia_Perlman) (1951–present)
 
 </div>
 
