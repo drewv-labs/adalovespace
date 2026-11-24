@@ -1,0 +1,25 @@
+# Path: adalovespace/.github/workflows/ci.yml
+name: AdaLovespace Integrity, ShellCheck & Hygiene CI
+
+on:
+  push:
+    branches: ["main"]
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  lint-and-verify:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7.0.1
+
+      - name: Run manifest, bash -n, ShellCheck, py_compile & hygiene checks
+        run: python3 tools/ada_ci.py --check
+
+      - name: Verify standalone Pages bundler & ShellCheck bundled scripts
+        run: |
+          python3 tools/ada_ci.py --bundle-dist _site
+          find _site -name '*.sh' -type f -print0 | xargs -0 shellcheck -S warning

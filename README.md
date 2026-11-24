@@ -1,322 +1,148 @@
 <div align="center">
 
-![AdaLovespace](.github/images/banner.jpeg)  
-    
-![Go](https://img.shields.io/badge/Go-1.22+-00ADD8?logo=go&logoColor=white) ![Python](https://img.shields.io/badge/Python-3.x-3776AB?logo=python&logoColor=white) ![Arch](https://img.shields.io/badge/Arch-arm64%20|%20riscv64%20|%20x86_64-brightgreen) ![Hardware](https://img.shields.io/badge/Hardware-RPi%20|%20VisionFive2%20|%20ESP32%20|%20OpenWrt%20|%20Hailo--8L-brightgreen)  
+![AdaLovespace](.github/images/banner.jpeg)
+
+![Go](https://img.shields.io/badge/Go-1.22+-00ADD8?logo=go&logoColor=white) ![Python](https://img.shields.io/badge/Python-3.12+-3776AB?logo=python&logoColor=white) ![Arch](https://img.shields.io/badge/Arch-riscv64%20|%20arm64%20|%20x86_64-brightgreen) ![Stack](https://img.shields.io/badge/Stack-RVDK%20|%20CarrierPigeons%20|%20INDI%20|%20PHD2-blueviolet)
 
 </div>
 
-# `@<3[\s]` 
-#### The Heterogeneous Distributed Edge ML Field Lab 
-*Where raw, unhewn silicon interacts with the physical constraints of the universe.*  
+---
 
-## ⁉️ About
+<div align="center">
 
-The AdaLovespace project is a high-fidelity prototype of modern astrophotography and observatory-based research infrastructure. It comprises two main units:  
-* `AdaScope` - bring your own scope, Ada will provide the brain and dedicated PHD2 guiding engine for rock solid scope control and resilient guiding performance.
-* `AdaStack` - your personal field data center. This mini rack is stacked with enough ponies to handle the most demanding of projects.    
+# `@<3[\s]` // AdaLovespace
 
-It's modularly designed and built around a small, highly resilient, low-power distributed edge AI cluster that expands automation and data pipelining applications, enabling more from your astro gear than you ever thought possible. Your ideas are the new bottleneck! ;) 
+**A declarative RISC-V astrophotography platform built atop [`riscv-data-kit`](https://github.com/drewv-labs/riscv-data-kit) (`rvdk`) and [`CarrierPigeons`](https://github.com/drewv-labs/carrierpigeons).** 
 
-Whether it's running a swarm of IoT sensors for real-time inference-driven event detection, experimenting with distributed scope clustering, or processing large volumes of astronomical data onsite without disturbing core imaging — AdaLovespace pushes the boundaries of what's possible in astrophotography and observatory research while sipping watts.
+</div>
 
-This project aims to provide a platform that expands an already rich open source ecosystem for astrophotography through:  
-* __Building a platform for AI development__ at the source to improve raw data quality and increase total integration time through dynamic orchestration.  
-* __Porting & optimizing dependencies on RISC-V architectures__, opening up this exciting new frontier to existing open source astronomy software!  
-* __Studying multi scope clusters for concurrent channel imaging__ with aims of optimizing applications such as narrowband and panelled data capture.  
+The goal of this project is to build a low power R&D Astrolab for field studying RISC-V edge data systems & ML and to design & build the worlds first RISC-V compute system for Astrophotography. RISC-V is an emerging technology in both industrial & retail spaces but still has high barrier to entry due to major support gaps. AdaLovespace project is dedicated to opening up the RISC-V frontier to the already rich open source astrophotography ecosystem with hopes of expanding open researcher toolkits or empowering weekend warriors to get more out of their imaging rigs & limited imaging time.
 
+Do accomplish this goal, AdaLovespace is organized into two distinct domains:
 
-## 👩‍🔬 Namesakes & Tributes
+### *AdaStak*, the R&D Astrolab for the researchers:
+**AdaStak**, named after [BrakerRak](https://github.dev/drewv-labs/brakerrak), represents an astophotography focused field R&D lab, aka astrolab, that emulates **BrakerRak's** scientifically rigorous system observability model of isolating each system in its own sterile test environment to measure & study each independent component (data brokering, edge ML, orchestration, INDI/PHD2 scope control) with the intention of designing and engineering lean, efficient RISC-V astro compute solutions that pushes the boundaries of modern astrophotography for all.
 
-AdaLovespace is currently comprised of **6 nodes**: two on-scope and four in a mini-rack enclosure placed near the rig. Each node is named after a pioneering woman in STEM whose work laid the groundwork for precision computing, network architecture, or observational astronomy.
+Like **BrakerRak**, **AdaStak** builds around a Dual Axis Architecture; Role Personas x Silicon Targets. E.g., `AdaCtrl-RPI5` represents the `AdaCtrl` persona (on-scope INDI + PHD2 controller) + `RaspberryPi 5` arm64 SBC while `AdaCtrl-RV2` represents the same `AdaCtrl` persona + `OrangePi RV2` riscv64 SBC.
 
-### `AdaCtrl` \| [Ada Lovelace](https://en.wikipedia.org/wiki/Ada_Lovelace) (1815–1852)
+- **`AdaScope` (On-Scope Compute):**
+`AdaCtrl` runs `INDI` (`indiserver` + `indiwebmanager`), consolidated headless `PHD2` (`Xvfb` + `phd2`), and `CarrierPigeons` (`pigeoneer`) under deterministic `systemd` cgroup v2 core partitioning. Currently running on RPi5 during development, will be rapidely converging to OrangePi's RV2 platform for both **AdaStak** and **ALOne-V Air** development.
+
+- **`AdaRak` (Field Data, Orchestration, Networking, & AI Rack):**
+
+  - `JakeBase` (`riscv64` StarFive VisionFive 2 + 2TB 4Kn NVMe): PostgreSQL 18.6 (`io_uring` + Sv39 HugePages), Eclipse Mosquitto MQTT, NFS-Ganesha (`fits/`, `logs/`, `share/`), and `PigeonCoop` telemetry broker.
+
+  - `Caroline-V` (`riscv64` StarFive VisionFive 2 + Hailo-8 M.2 NPU): Real-time astronomical frame & sensor inference engine.
+
+  - `MargiStars` (transitioning to `MargiMaestro-RV2`): KStars/Ekos capture workstation targeting `AdaCtrl` INDI and consolidated external PHD2 guiding. Working with KStars/Ekos using a program like NoMachine for low-latency remote desktop environment requires `x86_64` architectures. A lightweight, headless, Go-based `MaestroEngine` orchestrator designed and built for `Caroline-V` 
+
+  - `RadiaWrt` (BananaPi OpenWrt One): Dedicated PoE/Wi-Fi 6 field fabric router. Though not a `riscv64` board, the BPi OpenWrt One router is the perfect field router as it contains hardware NOR + NAND switch in case of node failure, a fresh OS can be flashed directly from the board itself in the most dire of need.
+
+### *ALOne-V Series*, All-in-One RISC-V SBCs:
+100% open source "`A`da`L`ovespace `One` RISC`-V`" **ALOne-V** SBC builds that bring the power of **AdaStak** in a single node payload. 
+
+Each **ALOne-V** build consolidates **AdaStak** services like **AdaCtrl** INDI+PHD2 stack, **Caroline-V** astro edge AI platform, **JakeBase** optimized PSQL+NFS-Ganesha powered edge data broker, **MaestroEngine** inference event injection orchestration engine, and more all on the same silicon and written in Golang.
+
+- `ALOne-V Air`: OrangePi RV2, powered by Ky X1 (SpacemiT K1) 8 hart processor, based entry level ASI Air competitor with 2 TOPS@INT8 native onboard AI power. The RV2's onboard AI processor shares 4 CPI harts so its recommended attaching dedicated NPU accelerator module via one of RV2's dual M.2 NVMe slots. Hailo-8L (13 TOPS INT4, INT8, INT16), Hailo-8 (26 TOPS@ INT4, INT8, INT16), or Hailo-10H (20 TOPS @ INT8/40 TOPS @ INT4/support for FP16 + 2-8GB onboard memory) are excellent choices and what was used for development. Hailo AI NPU modules provide more discrete AI horsepower sipping ~2.5 watts of power or less while avoiding canibalizing CPU harts used for vital, latency sensitive operations such as guiding, plate solving, auto-focusing, or running subroutines like cloud-halt-monitoring.
+
+- `ALOne-V Pro`: Milk-V Jupiter 2, powered by SpacemiT K3 8 hart processor, pro level PrimaLuceLab EAGLE competitor with 60 TOPS (across INT4, INT8, FP8, INT16, FP16, and BF16 precisions) and supporting memory capacity up to 32GB LPDDR5. Can support small LLMs such as Gemma 4 E2B QAT @ ~13 tokens/sec and TinyLlama 1.1B @ ~36 tokens/sec. 
+
+---
+
+## Quickstart (`ada` CLI)
+
+Bootstrap any `AdaScope` or `AdaRak` node directly from `adalovespace.dev`:
+
+```bash
+# 1. Install the AdaLovespace engine into /opt/adalovespace/engine and link /usr/local/bin/ada
+curl -fsSL https://adalovespace.dev/install-cli.sh | sudo bash
+
+# 2. Generate the declarative node specification (~/.adalovespace/node.env)
+sudo ada init
+
+# 3. Review/customize role, board profile, site coordinates, or broker settings
+${EDITOR:-nano} ~/.adalovespace/node.env
+
+# 4. Converge the node idempotently from ~/.adalovespace/node.env
+sudo ada forge
+
+# 5. Execute Day-0 Operational Readiness Test (ORT) & emit Baseline Provenance Manifest
+sudo ada ort
+```
+
+Additional lifecycle commands:
+```bash
+sudo ada status                # Inspect active cgroup v2 slices, services, and TCP listeners
+sudo ada verify                # Run 2-pass convergence + [SKIP] idempotency + Day-0 ORT harness
+sudo ada update                # Pull latest AdaLovespace (+ RVDK on riscv64) engine
+```
+
+---
+
+## `AdaCtrl` Cgroup v2 Core Partitioning (No `isolcpus=`)
+
+`AdaCtrl` avoids legacy kernel `isolcpus=` and avoids global `CPUAffinity=` in `/etc/systemd/system.conf` (preventing PID 1 affinity inheritance from overriding child slices). Instead, `lib/cgroups.sh` converges `/boot/firmware/cmdline.txt` (`cgroup_enable=cpuset cgroup_enable=memory cgroup_memory=1`) and declarative slice drop-ins parameterized by `boards/<tag>.env`:
+
+| Slice | `AdaCtrl-RPI5` (`rpi5`, 4c) | `AdaCtrl-RV2` (`rv2`, 8c) | Workloads & Resource Directives |
+| :--- | :--- | :--- | :--- |
+| `system.slice` & `user.slice` | `0` | `0-1` | `AllowedCPUs=` only; pins RP1/PLIC IRQ sink (`xhci`, `eth0`), kernel housekeeping, and SSH to housekeeping core(s). |
+| `observability.slice` | `0` | `0-1` | `pigeoneer.service`: `CPUWeight=50`, `CPUQuota=15%`, `Nice=10`, `MemoryHigh=192M`, `MemoryMax=256M`. |
+| `indi.slice` | `1-2` | `2-4` | `indiwebmanager.service` + `indiserver` + drivers: `CPUWeight=500`, `MemoryHigh=2G`, `MemoryMax=3G`, `OOMScoreAdjust=-200`. |
+| `guiding.slice` | `3` | `5` | `xvfb-guiding.service` (`:99`) + `phd2.service` (`:4400`): `CPUWeight=1000`, `MemoryLow=512M`, `MemoryHigh=1G`, `Nice=-10`, `OOMScoreAdjust=-500` (`CLS=TS`, strictly no `SCHED_FIFO`/`SCHED_RR`). |
+| `inference.slice` *(stub)* | *(unused)* | `6-7` | Reserved for `ALOne-V Air` (`Hailo-10H` Edge NPU). |
+
+---
+
+## Namesakes & Tributes
+
+### `AdaCtrl` | [Ada Lovelace](https://en.wikipedia.org/wiki/Ada_Lovelace) (1815–1852)
 <img src=".github/images/namesakes/ada-lovelace.png" alt="Ada Lovelace portrait" width="120">
 
 English mathematician and writer Ada Lovelace envisioned programmable computation long before mechanical computers existed, authoring the first algorithm for Charles Babbage's Analytical Engine and proving that machines could manipulate abstract symbols — not just perform arithmetic. While her work predated modern astronomy by decades, her computational framework became indispensable to today's automated observatories, where precise control logic and real-time data routing turn raw photon counts into publishable catalogs.
 
 AdaCtrl channels this pioneering architecture as your scope-mounted INDI web server: exposing local telemetry, managing mount/camera parameters via the INDIGO/INDI protocol stack, and serving as the conceptual heart of AdaLovespace itself. Positioned at the optical frontier, it reminds us that every exposure begins with a single well-crafted instruction — and that modern astrophotography pipelines still run on her original blueprint for programmable machines.
 
-### `Caroline-V` \| [Caroline Herschel](https://en.wikipedia.org/wiki/Caroline_Herschel) (1750–1848)
+### `Caroline-V` | [Caroline Herschel](https://en.wikipedia.org/wiki/Caroline_Herschel) (1750–1848)
 <img src=".github/images/namesakes/caroline-herschel.jpg" alt="Caroline Herschel portrait" width="120">
 
 German-British astronomer Caroline Herschel independently discovered eight comets, cataloged hundreds of nebulae, and pioneered systematic data reduction techniques that turned observational astronomy into a reproducible science. She also developed efficient mechanical calculation methods to automate ephemeris computations — early computational optimization in practice.
 
 Caroline-V honors her as your RISC-V inference engine: delivering low-power, high-efficiency AI processing for real-time object detection, defect mapping, and image analysis at the edge of your observatory stack, where every watt counts.
 
-### `JakeBase` \| [Elizabeth "Jake" Feinler](https://en.wikipedia.org/wiki/Jake_Feinler) (1931–present)
+### `JakeBase` | [Elizabeth "Jake" Feinler](https://en.wikipedia.org/wiki/Jake_Feinler) (1931–present)
 <img src=".github/images/namesakes/elizabeth-feinler.jpg" alt="Elizabeth Feinler portrait" width="120">
 
 Elizabeth "Jake" Feinler was instrumental in building the early Internet, managing ARPANET's first Network Information Center and designing the host directory that made distributed computing scalable and discoverable. She championed open data standards when most networks were proprietary silos.
 
-JakeBase channels her infrastructure-first philosophy as your central NFS/PostgreSQL/MQTT broker — routing telemetry, persisting raw FITS catalogs, and ensuring every edge node can reliably publish, subscribe, and back up its astronomical findings across the lab's local fabric without single-point bottlenecks.
+JakeBase channels her infrastructure-first philosophy as your central PostgreSQL/NFS-Ganesha/MQTT broker — routing telemetry, persisting raw FITS catalogs, and ensuring every edge node can reliably publish, subscribe, and back up its astronomical findings across the lab's local fabric without single-point bottlenecks.
 
-### `MargiStars` \| [Margaret Hamilton](https://en.wikipedia.org/wiki/Margaret_Hamilton_(scientist)) (1936–present)
+### `MargiStars` / `MargiMaestro` | [Margaret Hamilton](https://en.wikipedia.org/wiki/Margaret_Hamilton_(scientist)) (1936–2026)
 <img src=".github/images/namesakes/margaret-hamilton.jpg" alt="Margaret Hamilton portrait" width="120">
 
-As lead software engineer for NASA's Apollo missions, Margaret Hamilton pioneered real-time flight systems architecture and effectively founded modern software engineering. Her team demonstrated that rigorous design patterns, exhaustive testing, and graceful error recovery can keep critical systems functional under extreme failure conditions. While her work was aerospace rather than astronomical, the same principles of timing-critical orchestration apply directly to astrophotography:  
+As lead software engineer for NASA's Apollo missions, Margaret Hamilton pioneered real-time flight systems architecture and effectively founded modern software engineering. Her team demonstrated that rigorous design patterns, exhaustive testing, and graceful error recovery can keep critical systems functional under extreme failure conditions. While her work was aerospace rather than astronomical, the same principles of timing-critical orchestration apply directly to astrophotography:
 
-MargiStars runs your KStars/Ekos stack, synchronizing mount tracking, filter wheels, camera triggers, and environmental sensors into a single fault-tolerant capture pipeline.
+MargiStars runs your KStars/Ekos stack, synchronizing mount tracking, filter wheels, camera triggers, and environmental sensors into a single fault-tolerant capture pipeline. 
 
-### `MaryGuider` \| [Mary Somerville](https://en.wikipedia.org/wiki/Mary_Somerville) (1780–1827)
-<img src=".github/images/namesakes/mary-somerville.jpg" alt="Mary Somerville portrait" width="120">
+MargiMaestro serves as your lightweight, headless event-driven orchestration engine to drive automated imaging sessions with environmental awareness to pause imaging when a cloud wanders too close or to initiate immediate autofocus events if those stars are bloated in the last 300 second frame, no longer relying on cheap thermometer probes.
 
-Scottish polymath Mary Somerville transformed observational astronomy into a mathematical science through her work in celestial mechanics and geodesy. She translated Laplace's *Mécanique Céleste*, authored foundational textbooks, and calculated planetary perturbations that directly enabled John Couch Adams to predict Neptune's existence before it was observed.
-
-Her legacy of precision-driven computation aligns perfectly with MaryGuider's role as a dedicated PHD2 guiding engine — where sub-arcsecond tracking accuracy and unwavering loop discipline keep your optics locked on target through the longest, coldest exposures.
-
-### `RadiaWrt` \| [Radia Perlman](https://en.wikipedia.org/wiki/Radia_Perlman) (1951–present)
+### `RadiaWrt` | [Radia Perlman](https://en.wikipedia.org/wiki/Radia_Perlman) (1951–present)
 <img src=".github/images/namesakes/radia-perlman.jpg" alt="Radia Perlman portrait" width="120">
 
 Network architect Radia Perlman invented Spanning Tree Protocol (STP), solving critical routing loops in early Ethernet networks and enabling reliable, scalable topologies to become the backbone of modern networking. Her designs prioritize resilience without sacrificing throughput or introducing unnecessary latency.
 
 RadiaWrt embodies this engineering philosophy as your dedicated OpenWrt router — handling inter-node synchronization, traffic shaping, and fault-tolerant connectivity so data flows cleanly between capture, processing, and storage layers even when cables are swapped or nodes reboot mid-session.
 
-
-## 🚀 Research Roadmap
-
-Use this project to perform three studies:
-
-### 1. Single-scope `SynapseHorde`
-
-A system of custom ESP32 sensor pods ("Synapse Pods") placed systematically inside and outside the Newtonian tube and around the local area near the rig. Sensor data flows via MQTT at variable rates to the edge lab, where Python tools like Plotly visualize a 3D model of temperature, humidity, pressure, light level, and sound. These data points — combined with accelerometer and guiding image data — feed into the inferencing engine to detect:
-
-- Micro-vibrations
-- Macro-vibrations from wind
-- Light leaks inside the tube (real-time)
-- Heat currents
-
-**Example workflow:** if the imaging plan is set for 8 PM but heat currents are still detected inside the tube, a "pre-run heatcurrent-hold" subroutine kicks in — putting non-essential systems on low power and monitoring until conditions clear, then recalculating the plan and refocusing. During a run, a detected light leak pauses imaging and triggers an NTFY alert. This is the *"set it and forget it"* build so you can actually enjoy the night sky after setup.
-
-### 2. Multi-scope `NarrowBandCannon`
-
-A 3+ (factor-of-3) distributed scope cluster using small, wide-field refractors with monochrome cameras. Each scope node is responsible for a single narrowband channel for the entire session plus 1/n of broadband data for star processing — collecting narrowband light data concurrently across all nodes simultaneously. This reduces real capture time for total integration time: all channels represent data for the same time window.
-
-Using centralized NPU via the astro edge lab in conjunction with federated NPU scope nodes ensures each scope is framed precisely and optics/focus are within reasonable tolerance (FWHM-based). Scope NPUs handle local events like refocus and plan recalibration, while the astro lab manages cluster-wide events like *"clouds incoming — finish current sub then sleep for N min and report back."* Each scope is free to drizzle at will.
-
-### 3. Multi-scope `BroadBandBazooka`
-
-A 2+ (no factor constraint) scope cluster using color cameras with the same multinodal mix-manager strategy as NarrowBandCannon. Instead of hard-focusing all scopes on the same target, each scope node targets a designated pane within a larger panelled image area — cutting the per-scope imaging workload by N×.
-
-With enough scope nodes, private citizens could run their own self-hosted Vera Rubin–style *"All Sky Scan"* projects: as the cluster frames and slews around the sky as an aggregated panelled plan with high total integration time vs. real imaging time ratio. Each scope hard-focuses the same pane all night, stitching together a full-session all-sky mosaic with `session_time × N_nodes` of total integration time.
-
-## 📂 Repository Structure
-The repository is organized into the following directories:
-| Directory | Purpose |
-|-----------|---------|
-| `ada/`  | Main codebase source dir |  
-| `ada/cluster.env` | Edge cluster environment variables  |  
-| `ada/cluster/` | Edge cluster node provisioning scripts and configs |  
-| `knowbase/` | Documentation, architecture diagrams, guides |  
-
-## JakeBase Call Graph
-```
-build_jakebase.sh
-  └─ core/build.sh rpi
-       ├─ prompt_ps1.sh
-       ├─ service_user.sh
-       ├─ rpi/sys_tuner.sh (delegates to debian/sys_tuner.sh + rpi purge_rpi_connect)
-       └─ rpi/base_installs.sh (delegates to debian/base_installs.sh)
-  └─ jakebase/build.sh
-       ├─ nfs/build.sh → install_nfs_kernel_server.sh + configure.sh
-       ├─ psql/build.sh → install_postgresql.sh + configure.sh
-       ├─ mqtt/build.sh → install_mosquitto_broker.sh + configure.sh
-       ├─ ntfy/build.sh → install_ntfy.sh
-       └─ telegraf/build.sh → install_telegraf.sh + configure.sh
-```
-
-
-## ⚙️ Drew's Gear
-
-> [!NOTE]
-> The hardware details below serve as contextual knowledge for agentic workflows. This section will be converted to a **"Recommended Hardware & Setup"** when the project is ready for publication.
-
-TDP values are included per-node to support system debriefing analyses — cross-reference with cooling configuration and actual measured draw during imaging sessions to build thermal profiles and power budget models.
-
-### 🔭 `AdaScope` | The Automagical Astrograph  
-    
-#### `AdaCtrl`
-- **Namesake:** Ada Lovelace
-- **Role:** Scope Pilot
-- **Services:** INDI Web Server
-- **Hardware — Raspberry Pi 5 (4GB)**
-  - Architecture: `arm64`
-  - CPU: BCM2712 Quad-core Cortex-A76 @ 2.4GHz
-  - Memory: 4GB LPDDR4X
-  - Storage: microSD card
-  - Networking:
-    - 1× Gigabit Ethernet → cluster
-    - 1× USB-to-Ethernet → MaryGuider (Pi Zero 2W)
-  - Power: 5V PoE adapter
-  - TDP: ~7W max
-  - Cooling: Active (heatsink + fan assumed for sustained INDI web serving)
-
-#### `MaryGuider`
-- **Namesake:** Mary Somerville
-- **Role:** Guiding Navigator
-- **Services:** PHD2
-- **Hardware — Raspberry Pi Zero 2W**
-  - Architecture: `arm64`
-  - CPU: BCM27A1 Quad-core Cortex-A53 @ 1.0GHz
-  - Memory: 512MB SDRAM
-  - Storage: microSD card
-  - Networking:
-    - 1× USB-to-Ethernet (Gadget mode) → AdaBrain
-    - Wi-Fi for cluster comms
-  - Power: USB bus-powered from AdaBrain
-  - TDP: ~2W
-  - Cooling: Passive (no fan; low sustained load)
-
-#### `OTA Automation & Notable Features`  
-- **Primary Camera - ASI2600MC Duo** 
-  - **sensor:** IMX571 (APS-C) 
-  - Sensor Size: 23.5mm x 15.7mm (APS-C)
-  - Resolution: 6248 x 4176
-  - Pixel Size: 3.76um x 3.76um
-  - Quantum Efficiency (QE): 80%
-  - Readout Noise: 0.9e-4.2e
-  - Full Well Capacity: 50Ke – Over 73Ke (Extended Full Well Mode)
-  - Dynamic Range: 16bit
-  - Frame Rate: 15 FPS (RAW8)
-- **Guide Camera - ASI2600MC Duo**   
-  - **sensor:** SC2210
-  - Sensor Size: 
-  - Pixel Size: 4.0μm x 4.0μm
-  - Quantum Efficiency (QE): Reaches a peak value of 92% at the 500nm wavelength.
-  - Readout Noise: Extremely 0.6e to 3.2e
-  - Full Well Capacity: 8780e
-  - Dynamic Range: Supported by a 12-bit Analog to Digital Converter (ADC).
-  - Frame Rate: 14 FPS
-- **Focuser:** ZWO EAF (1st Gen)
-- **Filter Wheel:** ZWO Electronic Filter Wheel (2025 Edition)- 5x2"
-- **Camera Rotator:** 
-- **focuser:** 
-- **focuser:** 
-
-### 🧠 `AdaStack` | The Edge AstroLab 
-
-#### `Caroline-V`
-- **Namesake:** Caroline Herschel
-- **Role:** Inference Engine
-- **Hardware — StarFive VisionFive 2**
-  - Architecture: `riscv64`
-  - CPU: StarFive JH7110 Quad-core SiFive XuanTie C910 RISC-V @ 1.5GHz
-  - NPU: Hailo-8L @ 13 TOPS (PCIe NPU module)
-  - Memory: 8GB LPDDR4
-  - Storage: 64GB microSD card
-  - Networking: 2× Gigabit Ethernet
-  - Power: PoE HAT
-  - TDP: ~5W (SoC) + ~4W (Hailo-8L) ≈ 9W total
-  - Cooling: Heatsink on SoC + PCIe NPU
-
-#### `JakeBase`
-- **Namesake:** Elizabeth "Jake" Feinler
-- **Role:** Data Broker
-- **Services:** NAS, PostgreSQL, MQTT broker, NTFY server, Telegraf
-- **Hardware — Raspberry Pi 5 (8GB)**
-  - Architecture: `arm64`
-  - CPU: BCM2712 Quad-core Cortex-A76 @ 2.4GHz
-  - Memory: 8GB LPDDR4X
-  - Storage: 2TB NVMe SSD via 52Pi NVMe+PoE HAT
-  - Networking: 1× Gigabit Ethernet
-  - Power: PoE HAT
-  - TDP: ~7W max
-  - Cooling: Active (NVMe + sustained disk I/O under PostgreSQL/NAS load)
-
-#### `MargiStars`
-- **Namesake:** Margaret Hamilton
-- **Role:** Orchestration Maestro
-- **Services:** NoMachine, KStars, Ekos
-- **Hardware — Intel N100 Mini PC (Hunsn RJ35)**
-  - OS: Ubuntu 24.04 LTS
-  - Kernel: 6.8.0-134-generic
-  - Architecture: `x86_64`
-  - CPU: Intel N100 Quad-core @ 3.4GHz (Alder Lake-N)
-  - GPU: Intel UHD Graphics (Alder Lake-N)
-  - Memory: 16GB DDR5
-  - Storage: 256GB SATA SSD
-  - Networking: 4× 2.5GbE ports
-  - Power: 12V DC
-  - TDP: 6W
-  - Cooling: Passive (fanless mini PC chassis)
-
-#### `RadiaWrt`
-- **Namesake:** Radia Perlman
-- **Role:** Network Operator
-- **Hardware — BananaPi OpenWrt One**
-  - SoC: MediaTek MT7981B Filogic 820 (Quad-core Cortex-A53, `arm64`)
-  - Wi-Fi: MediaTek MT7976C — Dual-band WiFi 6 (2×2 2.4GHz + 3×3 5GHz)
-  - Memory: 1GB DDR4
-  - Storage: 256 MiB SPI NAND + 16 MiB SPI NOR (dual-flash redundancy for unbrickability)
-  - NVMe: M.2 2242/2230 socket (PCIe Gen 2 ×1)
-  - Additional: RTC support, MikroBUS expansion socket
-  - Networking: 1× 2.5GbE RJ45 + 1× Gigabit Ethernet RJ45
-  - Power: PoE (802.3af/at)
-  - TDP: ~5W (SoC estimate)
-  - Cooling: Passive
-- **Switch — Netgear GS308PP**
-  - Throughput: 1Gbps per port (8 ports)
-  - PoE budget: 83W+
-
 ---
 
-## 🙏 Acknowledgments
+## License
 
-AdaLovespace stands on the shoulders of incredible open-source projects and communities. We acknowledge their contributors and thank them for making this kind of work possible. Not all heroes wear capes and most go unrecognized:
-
-- **INDI** ([indi-software.org](https://www.indi-software.org)) — Astronomy device control interface, the backbone of observatory automation
-- **KStars / Ekos** ([kstars.org](https://kstars.org)) — Telescope control and imaging suite
-- **PHD2** ([openastroproject.org/phd2](https://openastroproject.org/phd2)) — Autoguiding engine that keeps scopes locked on target
-- **PostgreSQL** ([postgresql.org](https://www.postgresql.org/)) — World's most advanced open-source relational database, maintained by a global community for over 30 years
-- **OpenWrt** ([openwrt.org](https://openwrt.org/)) — The router OS built by and for the networking community; running on 100% FOSS hardware (BananaPi OpenWrt One), the purest node in the cluster
-- **Mosquitto** ([eclipse.org/mosquitto](https://www.eclipse.org/mosquitto/)) — Lightweight MQTT broker for sensor telemetry and mesh style networking between nodes
-- **Telegraf** ([telegraf.io](https://www.telegraf.io/)) — Metrics collection agent
-- **NTFY** ([ntfy.sh](https://ntfy.sh/)) — Notification service for edge alerts
-- **uv** ([astral.sh](https://docs.astral.sh/uv/)) — Blazingly fast Python project manager
-
-Beyond that: the RISC-V ecosystem, Hailo NPUs, and all the toolchains that make heterogeneous edge clusters work. None of this exists without the open-source communities behind it.
-
-## 📜 License  
-
-Licensed under either of:
-
-* Apache License, Version 2.0, ([LICENSE-APACHE](LICENSE-APACHE) or http://www.apache.org/licenses/LICENSE-2.0)
-* MIT license ([LICENSE-MIT](LICENSE-MIT) or http://opensource.org/licenses/MIT)
-
-at your option.
-
-### Contribution
-
-Unless you explicitly state otherwise, any contribution intentionally submitted for inclusion in the work by you, as defined in the Apache-2.0 license, shall be dual licensed as above, without any additional terms or conditions.
-
-## 🎓 Citing AdaLovespace
-
-I invite you to use this work in research, presentations, academic papers, or commercial products, and we kindly ask that you cite this project:
-
-```bibtex
-@software{adalovespace2025,
-  author       = {Drew Vandagriff},
-  title        = {{AdaLovespace}: A Heterogeneous Distributed Edge AI Field Lab for Real-Time Astronomical Analysis},
-  version      = {0.1.0},
-  year         = 2025,
-  url          = {https://github.com/dvandagriff/adalovespace},
-  license      = {MIT}
-}
-```
-
-
-## Agent Context  
- * We are in rapid prototyping and research phase on a locked down, closed network in a private git repo, im putting passwords in plain text for now and will resolve later. please STOP bringing this up in review. I know, I'm aware, and we'll resolve this before publishing. Thanks.
-
- * NFS security model will be open and conducive to rapid prototyping, will fine tune once the operating model is more well refined.
-
+MIT License — see [`LICENSE`](LICENSE).
 
 ---
 
 <div align="center">
 
-**DREW-V LABS** // **Drew Vandagriff** — *Dallas, TX*  
+🔭 **[DREW-V LABS](https://github.com/drewv-labs)** // Indie Data Systems R&D<br>
 `Simplicity in Architecture · Efficiency in Engineering · Purity in Science · Audacity in Art · Life in Logic`
 
 </div>
-

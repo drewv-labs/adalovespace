@@ -1,0 +1,97 @@
+<INDIDriver>
+    <newSwitchVector device="ZWO AM5 USB" name="DEBUG">
+        <oneSwitch name="ENABLE">
+Off
+        </oneSwitch>
+        <oneSwitch name="DISABLE">
+On
+        </oneSwitch>
+    </newSwitchVector>
+    <newNumberVector device="ZWO AM5 USB" name="POLLING_PERIOD">
+        <oneNumber name="PERIOD_MS">
+1000
+        </oneNumber>
+    </newNumberVector>
+    <newSwitchVector device="ZWO AM5 USB" name="CONNECTION_MODE">
+        <oneSwitch name="CONNECTION_SERIAL">
+On
+        </oneSwitch>
+        <oneSwitch name="CONNECTION_TCP">
+Off
+        </oneSwitch>
+    </newSwitchVector>
+    <newTextVector device="ZWO AM5 USB" name="DEVICE_PORT">
+        <oneText name="PORT">
+/dev/serial/by-id/usb-ZWO_Systems_ZWO_Device_123456-if00
+        </oneText>
+    </newTextVector>
+    <newSwitchVector device="ZWO AM5 USB" name="DEVICE_BAUD_RATE">
+        <oneSwitch name="9600">
+On
+        </oneSwitch>
+        <oneSwitch name="19200">
+Off
+        </oneSwitch>
+        <oneSwitch name="38400">
+Off
+        </oneSwitch>
+        <oneSwitch name="57600">
+Off
+        </oneSwitch>
+        <oneSwitch name="115200">
+Off
+        </oneSwitch>
+        <oneSwitch name="230400">
+Off
+        </oneSwitch>
+    </newSwitchVector>
+    <newSwitchVector device="ZWO AM5 USB" name="DEVICE_AUTO_SEARCH">
+        <oneSwitch name="INDI_ENABLED">
+On
+        </oneSwitch>
+        <oneSwitch name="INDI_DISABLED">
+Off
+        </oneSwitch>
+    </newSwitchVector>
+    <newSwitchVector device="ZWO AM5 USB" name="DOME_POLICY">
+        <oneSwitch name="DOME_IGNORED">
+On
+        </oneSwitch>
+        <oneSwitch name="DOME_LOCKS">
+Off
+        </oneSwitch>
+    </newSwitchVector>
+    <newNumberVector device="ZWO AM5 USB" name="GEOGRAPHIC_COORD">
+        <oneNumber name="LAT">
+      {{SITE_LAT}}
+        </oneNumber>
+        <oneNumber name="LONG">
+      {{SITE_LON}}
+        </oneNumber>
+        <oneNumber name="ELEV">
+      {{SITE_ELEV}}
+        </oneNumber>
+    </newNumberVector>
+    <newSwitchVector device="ZWO AM5 USB" name="TELESCOPE_TRACK_MODE">
+        <oneSwitch name="TRACK_SIDEREAL">
+On
+        </oneSwitch>
+        <oneSwitch name="TRACK_SOLAR">
+Off
+        </oneSwitch>
+        <oneSwitch name="TRACK_LUNAR">
+Off
+        </oneSwitch>
+        <oneSwitch name="TRACK_CUSTOM">
+Off
+        </oneSwitch>
+    </newSwitchVector>
+    <newSwitchVector device="ZWO AM5 USB" name="Use Pulse Cmd">
+        <oneSwitch name="Off">
+Off
+        </oneSwitch>
+        <oneSwitch name="On">
+On
+        </oneSwitch>
+    </newSwitchVector>
+</INDIDriver>

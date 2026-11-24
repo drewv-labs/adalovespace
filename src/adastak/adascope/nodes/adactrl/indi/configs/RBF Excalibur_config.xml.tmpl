@@ -1,0 +1,58 @@
+<INDIDriver>
+    <newSwitchVector device="RBF Excalibur" name="DEBUG">
+        <oneSwitch name="ENABLE">
+Off
+        </oneSwitch>
+        <oneSwitch name="DISABLE">
+On
+        </oneSwitch>
+    </newSwitchVector>
+    <newNumberVector device="RBF Excalibur" name="POLLING_PERIOD">
+        <oneNumber name="PERIOD_MS">
+1000
+        </oneNumber>
+    </newNumberVector>
+    <newSwitchVector device="RBF Excalibur" name="CONNECTION_MODE">
+        <oneSwitch name="CONNECTION_SERIAL">
+On
+        </oneSwitch>
+    </newSwitchVector>
+    <newTextVector device="RBF Excalibur" name="DEVICE_PORT">
+        <oneText name="PORT">
+{{EXCALIBUR_PORT}}
+        </oneText>
+    </newTextVector>
+    <newSwitchVector device="RBF Excalibur" name="DEVICE_BAUD_RATE">
+        <oneSwitch name="9600">
+On
+        </oneSwitch>
+        <oneSwitch name="19200">
+Off
+        </oneSwitch>
+        <oneSwitch name="38400">
+Off
+        </oneSwitch>
+        <oneSwitch name="57600">
+Off
+        </oneSwitch>
+        <oneSwitch name="115200">
+Off
+        </oneSwitch>
+        <oneSwitch name="230400">
+Off
+        </oneSwitch>
+    </newSwitchVector>
+    <newSwitchVector device="RBF Excalibur" name="DEVICE_AUTO_SEARCH">
+        <oneSwitch name="INDI_ENABLED">
+On
+        </oneSwitch>
+        <oneSwitch name="INDI_DISABLED">
+Off
+        </oneSwitch>
+    </newSwitchVector>
+    <newNumberVector device="RBF Excalibur" name="FLAT_LIGHT_INTENSITY">
+        <oneNumber name="FLAT_LIGHT_INTENSITY_VALUE">
+      1400
+        </oneNumber>
+    </newNumberVector>
+</INDIDriver>

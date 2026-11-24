@@ -1,0 +1,51 @@
+# ==============================================================================
+# AdaLovespace Cluster Configuration (Flat)
+# Source of truth for JakeBase data broker node.
+# Flat keys match bash variable names for direct env export.
+# Structured readers can group by prefix (e.g., all ADA_* → users/paths).
+# ==============================================================================
+
+ada_version = "0.0.1"
+
+# -- Users --
+adausr_adm = "drew"
+
+# -- Filepath Anchors --
+adalocalogs = "/var/log/ada"
+
+ada_sys_root = "/opt/adalovespace"
+
+# // Where to install the engine
+ada_git_engine = "/opt/adalovespace/engine"
+
+# -- Mosquitto (MQTT Broker) --
+# Managed by CarrierPigeons
+mqtt_broker = "jakebase"
+mqtt_port = 1883
+
+# -- Network File System (NFS-Ganesha) --
+nfs_host = "jakebase"
+nfs_root = "/mnt/adalovespace"
+
+# // Edge node logs aggregator
+nfs_log_collection = "/mnt/adalovespace/logs"
+
+# // General space to share with mesh
+nfs_share_space = "/mnt/adalovespace/share"
+
+# // Astro FIT file destination
+nfs_fits_data = "/mnt/adalovespace/fits"
+
+# -- NoMachine (NX) --
+nm_node = "margistars"
+nm_v_major = 9
+nm_v_minor = 7
+nm_v_patch = 3
+nm_v_build = 1
+nm_v_majmin = "9.7"
+nm_v_full = "9.7.3.1"
+
+# -- PostgreSQL --
+# Installed via RVDK (riscv-data-kit) and managed via CarrierPigeons
+psql_host = "jakebase"
+psql_port = 5432
